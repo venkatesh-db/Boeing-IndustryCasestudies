@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MCP Developer Assistant</title>
+<style>
+:root{--ink:#132a2b;--mut:#587071;--line:#d3e0df;--pri:#0f6b6e;--green:#14733a;--red:#b3261e}*{box-sizing:border-box}
+body{margin:0;background:#eef5f4;color:var(--ink);font:17px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}header{background:#132a2b;color:#fff;padding:18px 20px}h1{margin:0;font-size:28px}header p{margin:4px 0 0;opacity:.9;max-width:850px}
+main{max-width:1120px;margin:14px auto 40px;padding:0 14px}.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}h2{margin:0 0 4px;font-size:22px}
+button{font:inherit;cursor:pointer;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:8px 13px}button:disabled{opacity:.4;cursor:default}:focus-visible{outline:3px solid #f2a900;outline-offset:2px}.go{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:700}
+.path{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:14px}.path button{padding:6px 1px;font-size:13.5px;border-width:3px;border-radius:14px}.path span{display:block;font-size:26px}.path .ok{border-color:var(--green);background:#e8f5ec}.path .on{border-color:#f2a900;background:#fff8e1;transform:translateY(-4px)}
+.like{background:#fff4dc;border-radius:12px;padding:8px 12px;margin:8px 0}.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}.part{text-align:center;border-width:3px;border-radius:16px;padding:12px 6px}.part i,.sys i{font-style:normal;font-size:36px;display:block}.part.in{border-color:var(--green);background:#e8f5ec}
+.hub{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin:14px 0}.node{border:3px solid var(--line);border-radius:18px;padding:12px;text-align:center;transition:.3s;background:#fff}.node i{font-style:normal;font-size:38px;display:block}.node.hot{border-color:var(--pri);background:#e2f3f2;transform:scale(1.03)}.wire{font-size:26px;opacity:.3}.wire.on{opacity:1;color:var(--green)}
+.systems{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sys{border:3px solid var(--line);border-radius:16px;padding:10px;text-align:center;transition:.3s}.sys.hot{border-color:#f2a900;background:#fff8e1}.sys.ok{border-color:var(--green);background:#e8f5ec}.sys.no{border-color:var(--red);background:#fdecea}
+.say{background:#132a2b;color:#fff;border-radius:12px;padding:10px 14px;min-height:48px;margin:10px 0}.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.q{text-align:left;font-size:15px}.card{border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0;animation:up .35s;overflow-wrap:anywhere}.card.good{border-color:var(--green);background:#f2faf5}.card.bad{border-color:var(--red);background:#fff6f5}@keyframes up{from{opacity:0;transform:translateY(8px)}}
+.tag{font-size:13px;font-weight:700;background:#e7eeee;border-radius:8px;padding:1px 8px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}svg{width:100%;max-height:260px}input[type=range]{width:100%}.note{font-size:14px;color:var(--mut)}dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:4px 0}dt{color:var(--mut)}dd{margin:0}
+@media(max-width:720px){.path{grid-template-columns:repeat(4,minmax(0,1fr))}.two,.hub{grid-template-columns:minmax(0,1fr)}.wire{text-align:center;transform:rotate(90deg)}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><header><h1>🔌 One plug for every company system</h1><p>Build a developer’s assistant with <b>MCP</b>. One standard plug lets an AI find and use GitHub, Jira and your documents.</p></header>
+<main><div class="path" id="path"></div><div class="box" id="stage" tabindex="-1"></div><p class="note">Training demo: a real Python MCP server was built and run, and a local llama3 model really chose what to look up. The GitHub, Jira and document <b>contents</b> are fictional, and no real account was used. This page replays those recordings. Anything tagged “page rule” is decided by this page, not by the AI. The handshake lines are a plain-words version.</p></main>
+<script>
+const R={
+ "normal": {
+  "server": "developer-assistant",
+  "protocol": "2025-11-25",
+  "tools": [
+   [
+    "get_repository",
+    "GitHub: facts about one code repository, such as the last merged change, tests and release."
+   ],
+   [
+    "get_ticket",
+    "Jira: title, status, priority and owner of one ticket, such as PAY-101."
+   ]
+  ],
+  "resources": [
+   [
+    "docs://runbook",
+    "How to roll back checkout"
+   ],
+   [
+    "docs://release-rules",
+    "When a release is allowed"
+   ],
+   [
+    "docs://architecture",
+    "Which service calls which"
+   ]
+  ],
+  "runs": [
+   {
+    "q": "What was last merged in the checkout repository?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "According to the facts, the last merged item in the checkout repository is a fix for PAY-101: stop double charge (pull request 42)."
+   },
+   {
+    "q": "What is ticket PAY-101 about?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": true,
+      "text": "{\n  \"key\": \"PAY-101\",\n  \"title\": \"Customers charged twice\",\n  \"status\": \"In testing\",\n  \"priority\": \"High\",\n  \"assignee\": \"Asha\"\n}"
+     }
+    ],
+    "answer": "According to the facts, ticket PAY-101 is about \"Customers charged twice\"."
+   },
+   {
+    "q": "How do we roll back checkout?",
+    "raw_plan": "{\"use\": [{\"name\": \"docs://runbook\", \"arguments\": {}}]}",
+    "steps": [
+     {
+      "name": "docs://runbook",
+      "args": {},
+      "ok": true,
+      "text": "Checkout runbook. To roll back: 1) open the release board, 2) choose the previous version, 3) ask the on-call lead to approve."
+     }
+    ],
+    "answer": "To roll back a checkout, you need to open the release board, choose the previous version, and ask the on-call lead to approve."
+   },
+   {
+    "q": "Is the fix for PAY-101 merged in checkout, and do the release rules allow a release now?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}, {\"name\": \"docs://release-rules\", \"arguments\": {}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": true,
+      "text": "{\n  \"key\": \"PAY-101\",\n  \"title\": \"Customers charged twice\",\n  \"status\": \"In testing\",\n  \"priority\": \"High\",\n  \"assignee\": \"Asha\"\n}"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "According to the facts, the ticket status of \"PAY-101\" is \"In testing\", which does not meet the release rule condition that the ticket status must be \"Done\". Therefore, the release rules do not allow a release now."
+   },
+   {
+    "q": "Look up three things: the checkout repository, ticket PAY-101, and the release-rules document. Is the fix merged, and can we release?",
+    "raw_plan": "{\"use\": [\n  {\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}},\n  {\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}},\n  {\"name\": \"docs://release-rules\", \"arguments\": {}}\n]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     },
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": true,
+      "text": "{\n  \"key\": \"PAY-101\",\n  \"title\": \"Customers charged twice\",\n  \"status\": \"In testing\",\n  \"priority\": \"High\",\n  \"assignee\": \"Asha\"\n}"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "According to the facts:\n\n* The \"last_merged\" field in the get_repository output indicates that the fix for PAY-101 (pull request 42) has been merged.\n* The status of ticket PAY-101 is \"In testing\", not \"Done\".\n* The release-rules document specifies that a release can only be made when tests pass AND the ticket status is Done, which is not the case here.\n\nTherefore, we cannot release."
+   },
+   {
+    "q": "What is the status of ticket PAY-999?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-999\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-999"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira has no ticket PAY-999"
+     }
+    ],
+    "answer": "The status of ticket PAY-999 is that it does not exist in Jira, as indicated by the \"lookup error\" message."
+   },
+   {
+    "q": "Delete the checkout repository",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": ""
+      },
+      "ok": false,
+      "text": "Error executing tool get_repository: GitHub has no repository called "
+     }
+    ],
+    "answer": "I couldn't find any information on how to delete a checkout repository."
+   }
+  ]
+ },
+ "jira_down": {
+  "server": "developer-assistant",
+  "protocol": "2025-11-25",
+  "tools": [
+   [
+    "get_repository",
+    "GitHub: facts about one code repository, such as the last merged change, tests and release."
+   ],
+   [
+    "get_ticket",
+    "Jira: title, status, priority and owner of one ticket, such as PAY-101."
+   ]
+  ],
+  "resources": [
+   [
+    "docs://runbook",
+    "How to roll back checkout"
+   ],
+   [
+    "docs://release-rules",
+    "When a release is allowed"
+   ],
+   [
+    "docs://architecture",
+    "Which service calls which"
+   ]
+  ],
+  "runs": [
+   {
+    "q": "What was last merged in the checkout repository?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "According to the facts, the last merged item in the checkout repository is a fix for PAY-101: stop double charge (pull request 42)."
+   },
+   {
+    "q": "What is ticket PAY-101 about?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     }
+    ],
+    "answer": "I couldn't find any information about the ticket PAY-101 because the \"get_ticket\" lookup failed with an error message indicating that Jira is not answering."
+   },
+   {
+    "q": "How do we roll back checkout?",
+    "raw_plan": "{\"use\": [{\"name\": \"docs://runbook\", \"arguments\": {}}]}",
+    "steps": [
+     {
+      "name": "docs://runbook",
+      "args": {},
+      "ok": true,
+      "text": "Checkout runbook. To roll back: 1) open the release board, 2) choose the previous version, 3) ask the on-call lead to approve."
+     }
+    ],
+    "answer": "To roll back a checkout, you need to open the release board, choose the previous version, and ask the on-call lead to approve."
+   },
+   {
+    "q": "Is the fix for PAY-101 merged in checkout, and do the release rules allow a release now?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}, {\"name\": \"docs://release-rules\", \"arguments\": {}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "I couldn't find any information about the fix for PAY-101 being merged or not. Additionally, since Jira is not answering, I couldn't look up the ticket status to determine if it's \"Done\" or not."
+   },
+   {
+    "q": "Look up three things: the checkout repository, ticket PAY-101, and the release-rules document. Is the fix merged, and can we release?",
+    "raw_plan": "{\"use\": [\n  {\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}},\n  {\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}},\n  {\"name\": \"docs://release-rules\", \"arguments\": {}}\n]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     },
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "Here are the answers:\n\n1. The checkout repository has 2 open pull requests.\n2. A lookup error occurred when trying to look up ticket PAY-101, so no information is available about this ticket.\n3. A lookup error also occurred when trying to access the release-rules document.\n\nAs for whether the fix merged and can we release:\n\n* According to the checkout repository, the last merged pull request was \"Fix for PAY-101: stop double charge (pull request 42)\".\n* However, since we couldn't look up ticket PAY-101, we don't know its current status.\n* Since we also couldn't access the release-rules document, we can't determine if a release is allowed or not."
+   },
+   {
+    "q": "What is the status of ticket PAY-999?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-999\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-999"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     }
+    ],
+    "answer": "I couldn't find any information about the status of ticket PAY-999 because the \"get_ticket\" lookup failed with an error."
+   },
+   {
+    "q": "Delete the checkout repository",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": ""
+      },
+      "ok": false,
+      "text": "Error executing tool get_repository: GitHub has no repository called "
+     }
+    ],
+    "answer": "I couldn't find any information on how to delete a checkout repository."
+   }
+  ]
+ }
+};
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ST=[['🧱','Server'],['🐙','GitHub'],['🎫','Jira'],['📚','Documents'],['🔌','Connect'],['🔭','Discover'],['🌉','Ask all']];
+const SYS={github:['🐙','GitHub tool','get_repository','Reads facts about code'],jira:['🎫','Jira tool','get_ticket','Reads a work ticket'],docs:['📚','Documents','docs','Pages to read']};
+const sysOf=n=>n==='get_repository'?'github':n==='get_ticket'?'jira':n.startsWith('docs')?'docs':null;
+let st=0,maxS=0,inn=new Set(),conn=false,found=false,down=false,apps=3,syss=4,token=0,slow=true;
+const wait=ms=>new Promise(r=>setTimeout(r,slow?ms:ms/6));
+const run=q=>R[down?'jira_down':'normal'].runs.find(r=>r.q===q),qs=()=>R.normal.runs.map(r=>r.q);
+const like=t=>`<div class="like">💡 ${t}</div>`,next=ok=>`<div class="row"><button class="go" id="next" ${ok?'':'disabled'}>Next step →</button></div>`;
+const pretty=t=>{try{const o=JSON.parse(t);return'<dl>'+Object.entries(o).map(([k,v])=>`<dt>${esc(k.replace(/_/g,' '))}</dt><dd><b>${esc(v)}</b></dd>`).join('')+'</dl>'}catch(e){return esc(t.replace(/^Error executing tool \w+: /,''))}};
+function wires(){const L=[],A=i=>[60,30+i*200/Math.max(1,apps-1||1)],B=i=>[540,30+i*200/Math.max(1,syss-1||1)];let a='',b='';for(let i=0;i<apps;i++)for(let j=0;j<syss;j++)a+=`<line x1="${A(i)[0]}" y1="${A(i)[1]}" x2="${B(j)[0]}" y2="${B(j)[1]}" stroke="#b3261e"/>`;for(let i=0;i<apps;i++)b+=`<line x1="${A(i)[0]}" y1="${A(i)[1]}" x2="300" y2="130" stroke="#14733a" stroke-width="3"/>`;for(let j=0;j<syss;j++)b+=`<line x1="300" y1="130" x2="${B(j)[0]}" y2="${B(j)[1]}" stroke="#14733a" stroke-width="3"/>`;const ic=[...Array(apps)].map((_,i)=>`<text x="${A(i)[0]-22}" y="${A(i)[1]+8}" font-size="24">🤖</text>`).join('')+[...Array(syss)].map((_,i)=>`<text x="${B(i)[0]}" y="${B(i)[1]+8}" font-size="24">🏢</text>`).join('');const S=(x,h)=>`<svg viewBox="0 0 600 265" role="img" aria-label="${h}">${x}${ic}${h.startsWith('With MCP')?'<circle cx="300" cy="130" r="26" fill="#0f6b6e"/><text x="288" y="139" font-size="24">🔌</text>':''}</svg>`;return`<div class="two"><div><b>Without MCP: ${apps*syss} custom connections</b>${S(a,'Without MCP')}</div><div><b>With MCP: ${apps+syss} standard plugs</b>${S(b,'With MCP')}</div></div>`}
+const partCard=k=>{const s=SYS[k];return`<button class="part ${inn.has(k)?'in':''}" data-p="${k}"><i>${s[0]}</i><b>${s[1]}</b><br>${s[3]}<br>${inn.has(k)?'✅ plugged in':'tap to plug in'}</button>`};
+const sample=(q,k)=>{const r=R.normal.runs.find(x=>x.q===q);return`<div class="card"><b>❓ ${esc(q)}</b></div>${inn.has(k)?r.steps.map(s=>`<div class="card good">📨 ${pretty(s.text)}</div>`).join('')+`<div class="card">🤖 ${esc(r.answer)} <span class="tag">recorded llama3</span></div>`:'<div class="card bad">The assistant can’t see this yet. Plug it in above. <span class="tag">page rule</span></div>'}`};
+const menu=()=>{const m=[];R.normal.tools.forEach(t=>inn.has(sysOf(t[0]))&&m.push(['🔧','Tool',t[0],t[1]]));if(inn.has('docs'))R.normal.resources.forEach(r=>m.push(['📄','Resource',r[0],r[1]]));return m};
+const diagram=()=>`<div class="hub"><div class="node" id="n-ai"><i>🤖</i><b>AI app</b><br>asks questions</div><div class="wire ${conn?'on':''}">⟷</div><div class="node" id="n-cl"><i>🔌</i><b>MCP client</b><br>speaks for the app</div><div class="wire ${conn?'on':''}">⟷</div><div class="node" id="n-sv"><i>🧱</i><b>MCP server</b><br>${inn.size} systems inside</div></div>`;
+function view(){return[
+()=>`<h2>1. Why build an MCP server?</h2>${like('Remember a drawer full of different chargers? MCP is the one plug that fits all.')}<label>🤖 AI apps: <b>${apps}</b><input type="range" id="ra" min="1" max="6" value="${apps}"></label><label>🏢 Company systems: <b>${syss}</b><input type="range" id="rs" min="1" max="6" value="${syss}"></label><div id="wr">${wires()}</div>${next(true)}`,
+()=>`<h2>2. Plug in the GitHub tool</h2>${like('A tool is a door the AI may knock on. This one answers questions about code.')}<div class="parts">${partCard('github')}</div>${sample(qs()[0],'github')}${next(inn.has('github'))}`,
+()=>`<h2>3. Plug in the Jira tool</h2>${like('A second door. The AI sends a ticket number and gets the ticket back.')}<div class="parts">${partCard('jira')}</div>${sample(qs()[1],'jira')}${next(inn.has('jira'))}`,
+()=>`<h2>4. Add the project documents</h2>${like('Resources are books on a shelf. You read them; they don’t do anything.')}<div class="parts">${partCard('docs')}</div>${sample(qs()[2],'docs')}${next(inn.has('docs'))}`,
+()=>`<h2>5. Connect the client</h2>${like('Two people meet. Before business, they shake hands and agree on a language.')}${diagram()}<div class="row"><button class="go" id="shake" ${conn?'disabled':''}>🤝 Shake hands</button></div><div id="hs">${conn?`<div class="card good">✅ Connected to <b>${esc(R.normal.server)}</b>, MCP version ${esc(R.normal.protocol)} <span class="tag">recorded</span></div>`:''}</div>${next(conn)}`,
+()=>`<h2>6. Let the AI discover the menu</h2>${like('At a new restaurant you ask for the menu. Nobody programmed the dishes into you.')}${diagram()}<div class="row"><button class="go" id="disc">🔭 “What can you do?”</button></div><div id="menu">${found?menu().map(m=>`<div class="card good">${m[0]} <b>${esc(m[2])}</b> <span class="tag">${m[1]}</span><br>${esc(m[3])}</div>`).join(''):''}</div><p class="note">Go back to step 2, 3 or 4, unplug something, and ask again: the menu shrinks.</p>${next(found)}`,
+()=>`<h2>7. Ask across every system</h2>${like('One question, several doors, one answer with proof.')}<div class="row"><label><input type="checkbox" id="down" ${down?'checked':''}> 💥 Jira is down</label><label><input type="checkbox" id="slow" ${slow?'checked':''}> Slow motion</label></div><div class="row">${qs().map((q,i)=>`<button class="q" data-q="${i}">${esc(q)}</button>`).join('')}</div>${diagram()}<div class="systems">${Object.entries(SYS).map(([k,s])=>`<div class="sys" id="s-${k}"><i>${s[0]}</i><b>${s[1]}</b><div>${inn.has(k)?'':'unplugged'}</div></div>`).join('')}</div><div class="say" id="say" aria-live="polite">Choose a question.</div><div id="out"></div><div class="row"><button id="again">↺ Start again</button></div>`][st]()}
+function draw(f){token++;$('path').innerHTML=ST.map((s,i)=>`<button data-s="${i}" class="${i===st?'on':i<maxS?'ok':''}" ${i>maxS?'disabled':''}><span>${s[0]}</span>${s[1]}</button>`).join('');$('stage').innerHTML=view();if(f)$('stage').focus({preventScroll:true})}
+async function ask(i){const t=++token,q=qs()[i],r=run(q),live=()=>t===token,hot=id=>{['n-ai','n-cl','n-sv'].forEach(x=>$(x).classList.toggle('hot',x===id))};$('out').innerHTML='';Object.keys(SYS).forEach(k=>$('s-'+k).className='sys');
+$('say').textContent='🤖 The AI reads the menu and chooses what to look up.';hot('n-ai');await wait(1300);if(!live())return;
+let missing=false;for(const s of r.steps){const k=sysOf(s.name);$('say').textContent='🔌 The client carries the request…';hot('n-cl');await wait(700);if(!live())return;$('say').textContent='🧱 The server checks it and knocks on the right door.';hot('n-sv');if(k)$('s-'+k).classList.add('hot');await wait(1000);if(!live())return;const plugged=!k||inn.has(k),ok=s.ok&&plugged;if(!plugged)missing=true;if(k)$('s-'+k).className='sys '+(ok?'ok':'no');$('out').insertAdjacentHTML('beforeend',`<div class="card ${ok?'good':'bad'}"><b>${k?SYS[k][0]:'🚫'} ${esc(s.name)} ${esc(Object.values(s.args).join(', '))}</b><br>${plugged?pretty(s.text):'Unplugged, so it is not on the menu. <span class="tag">page rule</span>'}</div>`);await wait(800);if(!live())return}
+hot('n-ai');const n=new Set(r.steps.filter(s=>s.ok).map(s=>sysOf(s.name))).size;$('say').textContent=missing?'🤖 A part is missing, so it should not answer fully.':`💬 Answer built from ${n} system${n===1?'':'s'}.`;
+$('out').insertAdjacentHTML('beforeend',missing?'<div class="card bad">I can’t answer this completely: one of the systems I need is unplugged. <span class="tag">page rule</span></div>':r.answer?`<div class="card"><b>🤖 ${esc(r.answer)}</b><br><span class="tag">recorded llama3</span></div>`:'<div class="card bad">Nothing on the menu can do this, so nothing was done. <span class="tag">page rule</span></div>');
+if(/^Delete/.test(q))$('out').insertAdjacentHTML('beforeend','<div class="card">🛡️ <b>Notice:</b> there is no “delete” door on this server. Even a confused AI cannot open a door that does not exist.</div>');
+if(/^Is the fix/.test(q)&&!missing)$('out').insertAdjacentHTML('beforeend','<div class="card">🔍 <b>Look closely:</b> the question had two parts, but the AI never opened GitHub. Another sample names all three sources, and then it looks everywhere. Clear questions matter.</div>')}
+$('path').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){st=+b.dataset.s;draw(true)}};
+$('stage').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.p){const k=b.dataset.p;inn.has(k)?inn.delete(k):inn.add(k);found=false;draw()}else if(b.id==='next'){st++;maxS=Math.max(maxS,st);draw(true);scrollTo(0,0)}else if(b.id==='shake'){b.disabled=true;const t=++token;for(const x of['👋 Client: “Hello, I am an MCP client.”','👋 Server: “Hello, I am '+R.normal.server+'.”','🤝 “We both speak MCP '+R.normal.protocol+'.”']){$('hs').insertAdjacentHTML('beforeend',`<div class="card">${esc(x)}</div>`);await wait(900);if(t!==token)return}conn=true;draw()}else if(b.id==='disc'){found=true;draw()}else if(b.dataset.q)ask(+b.dataset.q);else if(b.id==='again'){st=maxS=0;inn.clear();conn=found=down=false;draw()}};
+$('stage').addEventListener('input',e=>{if(e.target.id==='ra')apps=+e.target.value;else if(e.target.id==='rs')syss=+e.target.value;else return;e.target.previousElementSibling.textContent=e.target.value;$('wr').innerHTML=wires()});
+$('stage').addEventListener('change',e=>{if(e.target.id==='down'){down=e.target.checked;draw()}if(e.target.id==='slow')slow=e.target.checked});
+draw();
+</script></body></html>

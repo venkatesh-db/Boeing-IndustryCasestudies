@@ -1,0 +1,1548 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IT Operations Agent</title>
+<style>
+:root{--bg:#0c1222;--card:#151d33;--line:#2c3858;--ink:#eef2ff;--mut:#a7b3d1;--go:#f2b705;--ok:#3ecf8e;--bad:#ff6b6b;--ac:#6ea8ff}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}header{padding:22px 20px 8px;text-align:center}h1{margin:0;font-size:34px}header p{margin:6px auto 0;max-width:780px;color:var(--mut)}
+button,input{font:inherit}button{cursor:pointer;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 14px}button:disabled{opacity:.4;cursor:default}:focus-visible{outline:3px solid var(--go);outline-offset:2px}.go{background:var(--go);color:#1b1500;border-color:var(--go);font-weight:800}
+main{max-width:1200px;margin:10px auto 40px;padding:0 14px}.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}h2{font-size:19px;margin:0 0 8px}
+.goals{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-bottom:14px}.goal{border:2px solid var(--line);border-radius:12px;text-align:center;font-size:13px;padding:6px 2px;color:var(--mut)}.goal span{display:block;font-size:24px;filter:grayscale(1);opacity:.5}.goal.ok{border-color:var(--ok);color:var(--ink)}.goal.ok span{filter:none;opacity:1}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;align-items:start}.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}.cases button{text-align:left}.cases .on{border-color:var(--go);background:#2a2a1c}.opt label{display:inline-block;margin:4px 14px 4px 8px}.left{position:sticky;top:8px}.grid{scroll-margin-top:8px}.opt{color:var(--mut);margin-top:10px}
+.layer{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;margin-bottom:7px;border-width:2px;transition:.25s;padding:9px 12px}.layer i{font-style:normal;font-size:28px}.layer small{display:block;color:var(--mut)}.layer.hot{border-color:var(--go);box-shadow:0 0 24px #f2b70566;transform:translateX(7px);background:#2a2a1c}.layer.ok{border-color:var(--ok)}.layer.bad{border-color:var(--bad);box-shadow:0 0 22px #ff6b6b66}.orb{font-size:22px;visibility:hidden}.hot .orb{visibility:visible}
+.sys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.sys div{border:2px solid var(--line);border-radius:12px;text-align:center;padding:7px 2px;font-size:14px;transition:.25s}.sys .hot{border-color:var(--go);background:#2a2a1c}.sys .ok{border-color:var(--ok)}.sys .bad{border-color:var(--bad)}
+.say{background:#000a;border-left:5px solid var(--go);border-radius:10px;padding:10px 14px;min-height:50px;margin:10px 0}.ev{border-left:4px solid var(--ok);background:#0f1629;border-radius:0 12px 12px 0;padding:8px 12px;margin:8px 0;animation:up .35s;overflow-wrap:anywhere;font-size:15.5px}.ev.no{border-color:var(--bad)}@keyframes up{from{opacity:0;transform:translateY(8px)}}
+dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1px 12px;margin:4px 0}dt{color:var(--mut)}dd{margin:0;font-weight:700}.ask{border:3px solid var(--go);border-radius:16px;padding:14px;margin:10px 0;background:#262310}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tag{font-size:12.5px;font-weight:700;background:#26304e;border-radius:8px;padding:1px 8px;color:#cfdaf7}
+.rep{background:#fffdf5;color:#231f14;border-radius:14px;padding:16px;white-space:pre-line}.rep h3{margin:0 0 6px}table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.scroll{overflow-x:auto}.note{color:var(--mut);font-size:14px}.win{font-size:22px;text-align:center;color:var(--go);font-weight:800}
+@media(max-width:700px){.grid{grid-template-columns:minmax(0,1fr)}.left{position:static;order:2}.goals{grid-template-columns:repeat(4,minmax(0,1fr))}h1{font-size:27px}.sys{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{body *{visibility:hidden}.rep,.rep *{visibility:visible}.rep{position:absolute;left:0;top:0}}
+</style></head><body><header><h1>🛰️ Mission Control: IT Operations Agent</h1><p>Send one request. Watch it travel down through every layer, reach the company systems, stop for <b>your</b> decision, and come back as a report.</p></header>
+<main><div class="goals" id="goals"></div><div id="win"></div>
+<div class="box"><h2>🙋 Tap a request to start</h2><div class="cases" id="cases"></div><div class="opt"><b>💥 Break something</b> (checkout and payroll)<label><input type="radio" name="f" value="" checked> Everything works</label><label><input type="radio" name="f" value="github"> GitHub is down</label><label><input type="radio" name="f" value="fails"> The repair doesn’t work</label><b>🎬 Speed</b><label><input type="checkbox" id="step"> One step at a time</label><label><input type="checkbox" id="fast"> Fast</label></div></div>
+<div class="grid" id="stage"><div class="left"><div class="box"><h2>🏗️ The tower <span class="note">(tap a floor)</span></h2><div id="tower"></div><div class="sys" id="sys"></div><div id="info"></div></div></div>
+<div class="box"><h2>📡 Live</h2><div class="say" id="say" aria-live="polite"></div><button class="go" id="nextb" hidden>Next step →</button><div id="ask"></div><div id="report"></div><div id="events"></div></div></div>
+<div class="box"><h2>📚 Execution history</h2><div class="scroll"><table id="hist"></table></div></div>
+<div class="box"><h2>🧾 What is real here?</h2><div class="scroll"><table><tr><td>✅ Really ran and was recorded</td><td>Python, LangGraph, LangChain, the MCP Python SDK, an OpenAI-compatible llama3 model, pausing and resuming from a SQLite file</td></tr><tr><td>📐 In the design, not run here</td><td>FastAPI, React, PostgreSQL, Docker. This page is plain web; SQLite played PostgreSQL’s part</td></tr><tr><td>🎭 Fictional</td><td>The company and its GitHub, Jira, Monitoring and document contents</td></tr><tr><td>📏 Page rule</td><td>Anything with that tag is decided by this page, not by the agent</td></tr></table></div></div></main>
+<script>
+const R={
+ "checkout_approve": {
+  "label": "checkout_approve",
+  "request": "Customers get errors in checkout since this morning!",
+  "decision": "approve",
+  "ask": {
+   "action": "roll_back_release",
+   "service": "checkout",
+   "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago.",
+   "impact": {
+    "people": 1200,
+    "risk": "high"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 8
+  },
+  "understood": {
+   "service": "checkout",
+   "intent": "problem",
+   "summary": "errors during checkout"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"checkout\", \"intent\": \"problem\", \"summary\": \"errors during checkout\"}",
+     "checked": {
+      "service": "checkout",
+      "intent": "problem",
+      "summary": "errors during checkout"
+     }
+    },
+    "ms": 2011,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 38,
+     "memory_percent": 55,
+     "status": "failing"
+    },
+    "ms": 1416,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "4.2",
+     "when": "20 minutes ago",
+     "previous": "4.1"
+    },
+    "ms": 1268,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-77",
+     "title": "Checkout returns errors",
+     "reports": 46
+    },
+    "ms": 1271,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1264,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 1200,
+     "risk": "high"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 4.2, which was made 20 minutes ago.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago."
+     }
+    },
+    "ms": 2959,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "roll_back_release"
+     ],
+     "result": "roll_back_release"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: approve",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Do it: roll back release",
+    "detail": {
+     "done": "rolled back",
+     "service": "checkout"
+    },
+    "ms": 1362,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Check again with Monitoring",
+    "detail": {
+     "errors_percent": 0,
+     "memory_percent": 41,
+     "status": "healthy"
+    },
+    "ms": 1285,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to investigate errors in checkout since this morning. The facts showed that the service health was failing with 38% errors and 55% memory usage, which started after a recent release to version 4.2 made 20 minutes ago. It was decided to roll back the release due to the errors starting after the change. The outcome was that the issue was solved.",
+    "ms": 4533,
+    "ok": true
+   }
+  ],
+  "outcome": "solved",
+  "report": "Here is the final incident report:\n\nThe request was to investigate errors in checkout since this morning. The facts showed that the service health was failing with 38% errors and 55% memory usage, which started after a recent release to version 4.2 made 20 minutes ago. It was decided to roll back the release due to the errors starting after the change. The outcome was that the issue was solved."
+ },
+ "checkout_reject": {
+  "label": "checkout_reject",
+  "request": "Customers get errors in checkout since this morning!",
+  "decision": "reject",
+  "ask": {
+   "action": "roll_back_release",
+   "service": "checkout",
+   "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago.",
+   "impact": {
+    "people": 1200,
+    "risk": "high"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 8
+  },
+  "understood": {
+   "service": "checkout",
+   "intent": "problem",
+   "summary": "errors during checkout"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"checkout\", \"intent\": \"problem\", \"summary\": \"errors during checkout\"}",
+     "checked": {
+      "service": "checkout",
+      "intent": "problem",
+      "summary": "errors during checkout"
+     }
+    },
+    "ms": 1670,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 38,
+     "memory_percent": 55,
+     "status": "failing"
+    },
+    "ms": 1255,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "4.2",
+     "when": "20 minutes ago",
+     "previous": "4.1"
+    },
+    "ms": 1242,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-77",
+     "title": "Checkout returns errors",
+     "reports": 46
+    },
+    "ms": 1218,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1209,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 1200,
+     "risk": "high"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 4.2, which was made 20 minutes ago.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago."
+     }
+    },
+    "ms": 2996,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "roll_back_release"
+     ],
+     "result": "roll_back_release"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: reject",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is a final incident report based on the provided data:\n\nThe request was to investigate errors in checkout since this morning. The facts showed that the service health was failing with 38% errors and 55% memory usage, which started after the recent release to version 4.2 made 20 minutes ago. It was proposed to roll back the release due to the errors starting after the change. The decision was rejected, and the outcome was that the proposal was not implemented.",
+    "ms": 4634,
+    "ok": true
+   }
+  ],
+  "outcome": "rejected",
+  "report": "Here is a final incident report based on the provided data:\n\nThe request was to investigate errors in checkout since this morning. The facts showed that the service health was failing with 38% errors and 55% memory usage, which started after the recent release to version 4.2 made 20 minutes ago. It was proposed to roll back the release due to the errors starting after the change. The decision was rejected, and the outcome was that the proposal was not implemented."
+ },
+ "checkout_fails": {
+  "label": "checkout_fails",
+  "request": "Customers get errors in checkout since this morning!",
+  "decision": "approve",
+  "ask": {
+   "action": "roll_back_release",
+   "service": "checkout",
+   "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago.",
+   "impact": {
+    "people": 1200,
+    "risk": "high"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 8
+  },
+  "understood": {
+   "service": "checkout",
+   "intent": "problem",
+   "summary": "errors during checkout"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"checkout\", \"intent\": \"problem\", \"summary\": \"errors during checkout\"}",
+     "checked": {
+      "service": "checkout",
+      "intent": "problem",
+      "summary": "errors during checkout"
+     }
+    },
+    "ms": 1699,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 38,
+     "memory_percent": 55,
+     "status": "failing"
+    },
+    "ms": 1233,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "4.2",
+     "when": "20 minutes ago",
+     "previous": "4.1"
+    },
+    "ms": 1231,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-77",
+     "title": "Checkout returns errors",
+     "reports": 46
+    },
+    "ms": 1265,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1270,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 1200,
+     "risk": "high"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 4.2, which was made 20 minutes ago.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 4.2, which was made 20 minutes ago."
+     }
+    },
+    "ms": 3147,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "roll_back_release"
+     ],
+     "result": "roll_back_release"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: approve",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Do it: roll back release",
+    "detail": {
+     "done": "rolled back",
+     "service": "checkout"
+    },
+    "ms": 1315,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Check again with Monitoring",
+    "detail": {
+     "errors_percent": 38,
+     "memory_percent": 55,
+     "status": "failing"
+    },
+    "ms": 1304,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is a final incident report based on the provided data:\n\nThe request was to resolve errors in checkout since this morning. Upon investigation, it was found that the service health showed 38% errors and 55% memory usage, indicating a failing status. It was decided to roll back the recent release to version 4.2 due to errors starting after its implementation 20 minutes ago. The outcome is that the issue remains unfixed.",
+    "ms": 4912,
+    "ok": true
+   }
+  ],
+  "outcome": "not fixed",
+  "report": "Here is a final incident report based on the provided data:\n\nThe request was to resolve errors in checkout since this morning. Upon investigation, it was found that the service health showed 38% errors and 55% memory usage, indicating a failing status. It was decided to roll back the recent release to version 4.2 due to errors starting after its implementation 20 minutes ago. The outcome is that the issue remains unfixed."
+ },
+ "checkout_github": {
+  "label": "checkout_github",
+  "request": "Customers get errors in checkout since this morning!",
+  "decision": "approve",
+  "ask": null,
+  "restored": null,
+  "understood": {
+   "service": "checkout",
+   "intent": "problem",
+   "summary": "errors during checkout"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"checkout\", \"intent\": \"problem\", \"summary\": \"errors during checkout\"}",
+     "checked": {
+      "service": "checkout",
+      "intent": "problem",
+      "summary": "errors during checkout"
+     }
+    },
+    "ms": 1840,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 38,
+     "memory_percent": 55,
+     "status": "failing"
+    },
+    "ms": 1286,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "error": "GitHub is not answering"
+    },
+    "ms": 1254,
+    "ok": false
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-77",
+     "title": "Checkout returns errors",
+     "reports": 46
+    },
+    "ms": 1326,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1339,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 1200,
+     "risk": "high"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after a recent release and service health is failing.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after a recent release and service health is failing."
+     }
+    },
+    "ms": 2824,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"restart_service\", \"reason\": \"Memory is above 90 percent.\"}",
+     "checked": {
+      "action": "restart_service",
+      "reason": "Memory is above 90 percent."
+     }
+    },
+    "ms": 1381,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is a final incident report based on the provided data:\n\nA request was received to investigate errors in checkout since this morning. Upon investigation, it was found that the service health was failing with 38% errors and high memory usage (55%). The recent change identified was GitHub not answering. No open ticket was found to be related to the issue. As a result, no change was made to resolve the issue due to lack of supporting evidence for the proposed action.",
+    "ms": 4530,
+    "ok": true
+   }
+  ],
+  "outcome": "no change made",
+  "report": "Here is a final incident report based on the provided data:\n\nA request was received to investigate errors in checkout since this morning. Upon investigation, it was found that the service health was failing with 38% errors and high memory usage (55%). The recent change identified was GitHub not answering. No open ticket was found to be related to the issue. As a result, no change was made to resolve the issue due to lack of supporting evidence for the proposed action."
+ },
+ "payroll_approve": {
+  "label": "payroll_approve",
+  "request": "Payroll is painfully slow today",
+  "decision": "approve",
+  "ask": {
+   "action": "restart_service",
+   "service": "payroll",
+   "reason": "Memory usage is above 90 percent.",
+   "impact": {
+    "people": 300,
+    "risk": "medium"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 10
+  },
+  "understood": {
+   "service": "payroll",
+   "intent": "problem",
+   "summary": "slow"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"payroll\", \"intent\": \"problem\", \"summary\": \"slow\"}",
+     "checked": {
+      "service": "payroll",
+      "intent": "problem",
+      "summary": "slow"
+     }
+    },
+    "ms": 1695,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 2,
+     "memory_percent": 97,
+     "status": "slow"
+    },
+    "ms": 1249,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "2.8",
+     "when": "3 weeks ago",
+     "previous": "2.7"
+    },
+    "ms": 1374,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-81",
+     "title": "Payroll very slow",
+     "reports": 9
+    },
+    "ms": 1283,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1276,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 300,
+     "risk": "medium"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 2.8.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 2.8."
+     }
+    },
+    "ms": 2995,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"restart_service\", \"reason\": \"Memory usage is above 90 percent.\"}",
+     "checked": {
+      "action": "restart_service",
+      "reason": "Memory usage is above 90 percent."
+     }
+    },
+    "ms": 1573,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "restart_service"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: approve",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Do it: restart service",
+    "detail": {
+     "done": "restarted",
+     "service": "payroll"
+    },
+    "ms": 1683,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Check again with Monitoring",
+    "detail": {
+     "errors_percent": 0,
+     "memory_percent": 41,
+     "status": "healthy"
+    },
+    "ms": 1316,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow due to high memory usage (97%) and errors (2%). It was decided to restart the service due to excessive memory usage. As a result, the issue was solved.",
+    "ms": 3830,
+    "ok": true
+   }
+  ],
+  "outcome": "solved",
+  "report": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow due to high memory usage (97%) and errors (2%). It was decided to restart the service due to excessive memory usage. As a result, the issue was solved."
+ },
+ "payroll_reject": {
+  "label": "payroll_reject",
+  "request": "Payroll is painfully slow today",
+  "decision": "reject",
+  "ask": {
+   "action": "restart_service",
+   "service": "payroll",
+   "reason": "Memory usage is above 90 percent.",
+   "impact": {
+    "people": 300,
+    "risk": "medium"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 10
+  },
+  "understood": {
+   "service": "payroll",
+   "intent": "problem",
+   "summary": "slow"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"payroll\", \"intent\": \"problem\", \"summary\": \"slow\"}",
+     "checked": {
+      "service": "payroll",
+      "intent": "problem",
+      "summary": "slow"
+     }
+    },
+    "ms": 2136,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 2,
+     "memory_percent": 97,
+     "status": "slow"
+    },
+    "ms": 1292,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "2.8",
+     "when": "3 weeks ago",
+     "previous": "2.7"
+    },
+    "ms": 1282,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-81",
+     "title": "Payroll very slow",
+     "reports": 9
+    },
+    "ms": 1288,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1261,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 300,
+     "risk": "medium"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 2.8.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 2.8."
+     }
+    },
+    "ms": 2516,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"restart_service\", \"reason\": \"Memory usage is above 90 percent.\"}",
+     "checked": {
+      "action": "restart_service",
+      "reason": "Memory usage is above 90 percent."
+     }
+    },
+    "ms": 1293,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "restart_service"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: reject",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow due to high memory usage (97%) and no recent changes were made (release 2.8, 3 weeks ago). It was proposed to restart the service due to excessive memory usage. However, the decision was rejected, and the outcome was that the issue remained unresolved.",
+    "ms": 4215,
+    "ok": true
+   }
+  ],
+  "outcome": "rejected",
+  "report": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow due to high memory usage (97%) and no recent changes were made (release 2.8, 3 weeks ago). It was proposed to restart the service due to excessive memory usage. However, the decision was rejected, and the outcome was that the issue remained unresolved."
+ },
+ "payroll_fails": {
+  "label": "payroll_fails",
+  "request": "Payroll is painfully slow today",
+  "decision": "approve",
+  "ask": {
+   "action": "restart_service",
+   "service": "payroll",
+   "reason": "Memory usage is above 90 percent.",
+   "impact": {
+    "people": 300,
+    "risk": "medium"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 10
+  },
+  "understood": {
+   "service": "payroll",
+   "intent": "problem",
+   "summary": "slow"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"payroll\", \"intent\": \"problem\", \"summary\": \"slow\"}",
+     "checked": {
+      "service": "payroll",
+      "intent": "problem",
+      "summary": "slow"
+     }
+    },
+    "ms": 1763,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 2,
+     "memory_percent": 97,
+     "status": "slow"
+    },
+    "ms": 1331,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "2.8",
+     "when": "3 weeks ago",
+     "previous": "2.7"
+    },
+    "ms": 1266,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-81",
+     "title": "Payroll very slow",
+     "reports": 9
+    },
+    "ms": 1249,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1282,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 300,
+     "risk": "medium"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after the recent release to version 2.8.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after the recent release to version 2.8."
+     }
+    },
+    "ms": 2538,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"restart_service\", \"reason\": \"Memory usage is above 90 percent.\"}",
+     "checked": {
+      "action": "restart_service",
+      "reason": "Memory usage is above 90 percent."
+     }
+    },
+    "ms": 1326,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "restart_service"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: approve",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Do it: restart service",
+    "detail": {
+     "done": "restarted",
+     "service": "payroll"
+    },
+    "ms": 1302,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Check again with Monitoring",
+    "detail": {
+     "errors_percent": 2,
+     "memory_percent": 97,
+     "status": "slow"
+    },
+    "ms": 1234,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow, with memory usage at 97% and no significant errors reported. It was decided to restart the service due to high memory usage. Unfortunately, the outcome was that the issue was not fixed.",
+    "ms": 3613,
+    "ok": true
+   }
+  ],
+  "outcome": "not fixed",
+  "report": "Here is the final incident report:\n\nThe request was to investigate the slow payroll service. The facts showed that the service health was slow, with memory usage at 97% and no significant errors reported. It was decided to restart the service due to high memory usage. Unfortunately, the outcome was that the issue was not fixed."
+ },
+ "payroll_github": {
+  "label": "payroll_github",
+  "request": "Payroll is painfully slow today",
+  "decision": "approve",
+  "ask": {
+   "action": "restart_service",
+   "service": "payroll",
+   "reason": "Memory is above 90 percent.",
+   "impact": {
+    "people": 300,
+    "risk": "medium"
+   }
+  },
+  "restored": {
+   "next": [
+    "approval"
+   ],
+   "events_remembered": 10
+  },
+  "understood": {
+   "service": "payroll",
+   "intent": "problem",
+   "summary": "slow"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"payroll\", \"intent\": \"problem\", \"summary\": \"slow\"}",
+     "checked": {
+      "service": "payroll",
+      "intent": "problem",
+      "summary": "slow"
+     }
+    },
+    "ms": 1638,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 2,
+     "memory_percent": 97,
+     "status": "slow"
+    },
+    "ms": 1268,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "error": "GitHub is not answering"
+    },
+    "ms": 1233,
+    "ok": false
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "OPS-81",
+     "title": "Payroll very slow",
+     "reports": 9
+    },
+    "ms": 1254,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1314,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 300,
+     "risk": "medium"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors started after a recent release and service health is slow\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors started after a recent release and service health is slow"
+     }
+    },
+    "ms": 2787,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"restart_service\", \"reason\": \"Memory is above 90 percent.\"}",
+     "checked": {
+      "action": "restart_service",
+      "reason": "Memory is above 90 percent."
+     }
+    },
+    "ms": 1231,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none",
+      "restart_service"
+     ],
+     "result": "restart_service"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Person said: approve",
+    "detail": "The graph was paused and saved until this answer came.",
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Do it: restart service",
+    "detail": {
+     "done": "restarted",
+     "service": "payroll"
+    },
+    "ms": 1383,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Check again with Monitoring",
+    "detail": {
+     "errors_percent": 0,
+     "memory_percent": 41,
+     "status": "healthy"
+    },
+    "ms": 1226,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to address the slow payroll processing. The investigation found that the service health showed errors at 2% and memory usage at 97%, indicating a slow status. It was decided to restart the service due to high memory usage above 90%. As a result, the issue was solved.",
+    "ms": 3822,
+    "ok": true
+   }
+  ],
+  "outcome": "solved",
+  "report": "Here is the final incident report:\n\nThe request was to address the slow payroll processing. The investigation found that the service health showed errors at 2% and memory usage at 97%, indicating a slow status. It was decided to restart the service due to high memory usage above 90%. As a result, the issue was solved."
+ },
+ "email": {
+  "label": "email",
+  "request": "I think email is a bit odd",
+  "decision": "approve",
+  "ask": null,
+  "restored": null,
+  "understood": {
+   "service": "email",
+   "intent": "other",
+   "summary": "odd behavior"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"unknown\", \"intent\": \"other\", \"summary\": \"odd behavior\"}",
+     "checked": {
+      "service": "email",
+      "intent": "other",
+      "summary": "odd behavior"
+     }
+    },
+    "ms": 1649,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Monitoring",
+    "detail": {
+     "errors_percent": 0,
+     "memory_percent": 40,
+     "status": "healthy"
+    },
+    "ms": 1266,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from GitHub",
+    "detail": {
+     "release": "9.0",
+     "when": "2 months ago",
+     "previous": "8.9"
+    },
+    "ms": 1243,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Jira",
+    "detail": {
+     "key": "none",
+     "title": "No open ticket",
+     "reports": 0
+    },
+    "ms": 1257,
+    "ok": true
+   },
+   {
+    "layer": "mcp",
+    "title": "Read from Documents",
+    "detail": "Roll back when errors started after a release. Restart when memory is above 90 percent. If health is normal, do nothing. Every change needs approval.",
+    "ms": 1277,
+    "ok": true
+   },
+   {
+    "layer": "tool",
+    "title": "Function: estimate impact",
+    "detail": {
+     "people": 2500,
+     "risk": "high"
+    },
+    "ms": 1,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"roll_back_release\", \"reason\": \"Errors did not start after the recent release, so rolling back to previous version is necessary.\"}",
+     "checked": {
+      "action": "roll_back_release",
+      "reason": "Errors did not start after the recent release, so rolling back to previous version is necessary."
+     }
+    },
+    "ms": 3576,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": false
+   },
+   {
+    "layer": "chain",
+    "title": "The model proposes",
+    "detail": {
+     "model_wrote": "{\"action\": \"none\", \"reason\": \"Service health is healthy and memory usage is below 90 percent, no action required according to the runbook.\"}",
+     "checked": {
+      "action": "none",
+      "reason": "Service health is healthy and memory usage is below 90 percent, no action required according to the runbook."
+     }
+    },
+    "ms": 2098,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: check the evidence",
+    "detail": {
+     "allowed_by_evidence": [
+      "none"
+     ],
+     "result": "none"
+    },
+    "ms": 0,
+    "ok": true
+   },
+   {
+    "layer": "chain",
+    "title": "Write the report",
+    "detail": "Here is the final incident report:\n\nThe request was to investigate an unusual email service. The facts showed that the email service was healthy with no errors and memory usage below 90%. A recent software release had occurred two months prior, but it did not affect the service's health. No open ticket existed or reported issues. As a result, no action was taken according to the runbook, and no change was made.",
+    "ms": 4203,
+    "ok": true
+   }
+  ],
+  "outcome": "no change made",
+  "report": "Here is the final incident report:\n\nThe request was to investigate an unusual email service. The facts showed that the email service was healthy with no errors and memory usage below 90%. A recent software release had occurred two months prior, but it did not affect the service's health. No open ticket existed or reported issues. As a result, no action was taken according to the runbook, and no change was made."
+ },
+ "access": {
+  "label": "access",
+  "request": "Please give me admin access to payroll",
+  "decision": "approve",
+  "ask": null,
+  "restored": null,
+  "understood": {
+   "service": "payroll",
+   "intent": "access",
+   "summary": "admin access request"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"payroll\", \"intent\": \"access\", \"summary\": \"admin access request\"}",
+     "checked": {
+      "service": "payroll",
+      "intent": "access",
+      "summary": "admin access request"
+     }
+    },
+    "ms": 1856,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: stop",
+    "detail": "Access requests are never handled by the agent. A person must do it.",
+    "ms": 0,
+    "ok": true
+   }
+  ],
+  "outcome": "refused",
+  "report": null
+ },
+ "vague": {
+  "label": "vague",
+  "request": "Nothing works, please help",
+  "decision": "approve",
+  "ask": null,
+  "restored": null,
+  "understood": {
+   "service": "unknown",
+   "intent": "problem",
+   "summary": "System failure"
+  },
+  "events": [
+   {
+    "layer": "chain",
+    "title": "Understand the request",
+    "detail": {
+     "model_wrote": "{\"service\": \"unknown\", \"intent\": \"problem\", \"summary\": \"System failure\"}",
+     "checked": {
+      "service": "unknown",
+      "intent": "problem",
+      "summary": "System failure"
+     }
+    },
+    "ms": 1455,
+    "ok": true
+   },
+   {
+    "layer": "graph",
+    "title": "Decision: ask",
+    "detail": "No service was named. Please say checkout, payroll or email.",
+    "ms": 0,
+    "ok": true
+   }
+  ],
+  "outcome": "needs detail",
+  "report": null
+ }
+},$=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const G=[['🌐','Web request'],['🧠','LLM reads'],['🦜','LangChain'],['🕸️','LangGraph'],['🔧','Functions'],['🔌','MCP'],['✋','Approval'],['📜','Report']];
+const L=[['ui','🖥️','User Interface','where people ask and approve','Nobody could ask, and nobody could say no.'],['graph','🕸️','LangGraph','remembers, routes, pauses','The agent would forget where it was, and could run past the approval.'],['chain','🦜','LangChain','talks to the AI model','Every model change would mean rebuilding the conversation.'],['tool','🔧','Function calling','runs exact functions','The AI would guess how many people are affected.'],['mcp','🔌','MCP','one plug to every system','Each system would need its own custom connection.'],['sys','🏢','Enterprise systems','where the facts live','There would be no facts, only opinions.']];
+const SY=[['Monitoring','📈'],['GitHub','🐙'],['Jira','🎫'],['Documents','📚']];
+const CASES=[['checkout','🛒'],['payroll','💰'],['email','✉️'],['access','🔑'],['vague','😵']];
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},store=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let got=new Set(load('ops-goals',[])),hist=load('ops-hist',[]),tok=0,nextR=null,cur=null;
+const wait=ms=>new Promise(r=>setTimeout(r,$('fast').checked?ms/7:ms)),say=t=>$('say').textContent=t;
+const goal=i=>{got.add(i);store('ops-goals',[...got]);drawG()};
+const drawG=()=>{$('goals').innerHTML=G.map((g,k)=>`<div class="goal ${got.has(k)?'ok':''}"><span>${g[0]}</span>${g[1]}</div>`).join('');$('win').innerHTML=got.size===8?'<p class="win">🏆 All eight parts seen. You have run an agent end to end!</p>':''};
+const pv=v=>Array.isArray(v)?v.map(pv).join(', '):v&&typeof v==='object'?Object.entries(v).map(([k,x])=>k+': '+pv(x)).join(', '):String(v).replace(/_/g,' ');
+const show=d=>typeof d==='string'?esc(d):d.model_wrote?`<dl><dt>AI wrote</dt><dd>${esc(d.model_wrote.replace(/\s+/g,' '))}</dd><dt>After checks</dt><dd>${esc(pv(d.checked))}</dd></dl>`:'<dl>'+Object.entries(d).map(([k,v])=>`<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(pv(v))}</dd>`).join('')+'</dl>';
+function tower(){$('tower').innerHTML=L.map(l=>`<button class="layer" id="l-${l[0]}" data-l="${l[0]}"><i>${l[1]}</i><span><b>${l[2]}</b><small>${l[3]}</small></span><span class="orb">🟡</span></button>`).join('');$('sys').innerHTML=SY.map(s=>`<div id="y-${s[0]}">${s[1]}<br>${s[0]}</div>`).join('')}
+async function hop(id,t,ms=520){document.querySelectorAll('.layer').forEach(x=>x.classList.remove('hot'));$('l-'+id).classList.add('hot');await wait(ms);return t===tok}
+const PATH={chain:['graph','chain'],tool:['graph','tool'],mcp:['graph','mcp','sys'],graph:['graph']};
+const SAY={chain:'🦜 LangChain carries the question to the AI model and brings the reply back.',tool:'🔧 An exact function does the sum. No guessing.',mcp:'🔌 MCP plugs into a company system.',graph:'🕸️ LangGraph decides where to go next.'};
+async function play(e,t){if($('step').checked){$('nextb').hidden=false;await new Promise(r=>nextR=r);$('nextb').hidden=true;if(t!==tok)return false}
+say(SAY[e.layer]);const s=SY.find(x=>e.title.includes(x[0]))?.[0];for(const p of PATH[e.layer])if(!await hop(p,t))return false;if(s){$('y-'+s).className='hot';await wait(450);if(t!==tok)return false;$('y-'+s).className=e.ok?'ok':'bad'}const last=PATH[e.layer].at(-1);$('l-'+last).classList.remove('ok','bad');$('l-'+last).classList.add(e.ok?'ok':'bad');
+goal({chain:2,tool:4,mcp:5,graph:3}[e.layer]);if(/Understand/.test(e.title))goal(1);
+$('events').insertAdjacentHTML('afterbegin',`<div class="ev ${e.ok?'':'no'}"><b>${e.ok?'':'⛔ '}${esc(e.title)}</b> <span class="tag">recorded${e.layer==='chain'?', '+(e.ms/1000).toFixed(1)+' s':''}</span>${show(e.detail)}${/check the evidence/.test(e.title)&&!e.ok?'<b>🛡️ The AI’s idea had no proof, so the code blocked it.</b>':''}</div>`);await wait(750);return t===tok}
+const key=(c,v)=>R[c+'_'+v]?c+'_'+v:c;
+async function start(c){const t=++tok;cur=null;tower();['events','ask','report','info'].forEach(i=>$(i).innerHTML='');$('nextb').hidden=true;const f=document.querySelector('[name=f]:checked').value,base=R[key(c,f||'approve')],fault=R[c+'_'+f]?f:'';goal(0);document.querySelectorAll('#cases button').forEach(x=>x.classList.toggle('on',x.dataset.c===c));$('stage').scrollIntoView({block:'start'});say('🖥️ “'+base.request+'”');if(!await hop('ui',t,1200))return;
+const cut=base.ask?base.events.findIndex(e=>/^Person said/.test(e.title)):base.events.length-(base.report?1:0);for(const e of base.events.slice(0,cut))if(!await play(e,t))return;
+if(base.ask){cur={c,f:fault,base,cut,t};if(!await hop('graph',t))return;if(!await hop('ui',t))return;say('✋ Everything stops. The whole run is saved. Nothing changes until you decide.');askBox()}else await finish(base,t,base.report?base.events.at(-1):null)}
+function askBox(note=''){const a=cur.base.ask;$('ask').innerHTML=`<div class="ask"><b>✋ You are the operations manager</b><dl><dt>Do this?</dt><dd>${esc(pv(a.action))}</dd><dt>Service</dt><dd>${esc(a.service)}</dd><dt>Why</dt><dd>${esc(a.reason)}</dd><dt>People affected</dt><dd>${a.impact.people.toLocaleString()} (${a.impact.risk} risk)</dd></dl><div class="row"><button class="go" data-d="approve">Approve</button><button data-d="reject">Reject</button><button id="plug">🔌 Cut the power first</button></div>${note}</div>`;$('ask').scrollIntoView({block:'center'})}
+async function decide(d){const{c,f,base,t}=cur;cur=null;if(t!==tok)return;$('ask').innerHTML='';goal(6);let run=base;if(d==='reject')run=R[c+'_reject'];if(d==='reject'&&f==='github'){$('events').insertAdjacentHTML('afterbegin','<div class="ev no"><b>Person said: reject</b> <span class="tag">page rule</span><br>This mix was not recorded. A rejection always ends without a change.</div>');return finish({request:base.request,outcome:'rejected',events:base.events.slice(0,base.events.findIndex(e=>/^Person/.test(e.title)))},t,null)}
+const from=run.events.findIndex(e=>/^Person said/.test(e.title));for(const e of run.events.slice(from,-1))if(!await play(e,t))return;await finish(run,t,run.events.at(-1))}
+async function finish(run,t,rep){if(rep&&!await play({...rep,detail:'The report is ready below.'},t))return;if(!await hop('ui',t))return;document.querySelectorAll('.layer').forEach(x=>x.classList.remove('hot'));const o=run.outcome,e={solved:'🎉','not fixed':'🧑‍🔧',rejected:'✋',refused:'🛑','needs detail':'🤔','no change made':'🟰'}[o];say(`${e} Outcome: ${o}.`);
+const text=run.report,msg={refused:'🛑 Access is never given by the agent. A person must do it.','needs detail':'🤔 Which service? Please say checkout, payroll or email.',rejected:'✋ You said no. Nothing was changed.'}[o];
+$('report').innerHTML=text?`<div class="rep"><h3>📜 Final report: ${esc(o)}</h3>${esc(text)}</div><div class="row"><span class="tag">written by llama3, recorded</span><button id="print">🖨️ Print</button><button id="spot">🔍 Can you trust this report?</button></div><div id="truth"></div>`:`<div class="rep"><h3>${esc(o)}</h3>${esc(msg||'')}</div>`;if(text)goal(7);
+const rd=n=>run.events.find(x=>x.title==='Read from '+n)?.detail;if($('spot'))$('spot').onclick=()=>{const gh=rd('GitHub'),m=rd('Monitoring');$('truth').innerHTML=`<div class="ev"><b>The recorded facts. Compare them line by line:</b>${show({monitoring:m||'-',github:gh||'-',jira:rd('Jira')||'-',outcome:o})}${gh?.error&&/No open ticket/.test(text)?'<p>🚨 <b>Found one!</b> The report says no ticket was found, but Jira returned one above. It also calls 55% memory “high”. The steps were safe, yet the summary was wrong. People should read the facts, not only the story.</p>':'<p>A report is written by the AI, so always check its numbers against the recorded facts.</p>'}</div>`};if($('print'))$('print').onclick=()=>print();
+hist=[{r:run.request,o,n:run.events.length,d:run.decision&&run.ask?run.decision:'-',w:new Date().toLocaleTimeString()},...hist].slice(0,12);store('ops-hist',hist);drawH()}
+function drawH(){$('hist').innerHTML=hist.length?'<tr><th>Time</th><th>Request</th><th>Decision</th><th>Steps</th><th>Outcome</th></tr>'+hist.map(h=>`<tr><td>${esc(h.w)}</td><td>${esc(h.r)}</td><td>${esc(h.d)}</td><td>${h.n}</td><td>${esc(h.o)}</td></tr>`).join(''):'<tr><td>Nothing yet.</td></tr>'}
+$('cases').innerHTML=CASES.map(c=>`<button data-c="${c[0]}">${c[1]} ${esc(R[key(c[0],'approve')].request)}</button>`).join('');$('cases').onclick=e=>{const b=e.target.closest('button');if(b)start(b.dataset.c)};
+$('nextb').onclick=()=>nextR&&nextR();
+$('ask').onclick=async e=>{const b=e.target.closest('button');if(!b||!cur)return;if(b.dataset.d)decide(b.dataset.d);else if(b.id==='plug'){const t=cur.t,r=cur.base.restored;$('ask').innerHTML='';document.querySelectorAll('.layer').forEach(x=>x.className='layer');say('🌑 Power cut. Everything in memory is gone…');await wait(1900);if(t!==tok)return;say('💡 Power back. A brand-new LangGraph reads its saved state from disk…');await wait(1700);if(t!==tok)return;say(`💾 It remembers ${r.events_remembered} steps and is still waiting at “${r.next[0]}”.`);askBox('<p class="tag">recorded: this restart from disk really happened</p>')}};
+$('tower').onclick=e=>{const b=e.target.closest('[data-l]');if(b){const l=L.find(x=>x[0]===b.dataset.l);$('info').innerHTML=`<div class="ev"><b>${l[1]} ${l[2]}</b>: ${l[3]}.<br>❓ <b>Without it?</b> ${l[4]}</div>`}};
+tower();drawH();drawG();say('Choose a request to launch.');
+</script></body></html>

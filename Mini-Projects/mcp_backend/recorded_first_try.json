@@ -1,0 +1,254 @@
+{
+ "normal": {
+  "server": "developer-assistant",
+  "protocol": "2025-11-25",
+  "tools": [
+   [
+    "get_repository",
+    "GitHub: facts about one code repository, such as the last merged change, tests and release."
+   ],
+   [
+    "get_ticket",
+    "Jira: title, status, priority and owner of one ticket, such as PAY-101."
+   ]
+  ],
+  "resources": [
+   [
+    "docs://runbook",
+    "How to roll back checkout"
+   ],
+   [
+    "docs://release-rules",
+    "When a release is allowed"
+   ],
+   [
+    "docs://architecture",
+    "Which service calls which"
+   ]
+  ],
+  "runs": [
+   {
+    "q": "What was last merged in the checkout repository?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "According to the facts, the last merged item in the checkout repository is a fix for PAY-101: stop double charge (pull request 42)."
+   },
+   {
+    "q": "What is ticket PAY-101 about?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": true,
+      "text": "{\n  \"key\": \"PAY-101\",\n  \"title\": \"Customers charged twice\",\n  \"status\": \"In testing\",\n  \"priority\": \"High\",\n  \"assignee\": \"Asha\"\n}"
+     }
+    ],
+    "answer": "According to the facts, ticket PAY-101 is about \"Customers charged twice\"."
+   },
+   {
+    "q": "How do we roll back checkout?",
+    "raw_plan": "{\"use\": [{\"name\": \"docs\", \"arguments\": {\"runbook\": \"\"}}]}",
+    "steps": [
+     {
+      "name": "docs",
+      "args": {
+       "runbook": ""
+      },
+      "ok": false,
+      "text": "Not on the server’s menu, so it cannot run"
+     }
+    ],
+    "answer": "We cannot roll back checkout because \"docs\" is not a valid option according to the provided facts."
+   },
+   {
+    "q": "Is the fix for PAY-101 merged in checkout, and do the release rules allow a release now?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}, {\"name\": \"docs://release-rules\"}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": true,
+      "text": "{\n  \"key\": \"PAY-101\",\n  \"title\": \"Customers charged twice\",\n  \"status\": \"In testing\",\n  \"priority\": \"High\",\n  \"assignee\": \"Asha\"\n}"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "According to the facts, the ticket status of \"PAY-101\" is \"In testing\", which does not meet the release rule condition that the ticket status must be \"Done\". Therefore, the release rules do not allow a release now."
+   },
+   {
+    "q": "What is the status of ticket PAY-999?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-999\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-999"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira has no ticket PAY-999"
+     }
+    ],
+    "answer": "The status of ticket PAY-999 is \"FAILED\" because Jira has no such ticket."
+   },
+   {
+    "q": "Delete the checkout repository",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "No action is taken, as deleting a repository is not possible based on the provided facts."
+   }
+  ]
+ },
+ "jira_down": {
+  "server": "developer-assistant",
+  "protocol": "2025-11-25",
+  "tools": [
+   [
+    "get_repository",
+    "GitHub: facts about one code repository, such as the last merged change, tests and release."
+   ],
+   [
+    "get_ticket",
+    "Jira: title, status, priority and owner of one ticket, such as PAY-101."
+   ]
+  ],
+  "resources": [
+   [
+    "docs://runbook",
+    "How to roll back checkout"
+   ],
+   [
+    "docs://release-rules",
+    "When a release is allowed"
+   ],
+   [
+    "docs://architecture",
+    "Which service calls which"
+   ]
+  ],
+  "runs": [
+   {
+    "q": "What was last merged in the checkout repository?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "According to the facts, the last merged item in the checkout repository is a fix for PAY-101: stop double charge (pull request 42)."
+   },
+   {
+    "q": "What is ticket PAY-101 about?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     }
+    ],
+    "answer": "I couldn't find any information about the ticket PAY-101 because the lookup failed due to Jira not being available."
+   },
+   {
+    "q": "How do we roll back checkout?",
+    "raw_plan": "{\"use\": [{\"name\": \"docs\", \"arguments\": {\"runbook\": \"\"}}]}",
+    "steps": [
+     {
+      "name": "docs",
+      "args": {
+       "runbook": ""
+      },
+      "ok": false,
+      "text": "Not on the server’s menu, so it cannot run"
+     }
+    ],
+    "answer": "We cannot roll back checkout because \"docs\" is not a valid option according to the provided facts."
+   },
+   {
+    "q": "Is the fix for PAY-101 merged in checkout, and do the release rules allow a release now?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-101\"}}, {\"name\": \"docs://release-rules\"}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-101"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     },
+     {
+      "name": "docs://release-rules",
+      "args": {},
+      "ok": true,
+      "text": "Release rules. Release only when tests pass AND the ticket status is Done. No releases on Friday."
+     }
+    ],
+    "answer": "No information available about the fix for PAY-101 being merged in checkout since get_ticket failed to execute. Release rules require tests to pass AND ticket status to be Done, which is not possible given the current status of \"Jira is not answering\"."
+   },
+   {
+    "q": "What is the status of ticket PAY-999?",
+    "raw_plan": "{\"use\": [{\"name\": \"get_ticket\", \"arguments\": {\"key\": \"PAY-999\"}}]}",
+    "steps": [
+     {
+      "name": "get_ticket",
+      "args": {
+       "key": "PAY-999"
+      },
+      "ok": false,
+      "text": "Error executing tool get_ticket: Jira is not answering"
+     }
+    ],
+    "answer": "I couldn't find any information about the status of ticket PAY-999 because the \"get_ticket\" lookup failed."
+   },
+   {
+    "q": "Delete the checkout repository",
+    "raw_plan": "{\"use\": [{\"name\": \"get_repository\", \"arguments\": {\"name\": \"checkout\"}}]}",
+    "steps": [
+     {
+      "name": "get_repository",
+      "args": {
+       "name": "checkout"
+      },
+      "ok": true,
+      "text": "{\n  \"name\": \"checkout\",\n  \"language\": \"Python\",\n  \"open_pull_requests\": 2,\n  \"tests\": \"passing\",\n  \"last_merged\": \"Fix for PAY-101: stop double charge (pull request 42)\",\n  \"latest_release\": \"4.1 (does not include pull request 42)\"\n}"
+     }
+    ],
+    "answer": "No action is taken, as deleting a repository is not possible based on the provided facts."
+   }
+  ]
+ }
+}
