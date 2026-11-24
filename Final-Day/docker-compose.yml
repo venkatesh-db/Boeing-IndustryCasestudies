@@ -1,0 +1,9 @@
+# API + UI in one container; Ollama stays on the laptop
+services:
+  desk:
+    build: .
+    environment:
+      FINALDAY_BASE_URL: http://host.docker.internal:11434/v1
+      FINALDAY_SUPERVISOR_CODE: ${FINALDAY_SUPERVISOR_CODE:-}
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["127.0.0.1:8088:8088"]

@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Embeddings In Depth</title>
+<style>
+:root{--bg:#f6f4f1;--ink:#1d2433;--mut:#5f6675;--line:#e2ddd6;--navy:#0b2545;--ok:#1a8a4a;--bad:#c2410c;--gold:#b7791f;
+--domain:#b7791f;--cx:#d9480f;--product:#7a3fc4;--tech:#1f5fbf;--code:#0f8a7a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17.5px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#0b2545,#b7791f);color:#fff;padding:22px 26px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+header .k{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+header h1{margin:4px 0;font-size:32px}header p{margin:0;opacity:.9;max-width:860px}
+header a{margin-left:auto;color:#fff;border:2px solid #fff9;border-radius:20px;padding:7px 13px;text-decoration:none;font-weight:700;font-size:14px}
+main{max-width:1250px;margin:0 auto;padding:18px}
+.order{display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:10px;font-size:15px}
+.order span{color:#fff;border-radius:8px;padding:3px 10px;font-weight:700}.order i{color:var(--mut);font-style:normal}
+.world{display:grid;grid-template-columns:1.4fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:950px){.world{grid-template-columns:1fr}}
+.world div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:15.5px}
+.probs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:950px){.probs{grid-template-columns:1fr}}
+.pc{background:#fff;border:3px solid var(--line);border-radius:16px;padding:14px;cursor:pointer;transition:all .2s}
+.pc:hover{transform:translateY(-3px)}.pc.on{border-color:var(--navy);box-shadow:0 8px 20px #0b254522}
+.pc .n{font-weight:800;color:var(--mut);font-size:14px}.pc h3{margin:4px 0;font-size:19px}.pc small{color:var(--mut)}
+.path{display:inline-block;background:#eef4ff;color:var(--navy);border-radius:6px;padding:0 7px;font-size:12px;font-weight:800}
+.star{background:var(--gold);color:#fff;border-radius:6px;padding:0 6px;font-size:12px;font-weight:800;margin-left:6px}
+.stepper{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+@media(max-width:950px){.stepper{grid-template-columns:1fr 1fr}}
+.sp{border-radius:12px;padding:10px;text-align:center;font-weight:800;cursor:pointer;border:3px solid var(--line);background:#fff;font-size:15px;position:relative}
+.sp small{display:block;font-weight:500;font-size:12px;color:var(--mut)}
+.sp.on{color:#fff}.sp.on small{color:#ffffffcc}
+.sp.done:after{content:"✓";position:absolute;top:4px;right:8px;font-size:14px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;border-top:8px solid}
+.panel h2{margin:0 0 4px;font-size:26px}
+.q{font-size:15px;color:var(--mut);margin-bottom:8px}
+.words{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px;background:#fbf9f6;border:1px dashed var(--line);border-radius:10px;padding:6px 10px;margin-bottom:12px}
+.words b{color:var(--mut)}
+.chip{border:1px solid #c9c2b8;background:#fff;border-radius:14px;padding:1px 9px;cursor:pointer;font-size:13.5px}
+.term{border-bottom:2px dotted #8a7f70;cursor:help}
+#pop{position:absolute;z-index:50;max-width:320px;background:#0b2545;color:#fff;border-radius:10px;padding:9px 12px;font-size:14.5px;line-height:1.45;box-shadow:0 8px 24px #0006;display:none}
+#pop b{color:#ffd58a}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:950px){.two{grid-template-columns:1fr}}
+.box{background:#f8f6f2;border-radius:12px;padding:12px 14px}
+.box h4{margin:0 0 6px;font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.quote{font:italic 19px/1.5 Georgia,serif;border-left:5px solid var(--cx);background:#fff7f2;border-radius:10px;padding:10px 14px;margin:8px 0}
+.persona{display:flex;gap:14px;align-items:center}.persona .av{font-size:56px}
+.feel{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}.feel div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:15px}
+.pipe{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch;margin:8px 0}
+.pipe div{flex:1;min-width:110px;background:#fff;border:2px solid var(--tech);border-radius:12px;padding:8px;text-align:center;font-size:14px}
+.pipe div b{display:block;font-size:15px}.pipe .a{flex:0;min-width:0;border:0;background:none;align-self:center;color:var(--mut);font-size:20px;padding:0}
+.mono{font:13.5px/1.6 ui-monospace,Menlo,monospace;background:#0f1729;color:#e5ecff;border-radius:10px;padding:10px 12px;white-space:pre-wrap;overflow:auto}
+.mono .c{color:#7fc8ff}.mono .o{color:#9ff0b5}
+.ann{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:start;margin:6px 0;font-size:15px}
+.ann .n{width:26px;height:26px;border-radius:50%;background:var(--code);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+.quiz{margin-top:12px;background:#fff;border:2px dashed var(--line);border-radius:12px;padding:12px}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;margin:5px 0;font-size:15.5px;cursor:pointer}
+.opt.r{border-color:var(--ok);background:#e7f6ec}.opt.w{border-color:var(--bad);background:#fdecea}
+.opt.inl{display:inline-block;width:auto;margin:3px 4px 3px 0;font-size:14.5px;padding:6px 10px}
+.opt.inl.sel{border-color:var(--navy);background:#eef4ff}
+.fb{margin-top:6px;border-radius:8px;padding:8px 10px;font-size:15px}
+.link{margin-top:14px;background:#eef4ff;border-radius:10px;padding:10px 14px;font-size:15.5px}
+.btn{background:var(--navy);color:#fff;border:0;padding:11px 18px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:700;margin-top:12px}
+.mock{background:#fff;border:2px solid var(--product);border-radius:14px;padding:12px}
+.src{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:15px}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl td,.tbl th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+.tbl th{color:var(--mut);font-size:13px}
+.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.doc{border-radius:10px;padding:6px 8px;font-size:13px;border:1px solid var(--line);background:#fff}
+.doc b{display:block;font-size:13.5px}.doc.restricted{background:#fdecea;border-color:#f3b8a8}
+.res{border:2px solid var(--line);border-radius:10px;padding:6px 10px;margin:4px 0;font-size:14.5px;display:flex;gap:8px;align-items:center}
+.res.hit{border-color:var(--ok);background:#e7f6ec}
+.res .rk{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.cite{display:inline-block;background:#eef4ff;color:var(--navy);border-radius:6px;padding:0 6px;font-weight:800;cursor:pointer;margin:0 2px}
+.ans{background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15.5px;white-space:pre-wrap}
+.ans.declined{border-color:#e0a400;background:#fff7e6}
+.ans.danger{border-color:#c2410c;background:#fdecea}
+.gin{width:100%;font-size:15px;padding:9px 11px;border:2px solid var(--line);border-radius:10px;font-family:inherit}
+.metric{display:grid;grid-template-columns:80px 1fr 52px;gap:8px;align-items:center;font-size:14px;margin:4px 0}
+.metric .t{height:18px;background:#eee;border-radius:5px;overflow:hidden}.metric .t i{display:block;height:100%}
+.sum{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:16px;margin-top:16px;display:none}
+.sum.on{display:block;animation:fade .4s}@keyframes fade{from{opacity:0}to{opacity:1}}
+.sum .l{border-left:6px solid;border-radius:8px;padding:6px 10px;margin:6px 0;background:#faf8f5}
+.disc{font-size:13px;color:var(--mut);margin-top:14px}
+.flow{background:#fff;border:2px solid var(--tech);border-radius:14px;padding:12px;margin:8px 0}
+.flow.code{border-color:var(--code)}.flow.code .fl-i{background:var(--code)}
+.flh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}.flh b{font-size:17px}.fl-hint{font-size:13.5px;color:var(--mut)}
+.fl-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:12px;margin-top:6px}
+@media(max-width:950px){.fl-grid{grid-template-columns:1fr}}
+.fl-n{display:grid;grid-template-columns:26px 1fr;gap:8px;border:2px solid var(--line);border-radius:10px;padding:6px 8px;margin:4px 0;cursor:pointer;font-size:14px;background:#fff;transition:all .2s}
+.fl-n code,.fl-card code{font-size:12.5px;background:#eef4ff;color:var(--navy);border-radius:4px;padding:0 4px}
+.fl-n.on{border-color:#e0a400;background:#fff7e6}.fl-n.past{border-color:#bfe3c9}
+.fl-i{width:24px;height:24px;border-radius:50%;background:var(--tech);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.fl-lib{display:inline-block;font-size:11.5px;background:#f1ecfb;color:var(--product);border-radius:5px;padding:0 5px;font-weight:700}
+.fl-does{color:var(--mut);font-size:13.5px}
+.fl-card{background:#f8f6f2;border-radius:12px;padding:10px 12px;position:sticky;top:8px;font-size:14.5px}
+.fl-card h4{margin:2px 0;font-size:17px}.fl-step{font-size:12px;color:var(--mut);font-weight:700;text-transform:uppercase}
+.fl-io{background:#fff;border-left:4px solid var(--tech);border-radius:6px;padding:5px 8px;margin:4px 0;font-size:13.5px;word-break:break-word}.fl-io.out{border-left-color:var(--ok)}
+.fl-io b{font-size:11px;margin-right:6px}
+.keyw{font-size:14px;color:var(--mut);margin:2px 0 8px}
+
+header{background:linear-gradient(120deg,#0b2545,#0f8a7a) !important}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:900px){.levels{grid-template-columns:1fr}}
+.lv{background:#fff;border:3px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .2s}
+.lv:hover{transform:translateY(-3px)}.lv.on{box-shadow:0 8px 20px #0b254522}
+.lv .tag{display:inline-block;border-radius:8px;padding:1px 9px;font-size:12.5px;font-weight:800;color:#fff}
+.lv h3{margin:6px 0 2px;font-size:19px}.lv small{color:var(--mut)}
+.rail{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:6px;flex-wrap:wrap;padding:8px 0;margin-bottom:6px}
+.rail a{text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:10px;padding:4px 10px;font-size:13.5px;font-weight:700}
+.rail a:hover{border-color:var(--navy)}
+.sec{background:#fff;border:1px solid var(--line);border-left:8px solid;border-radius:14px;padding:14px 16px;margin-bottom:12px;scroll-margin-top:60px}
+.sec h2{margin:0 0 6px;font-size:22px}.sec .k2{font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.flowcard{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:6px}
+@media(max-width:950px){.flowcard{grid-template-columns:1fr}}
+.flowcard div{border-radius:12px;padding:10px;font-size:14.5px;color:#fff}
+.flowcard b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.05em;opacity:.9;margin-bottom:2px}
+.sel2{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:700px){.sel2{grid-template-columns:1fr}}
+.sel2 select{width:100%;font-size:15px;padding:7px;border:2px solid var(--line);border-radius:10px}
+.meter{height:26px;background:#eee;border-radius:8px;overflow:hidden;margin:8px 0}.meter i{display:block;height:100%;transition:width .4s}
+.bigscore{font-size:34px;font-weight:900}
+.vec{font:13px ui-monospace,Menlo,monospace;background:#0f1729;color:#9ff0b5;border-radius:10px;padding:8px 10px;word-break:break-all}
+.ia{background:#fff7e6;border:2px solid #e0a400;border-radius:12px;padding:10px 12px;margin-top:8px}
+.ia .weak{background:#fdecea;border-radius:8px;padding:8px 10px;margin:6px 0;font-size:14.5px}
+.ia .strong{background:#e7f6ec;border-radius:8px;padding:8px 10px;margin:6px 0;font-size:14.5px;display:none}
+.calc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}@media(max-width:700px){.calc{grid-template-columns:1fr}}
+.calc label{font-size:13.5px;color:var(--mut)}.calc input,.calc select{width:100%;font-size:15px;padding:6px 8px;border:2px solid var(--line);border-radius:8px}
+.next{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px}
+/* ---------- animated scenes ---------- */
+.stage{position:relative;height:360px;border-radius:16px;overflow:hidden;color:#fff;font-size:14.5px;box-shadow:inset 0 0 0 1px #0002}
+.stage.night{background:radial-gradient(circle at 80% 10%,#ffffff18 0 3%,transparent 3.2%),linear-gradient(180deg,#0b1d3a,#1c3664 70%,#2b2f3a)}
+.stage.day{background:linear-gradient(180deg,#4f8fc9,#9fcbeb 65%,#d9d2c4)}
+.stage.ops{background:linear-gradient(180deg,#1b0a12,#3b1424 65%,#2b2f3a)}
+.cap{position:absolute;left:12px;top:10px;right:12px;background:#000a;padding:5px 11px;border-radius:9px;font-weight:700;font-size:14.5px;z-index:3;transition:background .3s}
+.act{position:absolute;opacity:0;transform:translateY(10px);transition:all .6s}.act.show{opacity:1;transform:none}
+.who{text-align:center;line-height:1.1}.who div{font-size:52px}.who small{font-weight:700;background:#0007;border-radius:6px;padding:0 6px}
+.bub{background:#fff;color:#1d2433;border-radius:12px;padding:7px 10px;font-size:13.5px;font-weight:600;box-shadow:0 4px 12px #0005;max-width:30%}
+.note{background:#fde68a;color:#3b2f00;padding:6px 10px;border-radius:8px;font-size:13.5px;box-shadow:0 4px 10px #0004}
+.tablet{right:12px;top:48px;bottom:12px;width:50%;background:#f8fafc;color:#1d2433;border-radius:14px;border:6px solid #111;padding:8px;font-size:13px;overflow:hidden}
+.tablet .tm{font-weight:800;color:#0b2545;margin-bottom:4px;min-height:18px}
+.tablet .tq{border:2px solid #cbd5e1;border-radius:8px;padding:5px 8px;min-height:30px;font-weight:600;margin-bottom:6px}
+.r2{display:block;padding:5px 7px;border-radius:7px;margin:4px 0;background:#eef2f7;opacity:0;transform:translateX(12px);transition:all .4s}
+.r2.show{opacity:1;transform:none}.r2.ok{background:#dcfce7;border:2px solid #16a34a}.r2.no{background:#fee2e2}.r2.warn{background:#fef3c7;border:2px solid #d97706}
+.r2 b{display:inline-block;min-width:18px}
+.gauge{left:12px;bottom:12px;width:40%;background:#000a;border-radius:9px;padding:5px 9px;font-size:12.5px;font-weight:700}
+.gauge .g{height:10px;background:#ffffff33;border-radius:6px;overflow:hidden;margin-top:3px}.gauge .g i{display:block;height:100%;width:0;transition:all .6s;background:#22c55e}
+.pipe2{left:4%;right:4%;display:flex;gap:6px}
+.pipe2 span{flex:1;background:#ffffffd9;color:#1d2433;border-radius:10px;padding:6px;text-align:center;font-size:12.5px;font-weight:700;transition:all .4s;border:2px solid transparent}
+.pipe2 span.lit{background:#fef3c7;border-color:#d97706;transform:translateY(-3px)}.pipe2 span.done{background:#dcfce7;border-color:#16a34a}
+.lane{left:4%;right:4%;background:#000a;border-radius:10px;padding:7px 10px;font-size:13px}
+.lane .g{height:14px;background:#ffffff33;border-radius:7px;overflow:hidden;margin-top:4px}.lane .g i{display:block;height:100%;width:0;background:#22c55e}
+.chip{background:#fff;color:#1d2433;border-radius:9px;padding:5px 9px;font-size:13px;font-weight:700;box-shadow:0 3px 8px #0004}
+.chip.old{background:#e5e7eb;color:#6b7280}.chip.new{background:#dcfce7}
+.alarm{animation:flash .8s 4}@keyframes flash{50%{background:#dc2626}}
+.sctrl{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.sctrl .hint{font-size:13.5px;color:var(--mut)}
+@media(max-width:700px){.stage{height:540px}.tablet{width:auto;left:12px;top:auto !important;bottom:12px;height:44%}.bub{left:24% !important;right:4% !important;max-width:none !important}.who div{font-size:40px}.cap{font-size:13px}.note{left:36% !important;max-width:60% !important;top:96px !important}.chip{font-size:12px;max-width:80%}.gauge{top:auto;bottom:calc(44% + 22px);left:auto;right:12px;width:46%}.rail{flex-wrap:nowrap;overflow-x:auto}.rail a{white-space:nowrap}.lane{font-size:12px}}
+/* ---------- decide + war room ---------- */
+.dec{border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:#fff}
+.dec h4{margin:0 0 4px;font-size:16px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.dec .rev{display:none;margin-top:6px}
+.inc{border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0;background:#fff}
+.inc .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.inc h4{margin:0;font-size:16.5px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.etag{font-size:11.5px;font-weight:800;border-radius:6px;padding:1px 7px;color:#fff}
+.etag.real{background:#1a8a4a}.etag.code{background:#1f5fbf}.etag.calc{background:#7a3fc4}
+.inc .rev{display:none;margin-top:6px}
+.inc .rev div{margin:3px 0;font-size:14.5px}
+</style>
+</head>
+<body>
+<header><div><div class="k">In depth · Day 4 · RAG & LangChain · topic 1 of 7</div><h1>🧭 Embeddings: meaning as numbers</h1><p><b>Basic</b> makes the concept clear. <b>Intermediate</b> builds better thinking. <b>Advanced</b> is real production. Every level starts with a short animated story, then walks the same clean flow.</p></div><a href="index.html">📚 All topics</a></header>
+<main>
+ <div class="levels" id="levels"></div>
+ <div class="rail" id="rail"></div>
+ <div id="content"></div>
+ <div class="disc">All vectors, similarity scores, search results, metrics, timings and code come from the AeroGuard course project (aeroguard/llm.py, aeroguard/rag, labs/day4), computed on 2026-11-22/23 with a local llama3 model as the embedder. The revision incident was reproduced on the real knowledge base on 2026-11-23. Documents are synthetic training samples; people are fictional.</div>
+</main>
+<div id="pop"></div>
+<script>
+const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
+const W=ms=>new Promise(r=>setTimeout(r,ms));
+/* ---------- glossary ---------- */
+const G={
+ embedding:['Embedding','A list of numbers that captures the MEANING of a text. Similar meaning → similar numbers.'],
+ vector:['Vector','An ordered list of numbers, e.g. 4,096 of them. You can measure angles and distances between vectors.'],
+ dims:['Dimensions','How many numbers are in each vector. llama3 gives 4,096; many embedding models give 384–3,072.'],
+ cosine:['Cosine similarity','The angle between two vectors: 1 = same direction (same meaning), 0 = unrelated.'],
+ dot:['Dot product','Multiply two vectors number by number and add up. For length-1 vectors this IS the cosine.'],
+ normalize:['Normalisation','Scale every vector to length 1, so only the direction (the meaning) counts, not the length.'],
+ chunk:['Chunk','A small piece of a document (~700 characters) that gets its own vector.'],
+ index:['Vector index','A data structure that stores vectors and finds the nearest ones to a question fast (here FAISS).'],
+ faiss:['FAISS','A library from Meta for storing vectors and searching nearest neighbours. Flat = compares with every vector.'],
+ knn:['k-nearest neighbours','The k vectors closest to the question vector: the most similar chunks.'],
+ batch:['Batching','Sending many texts in one API call (here 16) instead of one call per text.'],
+ cache:['Embedding cache','A saved map from sha256(model + text) to its vector, so the same text is never embedded twice.'],
+ hash:['Hash (sha256)','A fixed-length fingerprint of a text. Same text → same fingerprint; used as the cache key.'],
+ pca:['PCA','A way to squash many dimensions into 2 for a picture, keeping the biggest differences. Some detail is lost.'],
+ ann:['ANN (approximate nearest neighbour)','Index types like HNSW or IVF that check only a few candidates: much faster, very slightly less exact.'],
+ hnsw:['HNSW','A graph of "neighbour links" between vectors; search hops through it instead of comparing with everything.'],
+ recallk:['recall@k','Of the test questions, how often the right document is in the top k results.'],
+ mrr:['MRR','How high the first right result ranks, on average. 1.0 = always first.'],
+ evalset:['Evaluation set','A fixed list of questions with known right answers, used to compare settings honestly (lab 4.6 has 25).'],
+ hybrid:['Hybrid search','Combine vector and keyword rankings so you get meaning matches AND exact matches.'],
+ drift:['Model mismatch','Vectors from two different embedding models live in different "spaces" and cannot be compared.'],
+ upsert:['Upsert','"Update or insert": when a document comes back, replace its old chunks instead of adding a second copy.'],
+ lifecycle:['Document lifecycle','Documents are issued, revised, superseded and withdrawn. The index must follow every change.'],
+ superseded:['Superseded revision','An older revision replaced by a newer one. It must no longer be used for maintenance.']};
+const t=(k,w)=>`<span class="term" data-t="${k}">${w||G[k][0]}</span>`;
+function showPop(el,k){const p=$('pop'),g=G[k];if(!g)return;p.innerHTML=`<b>${esc(g[0])}</b><br>${esc(g[1])}`;p.style.display='block';
+ const r=el.getBoundingClientRect();const w=Math.min(320,innerWidth-24);p.style.maxWidth=w+'px';
+ p.style.left=Math.max(12,Math.min(r.left+scrollX,scrollX+innerWidth-w-12))+'px';p.style.top=(r.bottom+scrollY+6)+'px'}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-t]');if(el){e.stopPropagation();showPop(el,el.dataset.t)}else $('pop').style.display='none'});
+
+/* ---------- REAL data ---------- */
+const E={"S": ["Engine 2 vibration high in cruise", "N1 vibration above limits on the right engine", "the engine shakes a lot during cruise", "Engine 1 oil consumption high", "Low engine oil pressure indication", "Hydraulic pump pressure fluctuating", "Brake 2 wear pin at limit", "Main gear tire cut found on walkaround", "Weather radar intermittent", "ADIRU 1 fault message after power-up", "Cabin too warm, pack 2 flow low", "What is the capital of France?"], "C": [[1.0, 0.58, 0.834, 0.61, 0.522, 0.575, 0.522, 0.355, 0.405, 0.588, 0.356, 0.331], [0.58, 1.0, 0.498, 0.538, 0.546, 0.523, 0.553, 0.414, 0.383, 0.505, 0.357, 0.253], [0.834, 0.498, 1.0, 0.565, 0.458, 0.528, 0.524, 0.364, 0.392, 0.494, 0.373, 0.276], [0.61, 0.538, 0.565, 1.0, 0.629, 0.66, 0.608, 0.43, 0.467, 0.551, 0.607, 0.322], [0.522, 0.546, 0.458, 0.629, 1.0, 0.641, 0.581, 0.305, 0.484, 0.634, 0.349, 0.304], [0.575, 0.523, 0.528, 0.66, 0.641, 1.0, 0.559, 0.322, 0.529, 0.62, 0.419, 0.26], [0.522, 0.553, 0.524, 0.608, 0.581, 0.559, 1.0, 0.488, 0.432, 0.504, 0.51, 0.297], [0.355, 0.414, 0.364, 0.43, 0.305, 0.322, 0.488, 1.0, 0.341, 0.292, 0.511, 0.122], [0.405, 0.383, 0.392, 0.467, 0.484, 0.529, 0.432, 0.341, 1.0, 0.508, 0.371, 0.21], [0.588, 0.505, 0.494, 0.551, 0.634, 0.62, 0.504, 0.292, 0.508, 1.0, 0.271, 0.367], [0.356, 0.357, 0.373, 0.607, 0.349, 0.419, 0.51, 0.511, 0.371, 0.271, 1.0, 0.094], [0.331, 0.253, 0.276, 0.322, 0.304, 0.26, 0.297, 0.122, 0.21, 0.367, 0.094, 1.0]], "P": [[-0.2, 0.2129], [-0.0154, 0.1084], [-0.1126, 0.2003], [0.0962, 0.0823], [-0.1788, 0.1676], [-0.1036, 0.2558], [0.1525, -0.0188], [0.5633, -0.2721], [0.0216, 0.0393], [-0.3292, 0.1145], [0.5987, -0.1193], [-0.4926, -0.7709]], "first5": [-0.0214, 0.0049, 0.0256, 0.0051, 0.0121]};/* 12 sentences embedded with llama3 via aeroguard.llm.embed */
+const PERF=[{size:300,chunks:42,vector:[0.64,0.36],keyword:[1.0,0.96],hybrid:[0.92,0.70]},{size:700,chunks:17,vector:[0.52,0.22],keyword:[1.0,0.93],hybrid:[0.76,0.61]},{size:1200,chunks:12,vector:[0.44,0.24],keyword:[1.0,0.95],hybrid:[0.88,0.65]}];/* lab4_6, 25 questions */
+const FLOWS={"cB": {"scen": [{"name": "Two sentences → one score", "nodes": [{"d": 0, "f": "aeroguard/llm.py:167", "fn": "embed(texts)", "lib": "openai SDK · embeddings API (llama3 via Ollama in this run)", "does": "One call sends the texts and returns one vector per text.", "inp": "['Engine 2 vibration high in cruise', 'N1 vibration above limits on the right engine', 'Brake wear pin at limit']", "out": "3 vectors × 4,096 numbers", "code": "with tracing.span(\"llm.embed\", model=s.embed_model, count=len(texts)), friendly_errors():\n    resp = client().embeddings.create(model=s.embed_model, input=texts)\nreturn [d.embedding for d in resp.data]", "why": ""}, {"d": 0, "f": "labs/day4/lab4_1_embeddings_hybrid.py:20", "fn": "np.array(llm.embed(sentences))", "lib": "NumPy", "does": "Stacks the vectors into a matrix.", "inp": "3 vectors", "out": "matrix 3 × 4,096", "code": "", "why": ""}, {"d": 0, "f": "labs/day4/lab4_1_embeddings_hybrid.py:21", "fn": "vectors /= np.linalg.norm(...)", "lib": "NumPy", "does": "Scales every vector to length 1, so only the direction counts.", "inp": "matrix", "out": "3 unit vectors", "code": "vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)", "why": ""}, {"d": 0, "f": "labs/day4/lab4_1_embeddings_hybrid.py:22", "fn": "vectors @ vectors.T", "lib": "NumPy", "does": "Dot product of every pair = cosine similarity, because all lengths are 1.", "inp": "3 unit vectors", "out": "[[1.0, 0.58, 0.58], [0.58, 1.0, 0.57], [0.58, 0.57, 1.0]]", "code": "print(\"cosine similarity matrix:\\n\", (vectors @ vectors.T).round(2))", "why": "Real lab output. The vibration pair (0.58) is no closer than vibration vs brake (0.58): see the Advanced level."}]}], "output": "cosine similarity matrix:\n [[1.   0.58 0.58]\n [0.58 1.   0.57]\n [0.58 0.57 1.  ]]"}, "cI": {"scen": [{"name": "Build the index, then search it", "nodes": [{"d": 0, "f": "aeroguard/rag/store.py:96", "fn": "build(chunk_size=700, chunk_overlap=100)", "lib": "", "does": "Load, split, embed and index all documents.", "inp": "data/docs (12 files)", "out": "KnowledgeBase", "code": "kb = KnowledgeBase(split(load_directory(DOCS_DIR), chunk_size, chunk_overlap),\n                   CachedEmbeddings(use_cache))", "why": ""}, {"d": 1, "f": "aeroguard/rag/ingest.py:56", "fn": "split(docs, 700, 100)", "lib": "LangChain RecursiveCharacterTextSplitter", "does": "Section-aware chunks, each prefixed with [doc_id].", "inp": "12 documents", "out": "17 chunks", "code": "", "why": ""}, {"d": 1, "f": "aeroguard/rag/store.py:46", "fn": "KnowledgeBase.add(chunks)", "lib": "FAISS", "does": "Builds the vector index with normalised vectors.", "inp": "17 chunks", "out": "FAISS index (17 × 4,096)", "code": "self.vectors = FAISS.from_documents(chunks, self.embeddings, normalize_L2=True)", "why": ""}, {"d": 2, "f": "aeroguard/rag/embeddings.py:31", "fn": "CachedEmbeddings.embed_documents(texts)", "lib": "hashlib · json", "does": "Looks up every text in the cache; embeds only the missing ones, 16 per call; saves the cache.", "inp": "17 texts", "out": "17 vectors", "code": "keys = [self._key(t) for t in texts]\nmissing = [i for i, k in enumerate(keys) if not (self.use_cache and k in self._cache)]\nfor start in range(0, len(missing), BATCH):   # BATCH = 16\n    batch = missing[start:start + BATCH]\n    for i, vector in zip(batch, llm.embed([texts[i] for i in batch])):\n        new[keys[i]] = vector", "why": ""}, {"d": 3, "f": "aeroguard/rag/embeddings.py:28", "fn": "_key(text)", "lib": "hashlib sha256", "does": "The cache key includes the model name.", "inp": "text", "out": "sha256(model + text)", "code": "return hashlib.sha256(f\"{self.model}\\n{text}\".encode()).hexdigest()", "why": "A different model gives a different key, so old vectors are never reused by mistake."}, {"d": 3, "f": "aeroguard/llm.py:167", "fn": "embed(batch)", "lib": "openai SDK", "does": "Only for cache misses.", "inp": "up to 16 texts", "out": "vectors", "code": "", "why": "Real timing: build 9.8 s without the cache, 0.13 s with it."}, {"d": 0, "f": "aeroguard/rag/store.py:57", "fn": "search(question, k=4)", "lib": "FAISS similarity_search_with_score", "does": "Embeds the question (cache first), then compares it with every stored vector (flat index).", "inp": "'the engine shakes a lot during cruise'", "out": "top 20 chunks by meaning, e.g. #2 AMM 72-00-00 TS-801", "code": "for doc, _ in self.vectors.similarity_search_with_score(query, k=depth):\n    vector_ranked.append(doc.metadata[\"chunk_id\"])", "why": ""}, {"d": 0, "f": "aeroguard/routers/rag.py:21", "fn": "POST /upload → get_kb().add(chunks)", "lib": "FastAPI + FAISS", "does": "A new bulletin is embedded and added to the live index.", "inp": "SB-0C37_pitot.md", "out": "1 chunk, searchable immediately", "code": "", "why": ""}]}], "output": ""}, "cP": {"scen": [{"name": "A · A revision enters the index (real code today)", "nodes": [{"d": 0, "f": "aeroguard/routers/rag.py:21", "fn": "upload(file)", "lib": "FastAPI UploadFile", "does": "Rev 2 arrives under a new file name and is saved.", "inp": "pitot_sb_rev2.md", "out": "storage/uploads/pitot_sb_rev2.md", "code": "", "why": ""}, {"d": 1, "f": "aeroguard/rag/ingest.py:28", "fn": "load_file(path)", "lib": "LangChain TextLoader", "does": "Reads the front matter: the doc_id is the SAME as Rev 1.", "inp": "pitot_sb_rev2.md", "out": "doc_id 'Service Bulletin SB-7Q21'", "code": "", "why": ""}, {"d": 1, "f": "aeroguard/routers/rag.py:37", "fn": "chunk_id = 'upload:' + file#index", "lib": "", "does": "The chunk id is built from the FILE name, not the document id.", "inp": "", "out": "'upload:pitot_sb_rev2.md#0' (Rev 1 was 'upload:pitot_sb.md#0')", "code": "chunk.metadata[\"chunk_id\"] = f\"upload:{chunk.metadata['chunk_id']}\"", "why": ""}, {"d": 1, "f": "aeroguard/rag/store.py:53", "fn": "KnowledgeBase.add(chunks)", "lib": "FAISS", "does": "Append only: nothing looks for an older revision of the same doc_id.", "inp": "1 chunk", "out": "18 → 19 chunks; Rev 1 still searchable", "code": "self.vectors.add_documents(chunks)\nself.chunks = self.chunks + chunks", "why": ""}, {"d": 0, "f": "aeroguard/rag/store.py:71", "fn": "search(...)", "lib": "FAISS + rank_bm25", "does": "Both revisions are separate entries, so both are ranked.", "inp": "'Under Service Bulletin SB-7Q21, when must the pitot probe be replaced?'", "out": "#1 Rev 1 · 45 Ω (0.0315) · #3 Rev 2 · 40 Ω (0.0311)", "code": "by_id = {c.metadata[\"chunk_id\"]: c for c in self.chunks}", "why": "With the SAME file name, both copies share one chunk_id, this dictionary keeps only the last one, and Rev 2 wins by luck. Correct by luck is not correct by design."}, {"d": 0, "f": "proposed · rag/store.py", "fn": "upsert_document(doc_id, chunks)", "lib": "FAISS add_documents(ids=…) + delete(ids)", "does": "PROPOSED FIX, not in the course code yet: before adding, remove every chunk with the same doc_id; add new chunks with their ids so they can be deleted later.", "inp": "Rev 2 chunks", "out": "only Rev 2 searchable; Rev 1 moved to an archive", "code": "old = [cid for cid, c in by_id.items() if c.metadata[\"doc_id\"] == doc_id]\nself.vectors.delete(old)\nself.chunks = [c for c in self.chunks if c.metadata[\"doc_id\"] != doc_id]\nself.vectors.add_documents(chunks, ids=[c.metadata[\"chunk_id\"] for c in chunks])", "why": "Add a test: upload Rev 1, upload Rev 2, assert that only Rev 2 is returned."}]}, {"name": "B · The evaluation gate (lab 4.6)", "nodes": [{"d": 0, "f": "labs/day4/lab4_6_performance.py:21", "fn": "EVAL = [...]", "lib": "", "does": "25 real questions, each with the document that should be found.", "inp": "", "out": "e.g. ('Engine vibration troubleshooting procedure and borescope inspection', 'AMM 72-00-00 TS-801')", "code": "EVAL = [\n    (\"What must be done if N1 vibration exceeds 3.0 units on a 737-800?\", \"AD 2026-TR-0101\"),\n    ...\n    (\"AD 2026-TR-0104\", \"AD 2026-TR-0104\"),\n    ...\n]\nassert len(EVAL) == 25", "why": ""}, {"d": 0, "f": "labs/day4/lab4_6_performance.py:66", "fn": "for size, overlap in [(300, 50), (700, 100), (1200, 150)]", "lib": "", "does": "Rebuild the index for each chunk size (vectors come from the cache).", "inp": "3 settings", "out": "3 knowledge bases", "code": "kb = build(chunk_size=size, chunk_overlap=overlap)", "why": ""}, {"d": 1, "f": "labs/day4/lab4_6_performance.py:51", "fn": "evaluate(kb, mode, k=4)", "lib": "", "does": "Search each question; is the right document in the top 4, and at which rank?", "inp": "25 questions × mode", "out": "recall@4 · MRR · p50 ms", "code": "ids = [h.doc.metadata[\"doc_id\"] for h in kb.search(question, k=k, mode=mode)]\nif expected in ids:\n    found += 1\n    rr += 1 / (ids.index(expected) + 1)", "why": ""}, {"d": 1, "f": "labs/day4/lab4_6_performance.py", "fn": "results (700-char chunks)", "lib": "", "does": "Vector alone is weakest on this set.", "inp": "", "out": "vector 0.52 / 0.22 · keyword 1.00 / 0.93 · hybrid 0.76 / 0.61", "code": "", "why": ""}, {"d": 0, "f": "labs/day4/lab4_6_performance.py:75", "fn": "best hybrid setting by MRR", "lib": "", "does": "Picks the winning chunk size for hybrid search.", "inp": "all results", "out": "hybrid, 300 chars: recall 0.92, MRR 0.70", "code": "", "why": ""}, {"d": 0, "f": "labs/day4/lab4_6_performance.py:83", "fn": "build(use_cache=False) vs build(use_cache=True)", "lib": "", "does": "Times the index build cold and warm.", "inp": "", "out": "9.8 s cold · 0.13 s cached", "code": "", "why": "Run this gate before every model, chunking or index change. Add the revision test from scenario A to it."}]}], "output": ""}};
+/* playable flow: every step = file:line · function · library · real IN/OUT · real code */
+function flowUI(k,title,hint,kind){const F=FLOWS[k];return `<div class="flow ${kind||''}" data-fk="${k}"><div class="flh"><b>${title}</b><span class="fl-hint">${hint}</span></div>${F.scen.length>1?`<div style="margin-top:4px">${F.scen.map((x,i)=>`<button class="opt inl fl-sc" data-sc="${i}">${esc(x.name)}</button>`).join('')}</div>`:''}<div><button class="opt inl fl-play">▶ Play the flow</button><button class="opt inl fl-next">⏭ Next step</button></div><div class="fl-grid"><div class="fl-list"></div><div class="fl-det"></div></div>${F.output?`<div class="mono" style="margin-top:8px"><span class="o">▶ real output:\n${esc(F.output)}</span></div>`:''}</div>`}
+function flowInit(k){const root=document.querySelector(`.flow[data-fk="${k}"]`);if(!root)return;const F=FLOWS[k];let sc=0,cur=-1,tok=0;
+ const list=root.querySelector('.fl-list'),det=root.querySelector('.fl-det');const stop=()=>{tok++};
+ const draw=()=>{const ns=F.scen[sc].nodes;
+  list.innerHTML=ns.map((x,i)=>`<div class="fl-n ${i===cur?'on':''} ${i<cur?'past':''}" data-n="${i}" style="margin-left:${x.d*16}px"><span class="fl-i">${i+1}</span><div><code>${esc(x.f)}</code> <b>${esc(x.fn)}</b>${x.lib?` <span class="fl-lib">${esc(x.lib)}</span>`:''}<div class="fl-does">${esc(x.does)}</div></div></div>`).join('');
+  list.querySelectorAll('.fl-n').forEach(el=>el.onclick=()=>{stop();cur=+el.dataset.n;draw()});
+  root.querySelectorAll('.fl-sc').forEach(b=>b.classList.toggle('sel',+b.dataset.sc===sc));
+  const x=ns[cur];det.innerHTML=x?`<div class="fl-card"><div class="fl-step">Step ${cur+1} of ${ns.length}</div><code>${esc(x.f)}</code><h4>${esc(x.fn)}</h4>${x.lib?`<div><b>Library:</b> ${esc(x.lib)}</div>`:''}<div style="margin:6px 0">${esc(x.does)}</div>${x.inp?`<div class="fl-io"><b>IN</b>${esc(x.inp)}</div>`:''}${x.out?`<div class="fl-io out"><b>OUT</b>${esc(x.out)}</div>`:''}${x.code?`<div class="mono" style="font-size:12.5px;margin-top:6px">${esc(x.code)}</div>`:''}${x.why?`<div class="fb" style="background:#fff7e6;font-size:14px">💡 ${esc(x.why)}</div>`:''}</div>`:`<div class="fl-card" style="color:var(--mut)">👈 Tap a step, or press ▶ Play to follow it from start to finish. Each step shows the file, the library, and the real data going in and out.</div>`};
+ root.querySelectorAll('.fl-sc').forEach(b=>b.onclick=()=>{stop();sc=+b.dataset.sc;cur=-1;draw()});
+ root.querySelector('.fl-next').onclick=()=>{stop();cur=Math.min(cur+1,F.scen[sc].nodes.length-1);draw()};
+ root.querySelector('.fl-play').onclick=async()=>{const my=++tok;for(let i=0;i<F.scen[sc].nodes.length;i++){if(my!==tok||!document.body.contains(root))return;cur=i;draw();await new Promise(r=>setTimeout(r,1700))}};
+ draw()}
+
+
+/* ---------- scene player: short animated stories built from real results ---------- */
+let sceneTok=0;
+const S={
+ cap:(t,alarm)=>{const c=$('cap');c.innerHTML=t;c.classList.toggle('alarm',!!alarm)},
+ show:id=>$(id)&&$(id).classList.add('show'), hide:id=>$(id)&&$(id).classList.remove('show'),
+ say:(id,t)=>{const b=$(id);b.innerHTML=t;b.classList.add('show')},
+ gauge:(p,label)=>{const g=$('gi');g.style.width=p+'%';g.style.background=p>60?'#ef4444':p>35?'#f59e0b':'#22c55e';if(label)$('gl').textContent=label},
+ async type(id,text,my){const el=$(id);el.textContent='';for(const ch of text){if(my!==sceneTok)return;el.textContent+=ch;await W(26)}},
+ async list(id,items,my){const el=$(id);el.innerHTML='';for(const [txt,cls] of items){if(my!==sceneTok)return;const d=document.createElement('div');d.className='r2 '+(cls||'');d.innerHTML=txt;el.appendChild(d);await W(40);d.classList.add('show');await W(520)}}};
+async function playScene(sc){const my=++sceneTok;const st=$('stage');if(!st)return;st.className='stage '+sc.cls;st.innerHTML=sc.html;$('sbtn').textContent='⏸ Playing…';
+ for(const step of sc.steps){if(my!==sceneTok||!document.body.contains(st))return;await step(my)}
+ if(my===sceneTok&&$('sbtn'))$('sbtn').textContent='↺ Replay the story'}
+function sceneBox(note){return `<div class="stage" id="stage"></div><div class="sctrl"><button class="btn" id="sbtn" style="margin:0">▶ Play the story</button><span class="hint">${note}</span></div>`}
+
+const SCENES={
+/* BASIC: 02:07 at the gate. Real lab 4.1 results for the query "the engine shakes a lot during cruise". */
+b:{cls:'night',html:`<div class="cap" id="cap"></div>
+ <div class="act who" id="plane" style="left:4%;top:50px"><div style="font-size:60px">✈️</div><small>N123AB · departs 06:00</small></div>
+ <div class="act note" id="note" style="left:23%;top:58px;max-width:24%">📝 Crew report<br><b>"Engine 2 shakes a lot in cruise"</b></div>
+ <div class="act who" id="ravi" style="left:6%;top:178px"><div>👷</div><small>Ravi</small></div>
+ <div class="act bub" id="bub" style="left:20%;top:176px"></div>
+ <div class="act gauge" id="gauge"><span id="gl">Ravi’s stress</span><div class="g"><i id="gi"></i></div></div>
+ <div class="act tablet" id="tab"><div class="tm" id="tm">🔎 AeroGuard search</div><div class="tq" id="tq"></div><div id="tr"></div></div>`,
+ steps:[
+  async()=>{S.cap('🌙 02:07 · Gate 14 · N123AB must depart at 06:00');S.show('plane');S.show('gauge');S.gauge(20);await W(1300)},
+  async()=>{S.show('note');await W(1300)},
+  async()=>{S.show('ravi');S.say('bub','Engine shakes in cruise… which manual chapter do I open?');S.gauge(35);await W(1800)},
+  async(my)=>{S.show('tab');await W(500);await S.type('tq','the engine shakes a lot during cruise',my);await W(500)},
+  async(my)=>{$('tm').textContent='🔤 Word search: matches the words he typed';await S.list('tr',[['<b>1</b> AMM 79-31-00 · Low oil pressure','no'],['<b>2</b> 14 CFR 121 · Maintenance programme','no'],['<b>3</b> AD 2026-TR-0101 · Fan blade inspection','no']],my);S.gauge(82);S.say('bub','Oil pressure? Regulations? None of this is about shaking! 😩');await W(2400)},
+  async(my)=>{$('tm').textContent='🧭 Meaning search: embeddings';await S.list('tr',[['<b>1</b> AMM 29-11-00 · Hydraulic pressure fluctuation',''],['<b>2</b> AMM 72-00-00 · Engine high vibration troubleshooting ✅','ok'],['<b>3</b> AMM 32-42-00 · Brake wear & nose gear shimmy','']],my);S.gauge(25);S.say('bub','"Engine high vibration": that’s exactly my problem! 😮‍💨');await W(2400)},
+  async()=>{S.cap(`💡 He said <i>shakes</i>. The manual says <i>vibration</i>. Different words, same meaning → close vectors (cosine ${E.C[2][0].toFixed(2)}).`);await W(400)}]},
+/* INTERMEDIATE: upload at 16:00, question at 18:00, restart at 23:30. Real lab 4.4 + lab 4.6 numbers. */
+i:{cls:'day',html:`<div class="cap" id="cap"></div>
+ <div class="act who" id="nadia" style="left:4%;top:52px"><div>👩‍💼</div><small>Nadia</small></div>
+ <div class="act bub" id="bubN" style="left:16%;top:56px"></div>
+ <div class="act chip" id="file" style="left:52%;top:66px">📄 SB-0C37_pitot.md</div>
+ <div class="act pipe2" id="pipe" style="top:140px"><span id="p1">✂️ split</span><span id="p2">🧭 embed (batch)</span><span id="p3">🔐 cache</span><span id="p4">📚 index</span></div>
+ <div class="act" id="qa" style="left:4%;right:4%;top:196px;background:#ffffffe6;color:#1d2433;border-radius:12px;padding:8px 10px;font-size:13.5px"><b>👷 Ravi:</b> <span id="q"></span><div id="a" style="margin-top:6px"></div></div>
+ <div class="act lane" id="l1" style="top:200px"><b>Restart without a cache</b>: re-embed all 17 chunks <span id="l1t"></span><div class="g"><i id="l1g"></i></div></div>
+ <div class="act lane" id="l2" style="top:262px"><b>Restart with the cache</b>: 17 cache hits <span id="l2t"></span><div class="g"><i id="l2g"></i></div></div>
+ <div class="act bub" id="bubR" style="right:4%;top:318px;max-width:40%"></div>`,
+ steps:[
+  async()=>{S.cap('☀️ 16:00 · Nadia receives a new service bulletin');S.show('nadia');S.say('bubN','The 18:00 shift needs this tonight.');await W(1500)},
+  async()=>{S.show('file');S.show('pipe');await W(900)},
+  async()=>{for(const [id,txt] of [['p1','✂️ split: 1 chunk'],['p2','🧭 embed: 1 call'],['p3','🔐 cache: sha256(model + text)'],['p4','📚 index: 17 → 18 chunks']]){$(id).textContent=txt;$(id).className='lit';await W(750);$(id).className='done'}await W(600)},
+  async(my)=>{S.cap('🕕 18:00 · Ravi starts his shift');S.hide('nadia');S.hide('bubN');S.hide('file');S.show('qa');await S.type('q','Under SB-0C37, when must the pitot probe be replaced?',my);await W(700);$('a').innerHTML='🤖 According to <b>[S1] Service Bulletin SB-0C37</b>, the pitot probe should be replaced if its resistance is above <b>45 ohms</b>. ✅ <i>(cited 2 hours after upload)</i>';await W(2600)},
+  async()=>{S.cap('⚡ 23:30 · The server restarts');S.hide('qa');S.hide('pipe');S.show('l1');S.show('l2');await W(500);
+   const g1=$('l1g'),g2=$('l2g');g2.style.transition='width .15s';g2.style.width='100%';$('l2t').textContent='· 0.13 s (real)';g1.style.transition='width 3.2s linear';g1.style.width='100%';
+   S.say('bubR','👷 "It’s back already?" (with the cache)');await W(3300);$('l1t').textContent='· 9.8 s (real)';await W(1200)},
+  async()=>{S.cap('🤔 Every step above was an engineering decision. Make them yourself in step 4 ↓');await W(300)}]},
+/* ADVANCED: a superseded revision answers. Reproduced on the real knowledge base, 2026-11-23. */
+a:{cls:'ops',html:`<div class="cap" id="cap"></div>
+ <div class="act who" id="nadia" style="left:4%;top:50px"><div>👩‍💼</div><small>Nadia</small></div>
+ <div class="act chip old" id="r1" style="left:16%;top:56px">📄 SB-7Q21 <b>Rev 1</b> · replace above <b>45 Ω</b> (in the index since last month)</div>
+ <div class="act chip new" id="r2" style="left:16%;top:98px">📄 SB-7Q21 <b>Rev 2</b> · replace above <b>40 Ω</b> · pitot_sb_rev2.md</div>
+ <div class="act chip" id="idx" style="left:16%;top:140px">📚 Index: 19 chunks · Rev 1 ✔ still there · Rev 2 ✔ added</div>
+ <div class="act who" id="ravi" style="left:4%;top:196px"><div>👷</div><small>Ravi · 🔧 42 Ω</small></div>
+ <div class="act bub" id="bub" style="left:17%;top:200px;max-width:30%"></div>
+ <div class="act tablet" id="tab" style="top:186px"><div class="tm" id="tm">🔎 AeroGuard search</div><div class="tq" id="tq"></div><div id="tr"></div></div>
+ <div class="act gauge" id="gauge"><span id="gl">Risk</span><div class="g"><i id="gi"></i></div></div>`,
+ steps:[
+  async()=>{S.cap('🗓️ Monday 09:00 · Revision 2 of SB-7Q21 arrives: the limit drops from 45 Ω to 40 Ω');S.show('nadia');S.show('gauge');S.gauge(10,'Risk');S.show('r1');await W(1300);S.show('r2');await W(1300)},
+  async()=>{S.show('idx');await W(1800)},
+  async()=>{S.cap('🌙 Monday 23:10 · Ravi measures the pitot heater: 42 Ω');S.hide('r1');S.hide('r2');S.hide('idx');S.hide('nadia');S.show('ravi');S.say('bub','42 Ω. Do I replace it? Let me check the bulletin.');await W(1600)},
+  async(my)=>{S.show('tab');await W(400);await S.type('tq','Under Service Bulletin SB-7Q21, when must the pitot probe be replaced?',my);await W(400)},
+  async(my)=>{$('tm').textContent='🧭 Hybrid search: real top 4';await S.list('tr',[['<b>1</b> SB-7Q21 <b>Rev 1</b> · above 45 Ω · score 0.0315','no'],['<b>2</b> 14 CFR 43.9 · records · 0.0313',''],['<b>3</b> SB-7Q21 <b>Rev 2</b> · above 40 Ω · 0.0311','warn'],['<b>4</b> AMM 29-11-00 · 0.0303','']],my);await W(900)},
+  async()=>{S.cap('🚨 The superseded revision ranked FIRST, by 0.0004',true);S.gauge(92,'Risk');S.say('bub','🧑‍✈️ Meena: "42 Ω passes under Rev 1 but FAILS under Rev 2. That probe must be replaced!"');await W(3200)},
+  async()=>{S.cap('🔍 Root cause: uploads only append (store.py:54). Nothing marks Rev 1 as superseded. Fix it in the war room, step 4 ↓');S.gauge(45,'Risk');await W(300)}]}};
+
+/* ---------- other interactive pieces ---------- */
+const COL={b:'#1a8a4a',i:'#b7791f',a:'#c2410c'};
+function pairUI(){const o=E.S.map((s,i)=>`<option value="${i}">${esc(s)}</option>`).join('');return `<div class="sel2"><select id="pa">${o}</select><select id="pb">${o}</select></div><div style="margin:6px 0">${[[2,0,'paraphrase'],[1,0,'jargon'],[6,0,'brake vs engine'],[11,0,'off-topic']].map(([a,b,l])=>`<button class="opt inl" data-pp="${a},${b}">${l}</button>`).join('')}</div><div id="pres"></div>`}
+function pairRun(){const a=+$('pa').value,b=+$('pb').value,c=E.C[a][b];const col=c>=0.75?'#1a8a4a':c>=0.5?'#e0a400':'#c2410c';
+ const txt=a===b?'The same sentence: identical vector, cosine 1.0.':c>=0.75?'Very close in meaning: a search for one finds the other.':c>=0.5?'Somewhat related (here: both maintenance write-ups). Not a clear match.':'Unrelated meaning.';
+ $('pres').innerHTML=`<div class="bigscore" style="color:${col}">${c.toFixed(2)}</div><div class="meter"><i style="width:${Math.max(0,c)*100}%;background:${col}"></i></div><div>${txt}</div>`}
+function mapUI(){return `<svg id="map" viewBox="0 0 560 330" style="width:100%;height:auto;background:#fff;border-radius:12px;border:1px solid var(--line)"></svg><div id="mres" class="fb" style="background:#f3f1ed">👆 Tap a dot to see its 3 nearest neighbours (real cosine scores, measured in all 4,096 dimensions).</div>`}
+function mapRun(sel){const Wd=560,H=330,pad=40;const xs=E.P.map(p=>p[0]),ys=E.P.map(p=>p[1]);const [x0,x1,y0,y1]=[Math.min(...xs),Math.max(...xs),Math.min(...ys),Math.max(...ys)];
+ const X=x=>pad+(x-x0)/(x1-x0)*(Wd-2*pad),Y=y=>H-pad-(y-y0)/(y1-y0)*(H-2*pad);let s='';
+ if(sel!=null){const nn=E.C[sel].map((c,j)=>[c,j]).filter(([c,j])=>j!==sel).sort((a,b)=>b[0]-a[0]).slice(0,3);
+  nn.forEach(([c,j])=>{s+=`<line x1="${X(E.P[sel][0])}" y1="${Y(E.P[sel][1])}" x2="${X(E.P[j][0])}" y2="${Y(E.P[j][1])}" stroke="#e0a400" stroke-width="3"/><text x="${(X(E.P[sel][0])+X(E.P[j][0]))/2}" y="${(Y(E.P[sel][1])+Y(E.P[j][1]))/2-4}" font-size="12" font-weight="700" fill="#8a5a00">${c.toFixed(2)}</text>`});
+  $('mres').innerHTML=`<b>${esc(E.S[sel])}</b> → nearest: `+nn.map(([c,j])=>`${esc(E.S[j])} (<b>${c.toFixed(2)}</b>)`).join(' · ')}
+ E.P.forEach((p,i)=>{const on=i===sel;s+=`<g data-m="${i}" style="cursor:pointer"><circle cx="${X(p[0])}" cy="${Y(p[1])}" r="${on?10:7}" fill="${i===11?'#c2410c':on?'#0b2545':'#1f5fbf'}" opacity=".9"/><text x="${X(p[0])+10}" y="${Y(p[1])+4}" font-size="11" fill="#1d2433">${esc(E.S[i].length>30?E.S[i].slice(0,29)+'…':E.S[i])}</text></g>`});
+ $('map').innerHTML=s;document.querySelectorAll('#map [data-m]').forEach(g=>g.onclick=()=>mapRun(+g.dataset.m))}
+function calcUI(){return `<div class="calc"><div><label>Chunks to index</label><input id="cn" type="number" value="1000000" min="1"></div><div><label>Dimensions per vector</label><select id="cd"><option value="4096">4,096 (llama3, this run)</option><option value="1536" selected>1,536</option><option value="768">768</option><option value="384">384</option></select></div><div><label>Number format</label><select id="cb"><option value="4">float32 (4 bytes)</option><option value="2">float16 (2 bytes)</option><option value="1">int8 (1 byte)</option></select></div></div><div id="cres"></div>`}
+function calcRun(){const n=+$('cn').value||0,d=+$('cd').value,b=+$('cb').value;const bytes=n*d*b;const fmt=x=>x>=1e9?(x/1e9).toFixed(2)+' GB':x>=1e6?(x/1e6).toFixed(1)+' MB':(x/1e3).toFixed(1)+' KB';
+ $('cres').innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-top:8px"><div class="fb" style="background:#eef4ff;margin:0">Raw vectors<br><b style="font-size:24px">${fmt(bytes)}</b></div><div class="fb" style="background:#eef4ff;margin:0">Multiplications per query, flat index<br><b style="font-size:24px">${(n*d).toLocaleString()}</b></div><div class="fb" style="background:#eef4ff;margin:0">Our AeroGuard index today<br><b style="font-size:24px">${fmt(17*4096*4)}</b></div></div><div style="font-size:13.5px;color:var(--mut);margin-top:4px">Pure arithmetic: chunks × dimensions × bytes. Real indexes add overhead (HNSW also stores neighbour links). A flat index compares the question with every vector; ANN indexes like HNSW check only a small fraction.</div>`}
+function perfUI(){return `<div>${PERF.map((p,i)=>`<button class="opt inl" data-pf="${i}">chunks of ${p.size}</button>`).join('')}</div><div id="pfres"></div>`}
+function perfRun(i){document.querySelectorAll('[data-pf]').forEach(b=>b.classList.toggle('sel',+b.dataset.pf===i));const p=PERF[i];const c={vector:'#7a3fc4',keyword:'#1f5fbf',hybrid:'#0f8a7a'};
+ $('pfres').innerHTML=`<div style="font-size:14px;margin:4px 0">${p.chunks} chunks · 25 test questions · recall@4 (bar) and MRR</div>`+['vector','keyword','hybrid'].map(m=>`<div class="metric"><span>${m}</span><div class="t"><i style="width:${p[m][0]*100}%;background:${c[m]}"></i></div><b>${p[m][0].toFixed(2)}</b></div><div style="font-size:12.5px;color:var(--mut);margin:-4px 0 4px 88px">MRR ${p[m][1].toFixed(2)}</div>`).join('')}
+function ia(q,weak,strong){return `<div class="ia"><b>🎤 Interview question:</b> ${esc(q)}<div class="weak">😕 <b>Weak answer:</b> ${esc(weak)}</div><button class="opt inl ia-b">✨ Show a strong answer</button><div class="strong">💪 <b>Strong answer:</b> ${esc(strong)}</div></div>`}
+function quiz(id,q,opts,right,why){return `<div class="quiz" data-qz="${id}" data-r="${right}"><b>🧠 Check yourself:</b> ${esc(q)}${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}<div class="qfb" data-why="${esc(why).replace(/"/g,'&quot;')}"></div></div>`}
+/* INTERMEDIATE: you decide (predict, then reveal the real answer) */
+const DEC=[
+ ['Nadia uploads 500 bulletins tonight. One embedding call per text, or batches of 16?',['One call per text: simpler','Batches of 16'],1,'Batches: 500 texts become 32 calls instead of 500 (AeroGuard uses BATCH = 16). Fewer round trips, less overhead, easier on rate limits.'],
+ ['The same chunk is embedded again after a restart. Call the model again?',['Yes, to be safe','No: look it up in the cache first'],1,'Same model + same text = same vector (we checked: cosine 1.0). The cache turned a 9.8 s rebuild into 0.13 s.'],
+ ['Should the cache key include the model name, or only the text?',['Only the text: shorter keys','Model + text'],1,'If you switch models, a text-only key would hand back vectors from the OLD model: wrong space, wrong scores, no error. AeroGuard uses sha256(model + text).'],
+ ['Store vectors as they come, or scale them to length 1 first?',['Scale to length 1','Store as they come'],0,'With length-1 vectors the dot product IS the cosine, so only meaning counts. AeroGuard builds FAISS with normalize_L2=True.'],
+ ['17 chunks today. Flat index (compare with all) or an approximate index (HNSW)?',['HNSW: it is what big companies use','Flat: exact and instant at this size'],1,'17 × 4,096 multiplications is nothing. Approximate indexes pay off at hundreds of thousands of chunks; before that they only add complexity.']];
+function decUI(){return DEC.map(([q,o,r,why],i)=>`<div class="dec" data-dec="${i}"><h4>🤔 ${i+1}. ${esc(q)}</h4>${o.map((x,j)=>`<button class="opt inl" data-j="${j}">${esc(x)}</button>`).join('')}<div class="rev"></div></div>`).join('')}
+function decInit(){document.querySelectorAll('.dec').forEach(d=>{const [q,o,r,why]=DEC[+d.dataset.dec];d.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;d.querySelectorAll('[data-j]').forEach((x,k)=>x.className='opt inl'+(k===r?' r':k===j?' w':''));const rv=d.querySelector('.rev');rv.style.display='block';rv.innerHTML=`<div class="fb" style="background:${j===r?'#e7f6ec':'#fff7e6'}">${j===r?'✅ That is what AeroGuard does.':'💡 AeroGuard chose the other option.'} ${esc(why)}</div>`})})}
+/* ADVANCED: production war room. tag: real = reproduced in our runs · code = guarded in the course code · calc = calculated */
+const INC=[
+ ['real','🚨 A superseded revision answers','Ravi gets the bulletin limit of 45 Ω; the current revision says 40 Ω.',['The embedding model is too weak','Uploads only append: the old revision is never removed'],1,
+  'kb.add() appends chunks (store.py:54). Rev 2 arrived under a new file name, got a new chunk_id, and both revisions stayed searchable. Rev 1 ranked #1 (0.0315), Rev 2 #3 (0.0311).',
+  'Upsert by doc_id: on upload, delete the old revision’s chunks (FAISS supports delete by id when chunks are added with ids), then add the new ones. Keep superseded revisions in an archive, outside search.',
+  'A lifecycle test in CI: upload Rev 1, upload Rev 2, assert only Rev 2 is returned. Show the revision and effective date in every citation.'],
+ ['real','🔢 The wrong AD for an exact number','"AD 2026-TR-0103 hydraulic pump" → vector search puts AD 2026-TR-0105 first.',['Exact identifiers blur together in meaning space','The document was never indexed'],0,
+  'To a meaning model, two AD numbers that differ in one digit look almost the same.',
+  'Hybrid search with an exact-identifier boost: AeroGuard’s hybrid puts AD 2026-TR-0103 first.',
+  'Keep exact-ID questions in the evaluation set (lab 4.6 has "AD 2026-TR-0104").'],
+ ['real','🗣️ Jargon is not understood','"N1 vibration above limits on the right engine" scores 0.58 against "Engine 2 vibration high in cruise", the same as a brake defect.',['The embedding model does not know the domain vocabulary','The sentences are too short'],0,
+  'llama3 is a chat model used as an embedder. It matches everyday paraphrases (0.83) but not technical jargon.',
+  'Evaluate dedicated embedding models on your own 25+ questions; keep keyword search in the hybrid as a safety net.',
+  'Gate every model change on recall@k and MRR. Vector alone: 0.52 → hybrid: 0.92 (real).'],
+ ['real','🐢 The first answers after a restart are slow','After a deploy, the index takes seconds to rebuild before search works.',['Every chunk is re-embedded because nothing is cached','The server is too small'],0,
+  'Without the cache, all 17 chunks are sent to the model again: 9.8 s. With it: 0.13 s. At a million chunks, minutes or hours.',
+  'Persistent cache keyed by sha256(model + text), or a persistent vector store that does not need rebuilding.',
+  'Track index build time and first-query latency on every deploy.'],
+ ['code','🔀 A new model silently breaks search','The team switches embedding model; scores look odd, nothing errors.',['Old vectors and new question vectors come from different models','The new model is buggy'],0,
+  'Vectors from different models live in different spaces. Comparing them gives meaningless scores without any error.',
+  'AeroGuard’s cache key includes the model name, so new vectors are created. The index itself must also be rebuilt and versioned with the model name.',
+  'Store the model name with the index; refuse to search if they differ.'],
+ ['calc','💾 The index outgrows memory','Every manual at every station: 1 million chunks.',['Raw vectors alone need about 16 GB at 4,096 float32 dimensions','It will fit: vectors are small'],0,
+  '1,000,000 × 4,096 × 4 bytes ≈ 16.4 GB, before any index overhead. Use the calculator below.',
+  'Fewer dimensions, a smaller number format, or a vector database with an ANN index, then re-check recall.',
+  'Size the index before the roll-out; alert on memory growth.'],
+ ['code','🔒 Restricted text leaks through search','A technician’s search could reach the restricted reliability report.',['Vectors of restricted text are still restricted data','Vectors are anonymous numbers, so it is fine'],0,
+  'Similar vectors point straight back to their chunks, so the text behind them is exposed through search.',
+  'AeroGuard filters by access label inside the search (Day 4): technicians never receive RR-2026-Q3.',
+  'Store the access label with every vector and test the filter for every role.']];
+function incUI(){return INC.map(([tag,title,sym,opts,r,cause,fix,prev],i)=>`<div class="inc" data-inc="${i}"><div class="top"><span class="etag ${tag}">${{real:'REAL · reproduced in our runs',code:'GUARDED in the course code',calc:'CALCULATED'}[tag]}</span><h4>${title}</h4></div><div style="font-size:14.5px;margin:4px 0"><b>Symptom:</b> ${esc(sym)}</div><div style="font-size:14px;color:var(--mut)">What is the root cause?</div>${opts.map((x,j)=>`<button class="opt inl" data-j="${j}">${esc(x)}</button>`).join('')}<div class="rev"><div>🔍 <b>Root cause:</b> ${esc(cause)}</div><div>🛠️ <b>Fix:</b> ${esc(fix)}</div><div>🛡️ <b>Prevent it:</b> ${esc(prev)}</div></div></div>`).join('')}
+function incInit(){document.querySelectorAll('.inc').forEach(d=>{const r=INC[+d.dataset.inc][4];d.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;d.querySelectorAll('[data-j]').forEach((x,k)=>x.className='opt inl'+(k===r?' r':k===j?' w':''));d.querySelector('.rev').style.display='block'})})}
+
+/* ================= THE THREE LEVELS ================= */
+const STEPS=[['moment','🎬','Customer moment'],['concept','💡','Concept'],['usecase','✈️','Use case'],['try','🧪','Try it'],['data','🔄','Data flow'],['code','💻','Code flow'],['break','💥','Break it'],['check','🎤','Check yourself']];
+const SC={moment:'var(--cx)',concept:'var(--navy)',usecase:'var(--domain)',try:'var(--product)',data:'var(--tech)',code:'var(--code)',break:'#c2410c',check:'#7a3fc4'};
+const LV=[
+/* ======================= BASIC: concept clear ======================= */
+{k:'b',tag:'🟢 Basic',title:'What is an embedding?',sub:'Goal: the concept is crystal clear',outcome:'You can explain what an embedding is, and why "engine shakes" finds the vibration chapter.',
+ moment:()=>sceneBox('A real search from lab 4.1, replayed: Ravi at the gate at 2 am.'),
+ concept:()=>`<div class="two"><div><p>An ${t('embedding')} turns a text into a long list of numbers, a ${t('vector')}. The model is trained so that texts with <b>similar meaning get similar numbers</b>, even when the words are different.</p><p>To compare two texts, compare their vectors. The usual score is ${t('cosine','cosine similarity')}: <b>1</b> means same meaning, <b>0</b> means unrelated.</p></div>
+  <div class="box"><h4>🗺️ Think of it like GPS for meaning</h4>Every sentence gets coordinates, not 2 like a map but <b>4,096</b> in this run. Sentences that mean the same thing are parked close together.<div class="vec" style="margin-top:8px">"Engine 2 vibration high in cruise" →<br>[${E.first5.join(', ')}, … 4,091 more]</div><div style="font-size:13px;color:var(--mut);margin-top:4px">The first 5 of 4,096 real numbers. No single number means anything on its own; the pattern does.</div></div></div>`,
+ usecase:()=>`<div class="two"><div class="box"><h4>✈️ In AeroGuard</h4>• Ravi searches the manuals in his own words<br>• Similar write-ups are grouped, even with different wording<br>• Duplicate defect reports are spotted</div><div class="box"><h4>🌍 Same idea elsewhere</h4>• A bank finds complaints "about the same thing"<br>• An online shop shows "similar products"<br>• Support finds earlier tickets like this one</div></div>`,
+ try:()=>`<p>Pick any two real sentences. The score is the real cosine between their vectors.</p>${pairUI()}`,
+ tryAfter:()=>{$('pa').value=2;$('pb').value=0;$('pa').onchange=pairRun;$('pb').onchange=pairRun;document.querySelectorAll('[data-pp]').forEach(b=>b.onclick=()=>{const [a,c]=b.dataset.pp.split(',');$('pa').value=a;$('pb').value=c;pairRun()});pairRun()},
+ data:()=>`<div class="flowcard"><div style="background:#d9480f"><b>Data input</b>"the engine shakes a lot during cruise"</div><div style="background:#7a3fc4"><b>Data output</b>a vector of 4,096 numbers, length 1</div><div style="background:#1f5fbf"><b>DSA</b>${t('vector','vectors')} + ${t('dot','dot product')}: cosine = Σ aᵢ·bᵢ, O(d) for d = 4,096</div><div style="background:#b7791f"><b>Business logic</b>match by meaning, not by the exact words the technician typed</div><div style="background:#0f8a7a"><b>Outcome</b>"Engine 2 vibration high in cruise" scores <b>${E.C[2][0].toFixed(2)}</b>: found without the word "vibration"</div></div>`,
+ code:()=>flowUI('cB','💻 Code flow: from text to a similarity score','Tap a step, or press ▶ Play.','code'),
+ break:()=>`<div class="two"><div class="box"><h4>💥 Embeddings know meaning, not exact facts</h4>Searching <b>"AD 2026-TR-0103 hydraulic pump"</b> by vectors alone put <b>AD 2026-TR-0105</b> first (real, lab 4.1). The two numbers look almost the same to a meaning model, but they are different legal directives.</div><div class="box"><h4>🛠️ The fix you will meet later</h4>Combine with keyword search, which matches exact strings: ${t('hybrid','hybrid search')} put AD 2026-TR-0103 first. Meaning search and exact search complement each other.</div></div>`,
+ check:()=>quiz('b1','"The engine shakes a lot during cruise" and "Engine 2 vibration high in cruise" score 0.83. What does that tell you?',['They mean nearly the same thing, so a search for one should find the other','They share many words, so they are similar'],0,'They share only "engine" and "cruise". The embedding compares meaning, which is why it beats word matching here.')+
+  quiz('b2','Why is vector search alone not enough for an AD number?',['Exact identifiers that look alike blur together in meaning space','Vectors cannot store numbers'],0,'Close is not good enough for a legal directive. Exact matching (keywords) must back it up.')+
+  ia('What is an embedding, in one minute?','It\'s a vector from AI that makes search better.','An embedding maps text to a fixed-length vector so that similar meanings land close together. You compare texts with cosine similarity. In my project, "engine shakes in cruise" scored 0.83 against "vibration high in cruise" with almost no shared words, so a technician finds the right manual chapter in his own words. Embeddings miss exact identifiers, so I combine them with keyword search.')},
+
+/* ======================= INTERMEDIATE: better thinking ======================= */
+{k:'i',tag:'🟡 Intermediate',title:'Creating and indexing embeddings',sub:'Goal: think like the engineer who builds it',outcome:'You can make and defend the engineering decisions: batching, caching, normalising and choosing the index.',
+ moment:()=>sceneBox('Real results from labs 4.4 and 4.6: an upload at 16:00, a cited answer at 18:00, a restart at 23:30.'),
+ concept:()=>`<div class="two"><div><p>Creating embeddings is a <b>pipeline</b>, and every stage is a decision:</p><p>1. Split documents into ${t('chunk','chunks')}<br>2. Embed them in ${t('batch','batches')} (16 at a time)<br>3. Remember each vector in a ${t('cache')} keyed by a ${t('hash')} of model + text<br>4. ${t('normalize','Normalise')} to length 1<br>5. Store in a ${t('index','vector index')} with the chunk’s metadata</p><p>At question time: embed the question once, then ask the index for its ${t('knn','nearest neighbours')}.</p></div>
+  <div class="box"><h4>📏 Real numbers (AeroGuard, labs 4.1 / 4.4 / 4.6)</h4>• 12 documents → <b>17 chunks</b> (700 characters, 100 overlap)<br>• <b>4,096</b> ${t('dims','dimensions')} per vector<br>• New bulletin → <b>1 chunk</b>, searchable immediately<br>• Index build: <b>9.8 s</b> without the cache → <b>0.13 s</b> with it<br>• A repeated question: <b>509 ms → 0.5 ms</b><br>• ${t('faiss','FAISS')} flat index: compares the question with all 17 vectors</div></div>`,
+ usecase:()=>`<div class="two"><div class="box"><h4>✈️ In AeroGuard</h4>• The library is indexed once at start-up<br>• /upload embeds a new bulletin and adds it to the live index<br>• Restarts reuse the cache, so nobody waits</div><div class="box"><h4>🌍 Same idea elsewhere</h4>• E-commerce re-indexes only changed products<br>• Legal teams index contracts as they are signed<br>• Support tools add each resolved ticket to the index</div></div>`,
+ try:()=>`<p><b>You are the engineer.</b> Decide first, then see what AeroGuard does and why.</p>${decUI()}<h4 style="margin:14px 0 4px">🗺️ Then look inside the index: the 12 real vectors, squashed to 2D with ${t('pca','PCA')}</h4><div style="font-size:14px;color:var(--mut)">The picture keeps about 34% of the differences, so trust the scores, not the distances on screen.</div>${mapUI()}`,
+ tryAfter:()=>{decInit();mapRun(2)},
+ data:()=>`<div class="flowcard"><div style="background:#d9480f"><b>Data input</b>17 chunks with metadata (doc_id, type, access)</div><div style="background:#7a3fc4"><b>Data output</b>a FAISS index: 17 unit vectors + their documents</div><div style="background:#1f5fbf"><b>DSA</b>${t('hash','hash map')} cache O(1) lookup · batches of 16 · L2 normalisation · flat ${t('knn','k-NN')} O(N·d) per query</div><div style="background:#b7791f"><b>Business logic</b>never pay twice for the same text; same text + same model → same vector</div><div style="background:#0f8a7a"><b>Outcome</b>build 9.8 s → 0.13 s; repeated query 509 ms → 0.5 ms; uploads searchable at once</div></div>`,
+ code:()=>flowUI('cI','💻 Code flow: building and searching the index','Indented steps are called by the step above.','code'),
+ break:()=>`<div class="two"><div class="box"><h4>💥 Change the model, keep the old vectors</h4>Vectors from two different embedding models live in different spaces (${t('drift','model mismatch')}). Comparing a new-model question with old-model chunks gives meaningless scores, and nothing crashes to warn you.<br><b>AeroGuard’s guard:</b> the cache key is sha256(<b>model</b> + text).</div><div class="box"><h4>💥 Forget to normalise</h4>Without length 1, the dot product also rewards long vectors, not just similar directions. AeroGuard builds FAISS with <code>normalize_L2=True</code>, so the score is the cosine.</div></div>`,
+ check:()=>quiz('i1','Why does the cache key include the model name?',['So switching models never reuses vectors from the old model','To make the key longer and safer'],0,'Vectors from different models cannot be compared. Including the model in the key forces fresh vectors.')+
+  quiz('i2','A flat index compares the question with every vector. When does that become a problem?',['Only with many chunks: cost grows with N × d per query','Never: it is always fast'],0,'17 chunks is instant. Millions need an approximate index (Advanced level).')+
+  ia('How would you build an embedding index for a document library?','Use LangChain and FAISS, it does everything.','I split documents into about 700-character chunks with overlap and keep metadata such as document id and access level. I embed in batches of 16 and cache each vector under sha256(model + text), so restarts and repeats are free: in my project the index build dropped from 9.8 s to 0.13 s. Vectors are normalised so the score is the cosine, stored in FAISS, and new uploads are added to the live index immediately.')},
+
+/* ======================= ADVANCED: real production ======================= */
+{k:'a',tag:'🔴 Advanced',title:'Embeddings in production',sub:'Goal: real production challenges and how seniors handle them',outcome:'You can find, explain and fix real production failures, and size, evaluate and govern an embedding index.',
+ moment:()=>sceneBox('A real production failure, reproduced on the AeroGuard knowledge base on 2026-11-23.'),
+ concept:()=>`<div class="two"><div><p><b>In production, embedding search fails silently.</b> Nothing crashes; the answer is just quietly wrong. Five habits keep it honest:</p><p>1. <b>Follow the ${t('lifecycle','document lifecycle')}</b>: when a revision arrives, ${t('upsert','upsert')}; never let a ${t('superseded','superseded revision')} answer.<br>2. <b>Measure, don’t guess</b>: an ${t('evalset','evaluation set')} with ${t('recallk','recall@k')} and ${t('mrr','MRR')}, run before every change.<br>3. <b>Version the index with the model</b>: a new model means re-embedding everything.<br>4. <b>Size it</b>: chunks × ${t('dims','dimensions')} × bytes; use an ${t('ann','ANN index')} such as ${t('hnsw','HNSW')} at scale.<br>5. <b>Guard access</b>: vectors of restricted text are restricted data.</p></div>
+  <div class="box"><h4>🔍 What the incident showed (real)</h4>• Rev 2 uploaded as <code>pitot_sb_rev2.md</code> → index grew 18 → <b>19 chunks</b>; Rev 1 stayed<br>• Search: Rev 1 <b>#1</b> (0.0315), Rev 2 <b>#3</b> (0.0311)<br>• A subtle twist: uploaded under the <b>same</b> file name, the two copies share a chunk_id, the search keeps only one dictionary entry, and Rev 2 happens to win. <b>Correct by luck is not correct by design.</b></div></div>`,
+ usecase:()=>`<div class="two"><div class="box"><h4>✈️ AeroGuard production checklist</h4>☐ Upsert by doc_id; superseded revisions out of search<br>☐ Revision and effective date shown in every citation<br>☐ 25+ question evaluation gate before any change<br>☐ Index versioned with the embedding model name<br>☐ Index sized for every manual at every station<br>☐ Access label stored and filtered with every vector</div><div class="box"><h4>🌍 The same failures elsewhere</h4>• A bank answers from last year’s fee schedule<br>• An HR bot quotes a replaced policy<br>• A pharma assistant cites an old dosage leaflet<br>Different industry, same root cause: the index does not follow the document lifecycle.</div></div>`,
+ try:()=>`<p><b>🚨 Production war room.</b> Each card is a production failure. Decide the root cause, then see the fix and how to prevent it. Tags tell you what is real.</p>${incUI()}`,
+ tryAfter:()=>incInit(),
+ data:()=>`<div class="flowcard"><div style="background:#d9480f"><b>Data input</b>a revised bulletin with the same doc_id (SB-7Q21 Rev 2)</div><div style="background:#7a3fc4"><b>Data output</b>an index where only the current revision is searchable</div><div style="background:#1f5fbf"><b>DSA</b>hash map doc_id → chunk ids · delete-then-insert (${t('upsert','upsert')}) · FAISS delete by id</div><div style="background:#b7791f"><b>Business logic</b>only the current approved revision may answer a maintenance question</div><div style="background:#0f8a7a"><b>Outcome</b>"above 40 Ω" is the only limit Ravi can get; Rev 1 stays in the archive, not in search</div></div>`,
+ code:()=>flowUI('cP','💻 Code flow: how a revision enters the index, and the evaluation gate','Scenario A is the real code path today; the last step is a proposed fix.','code'),
+ break:()=>`<div class="two"><div class="box"><h4>📊 Measure before you change anything (lab 4.6, 25 questions)</h4>${perfUI()}</div><div class="box"><h4>🧮 Size before you scale</h4>${calcUI()}</div></div>`,
+ breakAfter:()=>{document.querySelectorAll('[data-pf]').forEach(b=>b.onclick=()=>perfRun(+b.dataset.pf));perfRun(1);['cn','cd','cb'].forEach(id=>{$(id).oninput=calcRun;$(id).onchange=calcRun});calcRun()},
+ check:()=>quiz('a1','Revision 2 of a bulletin is uploaded. What must happen to Revision 1 in the index?',['Its chunks are removed from search (kept in an archive), so only Rev 2 can answer','Nothing: the newer one will rank higher'],0,'Our real test showed the opposite: Rev 1 ranked first. Ranking is not a lifecycle policy.')+
+  quiz('a2','1 million chunks at 4,096 dimensions in float32. Roughly how much memory for the raw vectors?',['About 16 GB','About 16 MB'],0,'1,000,000 × 4,096 × 4 bytes ≈ 16.4 GB. Fewer dimensions or a smaller number format shrink it; then re-check recall.')+
+  ia('Tell me about a production problem you found in a RAG or search system.','Sometimes the answers were not accurate, so we improved the prompt.','I found that our upload path only appended chunks. When Revision 2 of a service bulletin arrived under a new file name, Revision 1 stayed searchable and actually ranked first: 0.0315 against 0.0311. For a 42-ohm reading that is the difference between keeping and replacing a probe. The root cause was a missing document lifecycle, not the model. The fix is to upsert by document id, keep superseded revisions out of search, show the revision in every citation, and add a test that uploads two revisions and asserts that only the latest is returned.')}];
+
+let cur=0;
+function levels(){$('levels').innerHTML=LV.map((l,i)=>`<div class="lv ${i===cur?'on':''}" data-lv="${i}" style="border-color:${i===cur?COL[l.k]:'var(--line)'}"><span class="tag" style="background:${COL[l.k]}">${l.tag}</span><h3>${esc(l.title)}</h3><small>${esc(l.sub)}</small><div style="font-size:13.5px;margin-top:6px">🎯 ${esc(l.outcome)}</div></div>`).join('');
+ document.querySelectorAll('[data-lv]').forEach(d=>d.onclick=()=>{cur=+d.dataset.lv;render();scrollTo({top:0,behavior:'smooth'})})}
+function render(){levels();$('pop').style.display='none';sceneTok++;const l=LV[cur];
+ $('rail').innerHTML=STEPS.map(([k,ic,n],i)=>`<a href="#s_${k}">${i+1} ${ic} ${n}</a>`).join('');
+ $('content').innerHTML=STEPS.map(([k,ic,n],i)=>`<div class="sec" id="s_${k}" style="border-left-color:${SC[k]}"><div class="k2">${l.tag} · step ${i+1} of 8</div><h2>${ic} ${n}</h2>${l[k]()}</div>`).join('')+
+  `<div class="next">${cur>0?`<button class="btn" id="prevL">← ${esc(LV[cur-1].tag)}</button>`:'<span></span>'}${cur<2?`<button class="btn" id="nextL">Next level: ${esc(LV[cur+1].tag)} →</button>`:'<a class="btn" href="index.html" style="text-decoration:none">📚 Next topic</a>'}</div>`;
+ if(l.tryAfter)l.tryAfter();if(l.breakAfter)l.breakAfter();
+ document.querySelectorAll('.flow[data-fk]').forEach(f=>flowInit(f.dataset.fk));
+ document.querySelectorAll('.quiz').forEach(q=>q.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const r=+q.dataset.r,i=+b.dataset.i;q.querySelectorAll('.opt').forEach((x,j)=>x.className='opt'+(j===r?' r':j===i?' w':''));const fb=q.querySelector('.qfb');fb.innerHTML=`<div class="fb" style="background:${i===r?'#e7f6ec':'#fdecea'}">${i===r?'✅ Right.':'💡 Not quite.'} ${fb.dataset.why}</div>`}));
+ document.querySelectorAll('.ia-b').forEach(b=>b.onclick=()=>{b.nextElementSibling.style.display='block';b.style.display='none'});
+ const sc=SCENES[l.k];$('sbtn').onclick=()=>playScene(sc);playScene(sc);
+ const p=$('prevL'),nx=$('nextL');if(p)p.onclick=()=>{cur--;render();scrollTo({top:0,behavior:'smooth'})};if(nx)nx.onclick=()=>{cur++;render();scrollTo({top:0,behavior:'smooth'})}}
+render();
+</script>
+</body>
+</html>

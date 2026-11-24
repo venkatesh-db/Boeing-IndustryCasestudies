@@ -1,0 +1,72 @@
+[
+ {
+  "trace": "f09c05b27210",
+  "span": "13f18f78",
+  "parent": "bea2845c",
+  "name": "llm",
+  "status": "ok",
+  "model": "llama3",
+  "cached": false,
+  "tokens_in": 410,
+  "tokens_out": 22,
+  "ms": 4034.8
+ },
+ {
+  "trace": "f09c05b27210",
+  "span": "99c126d1",
+  "parent": "bea2845c",
+  "name": "tool",
+  "status": "ok",
+  "tool": "get_aircraft_status",
+  "role": "planner",
+  "ms": 0.2
+ },
+ {
+  "trace": "f09c05b27210",
+  "span": "4398b774",
+  "parent": "bea2845c",
+  "name": "llm",
+  "status": "ok",
+  "model": "llama3",
+  "cached": false,
+  "tokens_in": 497,
+  "tokens_out": 29,
+  "ms": 2105.1
+ },
+ {
+  "trace": "f09c05b27210",
+  "span": "359180c2",
+  "parent": "bea2845c",
+  "name": "tool",
+  "status": "ok",
+  "tool": "check_part_stock",
+  "role": "planner",
+  "ms": 0.1
+ },
+ {
+  "trace": "f09c05b27210",
+  "span": "0190bc05",
+  "parent": "bea2845c",
+  "name": "llm",
+  "status": "ok",
+  "model": "llama3",
+  "cached": false,
+  "tokens_in": 567,
+  "tokens_out": 43,
+  "ms": 2708.0
+ },
+ {
+  "trace": "f09c05b27210",
+  "span": "bea2845c",
+  "parent": null,
+  "name": "agent",
+  "status": "ok",
+  "question": "N123AB has a defect. Which part does it need, and is it in stock at its station?",
+  "role": "planner",
+  "safe_mode": false,
+  "config": "v3",
+  "stopped": "answered",
+  "steps": 2,
+  "ms": 8853.3
+ }
+]

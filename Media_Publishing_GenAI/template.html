@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GenAI in the Newsroom</title>
+<style>
+:root{--ink:#1d2433;--mut:#5f6675;--line:#e2ddd6;--bg:#f6f4f1;--pre:#1f5fbf;--post:#b42318;--out:#0f7a3a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:#1f5fbf}
+.hero{background:linear-gradient(120deg,#111827,#7c2d12 55%,#b42318);color:#fff;padding:34px 16px 54px;text-align:center;position:relative;overflow:hidden}
+.hero .k{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.hero h1{margin:6px 0;font-size:38px}.hero p{max-width:900px;margin:0 auto;font-size:18px;opacity:.93}
+.ticker{position:absolute;bottom:8px;left:0;white-space:nowrap;font-size:13px;opacity:.75;animation:tick 60s linear infinite}
+@keyframes tick{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+main{max-width:1200px;margin:-30px auto 0;padding:0 16px 30px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:14px;box-shadow:0 6px 20px #11182712}
+.box h2{margin:0 0 6px;font-size:23px}.lead{color:var(--mut);margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:#f3f1ed;border-radius:14px;padding:10px;text-align:center}.stat b{display:block;font-size:30px}.stat span{font-size:13.5px;color:var(--mut)}
+.lanes{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center}
+.lane{border-radius:14px;padding:12px;color:#fff}.lane b{display:block;font-size:18px}.lane span{font-size:14px;opacity:.92}
+.lanes .ar{font-size:26px;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:#111827;color:#fff;border-color:#111827}
+.explorer{display:grid;grid-template-columns:330px 1fr;gap:14px;align-items:start}
+.list{max-height:720px;overflow:auto;padding-right:4px}
+.item{border:2px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:8px;cursor:pointer;transition:all .15s;background:#fff}
+.item:hover{border-color:#7c2d12}.item.on{border-color:#b42318;background:#fff5f5}
+.item .d{font-size:12.5px;color:var(--mut);font-weight:700}.item b{display:block;font-size:15px}.item .p{font-size:13.5px;color:var(--mut)}
+.item .ic{float:right;font-size:15px}
+.item.hide{display:none}
+.panel{border:2px solid #111827;border-radius:16px;padding:14px 16px;min-height:300px}
+.panel h3{margin:2px 0 2px;font-size:22px}.panel .meta{color:var(--mut);font-weight:700;font-size:14px;margin-bottom:8px}
+.tag{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:800;margin:0 6px 4px 0;background:#eef2ff;color:#1f3a8a}
+.tag.high{background:#fde8e8;color:#9b1c1c}.tag.medium-high{background:#fff1e6;color:#9a3412}.tag.medium{background:#fdf6e3;color:#854d0e}
+.stages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.stage{border-radius:14px;padding:10px;background:#f8f7f4;border-top:6px solid;opacity:0;transform:translateY(10px);transition:all .45s}
+.stage.in{opacity:1;transform:none}
+.stage h4{margin:0 0 6px;font-size:16px}
+.stage.pre{border-color:var(--pre)}.stage.post{border-color:var(--post)}.stage.out{border-color:var(--out)}
+.fact{font-size:14.5px;margin:6px 0;padding-left:4px}
+.fact.nd{color:var(--mut);font-style:italic}
+.sref{display:inline-block;font-size:11.5px;font-weight:800;background:#111827;color:#fff;border-radius:6px;padding:0 6px;margin-left:4px;text-decoration:none;vertical-align:1px}
+.fcb{font-size:11.5px;font-weight:700;margin-left:4px}
+.srcs{margin-top:10px;font-size:14px}.srcs div{margin:3px 0}
+.ok{color:#0f7a3a;font-weight:700}.warn{color:#9a3412;font-weight:700}
+.note{font-size:14px;color:var(--mut);border-left:4px solid #b7791f;padding-left:10px;margin-top:8px}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bar{display:grid;grid-template-columns:200px 1fr 30px;gap:8px;align-items:center;margin:5px 0;font-size:14.5px}
+.bar .t{height:16px;border-radius:8px;background:#f3f1ed;overflow:hidden}.bar .t i{display:block;height:100%;width:0;border-radius:8px;transition:width 1s}
+.lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.lesson{border:2px solid var(--line);border-radius:14px;padding:10px 12px}.lesson h4{margin:0 0 4px;font-size:16.5px}.lesson p{margin:0;font-size:14.5px;color:var(--mut)}
+.lesson .ev{margin-top:6px;font-size:13px}.lesson .ev a{margin-right:6px}
+details{margin-top:8px}summary{cursor:pointer;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{background:#f3f1ed;color:var(--mut);font-size:13px}
+.moral{background:linear-gradient(120deg,#111827,#7c2d12);color:#fff;border-radius:18px;padding:18px;text-align:center;font-size:19px;margin-bottom:14px}
+.disc{font-size:13px;color:var(--mut);text-align:center}
+@media(max-width:900px){.explorer{grid-template-columns:1fr}.list{max-height:none;display:flex;overflow-x:auto;gap:8px}.item{min-width:240px;margin:0}.stages,.bars,.lessons{grid-template-columns:1fr}.lanes{grid-template-columns:1fr}.lanes .ar{transform:rotate(90deg);text-align:center}.stats{grid-template-columns:1fr 1fr}.bar{grid-template-columns:130px 1fr 26px}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="hero"><div class="k">Media &amp; publishing · real products · 2023–2025</div><h1>📰 GenAI in the newsroom</h1><p>Leading publishers and platforms shipped GenAI into real products. Follow each one <b>before deployment → after deployment → outcome</b>. Every fact carries its source, and every source has been checked.</p><div class="ticker" id="ticker"></div></div>
+<main>
+ <div class="box"><div class="stats" id="stats"></div></div>
+ <div class="box"><h2>🔁 How to read each case</h2><div class="lanes">
+  <div class="lane" style="background:var(--pre)"><b>🧰 Before deployment</b><span>What was built, how it was tested, who reviewed it. Shown as <i>not publicly disclosed</i> when no source says.</span></div><div class="ar">→</div>
+  <div class="lane" style="background:var(--post)"><b>🚨 After deployment</b><span>What went wrong in production, as reported.</span></div><div class="ar">→</div>
+  <div class="lane" style="background:var(--out)"><b>🏁 Outcome</b><span>Paused, removed, corrected, shut down, continued, or legal action.</span></div></div></div>
+
+ <div class="box"><h2>🔎 Product explorer</h2><div class="lead">Pick a challenge to filter, then click a product. Each <span class="sref">S1</span> opens its source. ✅ means the fact's numbers and quotes were found on the live page. 🟡 means the source was checked by a person and by keyword match.</div>
+  <div class="chips" id="chips"></div>
+  <div class="explorer"><div class="list" id="list"></div><div class="panel" id="panel"></div></div></div>
+
+ <div class="box"><h2>📊 Patterns across all products</h2><div class="lead">These counts come from the tagged cases. A product can have several challenges and several outcomes.</div><div class="bars"><div><h4 style="margin:4px 0">Challenges</h4><div id="bch"></div></div><div><h4 style="margin:4px 0">Outcomes</h4><div id="bout"></div></div></div></div>
+
+ <div class="box"><h2>🧭 Pre-deployment lessons these cases teach</h2><div class="lead">These are <b>our conclusions</b>, not claims by the companies. Each lesson links to the cases it is drawn from.</div><div class="lessons" id="lessons"></div></div>
+
+ <div class="box"><h2>🌍 Even if you never use AI: the BBC and EBU study</h2><div id="study"></div></div>
+
+ <div class="moral">In media, GenAI rarely fails quietly: <b>it publishes</b>.<br>Every error is public, permanent and carries the brand, so review, disclosure and an off switch must be in place before launch.</div>
+
+ <div class="box"><h2>🧾 Evidence and verification log</h2><div id="vlog" class="lead"></div>
+  <details><summary>Research log: every search that was run</summary><div id="rlog"></div></details></div>
+ <div class="disc">Public reporting as cited. Company statements and disputes are included where found. Names identify the companies and products only. This page is not affiliated with or endorsed by any organisation named.</div>
+</main>
+<script>
+const D=/*__DATA__*/null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CH=D.challenges,OT=D.outcome_types,S=D.status,FC=D.factcheck||{};
+const products=[...D.products].sort((a,b)=>a.date.localeCompare(b.date));
+const nFacts=products.reduce((n,p)=>n+p.pre.length+p.post.length+p.outcome.length,0);
+const fcVals=Object.values(FC),fcOk=fcVals.filter(v=>v==='verified'||v==='verified-alt').length;
+const urls=Object.keys(S),live=urls.filter(u=>S[u]===200).length;
+document.getElementById('stats').innerHTML=[[products.length,'real products'],[nFacts,'individually sourced facts'],[fcOk+'/'+fcVals.length,'facts matched on live pages*'],[live+'/'+urls.length,'source links live']].map(([b,s])=>`<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('');
+document.getElementById('ticker').textContent=products.map(p=>`${p.date} · ${p.company}: ${p.product}`).join('   ●   ');
+const FCL={'verified':['✅','number/quote found on cited page'],'verified-alt':['✅','found on another source for this case'],'no-anchor':['🟡','human-checked; keyword match ≥50%'],'low-overlap':['⚠️','low keyword overlap'],'partial':['⚠️','partly matched'],'not-found':['❌','not matched'],'blocked':['🔒','page blocks automated checks']};
+let filt='all',cur=null;
+document.getElementById('chips').innerHTML=`<button data-c="all" class="on">All (${products.length})</button>`+Object.entries(CH).map(([k,v])=>`<button data-c="${k}">${v[0]} ${esc(v[1])} (${products.filter(p=>p.challenges.includes(k)).length})</button>`).join('');
+document.getElementById('list').innerHTML=products.map(p=>`<div class="item" data-id="${p.id}"><span class="ic">${p.challenges.map(c=>CH[c][0]).join('')}</span><div class="d">${p.date} · ${esc(p.kind)}</div><b>${esc(p.company)}</b><div class="p">${esc(p.product)}</div></div>`).join('');
+function factHtml(p,[t,r]){if(!r)return`<div class="fact nd">${esc(t)}</div>`;const s=p.sources[r-1],st=FC[p.id+'|'+t],b=st?FCL[st]:null;return`<div class="fact">${esc(t)}<a class="sref" href="${esc(s[1])}" target="_blank" rel="noopener" title="${esc(s[0])}">S${r}</a>${b?`<span class="fcb" title="${esc(b[1])}">${b[0]}</span>`:''}</div>`}
+function show(id){cur=id;const p=products.find(x=>x.id===id);document.querySelectorAll('.item').forEach(x=>x.classList.toggle('on',x.dataset.id===id));
+ const pl=document.getElementById('panel');
+ pl.innerHTML=`<span class="tag">${p.id}</span>${p.challenges.map(c=>`<span class="tag">${CH[c][0]} ${esc(CH[c][1])}</span>`).join('')}<span class="tag ${p.confidence}">confidence: ${p.confidence}</span><h3>${esc(p.company)}</h3><div class="meta">${esc(p.product)} · ${esc(p.kind)} · ${p.date}</div>
+ <div class="stages"><div class="stage pre"><h4>🧰 Before deployment</h4>${p.pre.map(f=>factHtml(p,f)).join('')}</div><div class="stage post"><h4>🚨 After deployment</h4>${p.post.map(f=>factHtml(p,f)).join('')}</div><div class="stage out"><h4>🏁 Outcome</h4>${p.outcome.map(f=>factHtml(p,f)).join('')}<div style="margin-top:6px">${p.outcomes.map(o=>`<span class="tag">${esc(OT[o])}</span>`).join('')}</div></div></div>
+ <div class="note"><b>Discrepancies:</b> ${esc(p.discrepancies)}</div>
+ <div class="srcs"><b>Sources</b>${p.sources.map((s,i)=>`<div><span class="sref" style="margin:0 6px 0 0">S${i+1}</span><a href="${esc(s[1])}" target="_blank" rel="noopener">${esc(s[0])}</a> · ${s[2]} · ${S[s[1]]===200?'<span class="ok">link live ✓</span>':`<span class="warn">${esc(S[s[1]])}: site blocks automated checks</span>`}</div>`).join('')}</div>`;
+ pl.querySelectorAll('.stage').forEach((s,k)=>setTimeout(()=>s.classList.add('in'),120+k*280));
+ if(innerWidth<900)pl.scrollIntoView({behavior:'smooth',block:'start'})}
+document.getElementById('list').addEventListener('click',e=>{const it=e.target.closest('.item');if(it)show(it.dataset.id)});
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filt=b.dataset.c;document.querySelectorAll('#chips button').forEach(x=>x.classList.toggle('on',x===b));
+ let first=null;document.querySelectorAll('.item').forEach(it=>{const p=products.find(x=>x.id===it.dataset.id);const ok=filt==='all'||p.challenges.includes(filt);it.classList.toggle('hide',!ok);if(ok&&!first)first=p.id});
+ if(first&&(filt!=='all'))show(first)});
+show(products[0].id);
+function bars(el,entries,color){const max=Math.max(...entries.map(e=>e[2]));document.getElementById(el).innerHTML=entries.map(([icon,label,n])=>`<div class="bar"><span>${icon} ${esc(label)}</span><span class="t"><i style="background:${color}" data-w="${100*n/max}"></i></span><b>${n}</b></div>`).join('')}
+bars('bch',Object.entries(CH).map(([k,v])=>[v[0],v[1],products.filter(p=>p.challenges.includes(k)).length]).sort((a,b)=>b[2]-a[2]),'#b42318');
+bars('bout',Object.entries(OT).map(([k,v])=>['',v,products.filter(p=>p.outcomes.includes(k)).length]).filter(e=>e[2]).sort((a,b)=>b[2]-a[2]),'#0f7a3a');
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('i[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');io.unobserve(x.target)}}),{threshold:.2}):null;
+['bch','bout'].forEach(id=>{const el=document.getElementById(id);io?io.observe(el):el.querySelectorAll('i[data-w]').forEach(i=>i.style.width=i.dataset.w+'%')});
+const L=[["✍️ An editor signs off on every AI output","Several failures were published without effective newsroom review, or with review the newsroom says it never did.",["M04","M06","M01","M15"]],
+["🏷️ Disclose AI and never invent authors","Fake bylines and personas caused the biggest trust damage and the strongest denials.",["M09","M12","M19","M01"]],
+["🔗 Third-party content needs your guardrails too","Vendors, syndicators, aggregators and freelancers brought the AI content in, but the publisher's brand took the hit.",["M06","M17","M08","M20","M09"]],
+["💔 Test sensitive contexts before launch","Death, tragedy, poverty and hate-group history produced the most damaging outputs.",["M05","M07","M08","M16"]],
+["🧪 Trust only vetted sources","Satire, jokes and other AI sites were treated as fact.",["M11","M10","M15"]],
+["🏛️ Agree governance before shipping","Wikipedia's editors and Politico's union showed that skipping editorial or labour agreements stops or reverses a launch.",["M18","M21","M04"]],
+["⏸️ Keep an off switch and use it","The cleanest recoveries came from a fast pause, followed by labelling and fixes.",["M13","M06","M08","M18"]],
+["📏 Measure error rates in production","Bloomberg counted corrections against a stated 99% standard, which gives a number to manage.",["M14","M01"]]];
+document.getElementById('lessons').innerHTML=L.map(([h,p,ids])=>`<div class="lesson"><h4>${h}</h4><p>${esc(p)}</p><div class="ev">Evidence: ${ids.map(id=>`<a href="#" data-id="${id}">${id} ${esc(products.find(x=>x.id===id).company.split(' (')[0])}</a>`).join('')}</div></div>`).join('');
+document.getElementById('lessons').addEventListener('click',e=>{const a=e.target.closest('a[data-id]');if(!a)return;e.preventDefault();filt='all';document.querySelectorAll('#chips button').forEach(x=>x.classList.toggle('on',x.dataset.c==='all'));document.querySelectorAll('.item').forEach(x=>x.classList.remove('hide'));show(a.dataset.id);document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'})});
+const st=D.studies[0];
+document.getElementById('study').innerHTML=`<div class="lead">${esc(st.title)} · ${st.date}</div>${st.facts.map(f=>factHtml({id:st.id,sources:st.sources},f)).join('')}<div class="note">${esc(st.why)}</div><div class="srcs">${st.sources.map((s,i)=>`<div><span class="sref" style="margin:0 6px 0 0">S${i+1}</span><a href="${esc(s[1])}" target="_blank" rel="noopener">${esc(s[0])}</a> · ${s[2]}</div>`).join('')}</div>`;
+const codes={};urls.forEach(u=>{const c=String(S[u]);codes[c]=(codes[c]||0)+1});
+const fcc={};fcVals.forEach(v=>fcc[v]=(fcc[v]||0)+1);
+document.getElementById('vlog').innerHTML=`<p><b>Scope:</b> ${esc(D.window)}. <b>Verified on:</b> ${D.verified_on}.</p><p><b>Rule:</b> ${esc(D.rule)}</p><p><b>Link check (${esc(D.checked_at)}):</b> ${urls.length} URLs: ${Object.entries(codes).map(([c,n])=>`${n} × ${esc(c)}`).join(', ')}.</p><p><b>* Fact-level check:</b> ${Object.entries(fcc).map(([k,n])=>`${n} × ${FCL[k][0]} ${esc(FCL[k][1])}`).join(' · ')}. <code>verify_facts.py</code> fetches each cited page and looks for the fact's numbers and quoted phrases. Facts with neither are scored by keyword overlap. Unsupported details found this way (e.g. an article count and a complaint in the Elle case, a Bloomberg expansion) were <b>removed</b>, not kept.</p><p><b>Files:</b> <a href="evidence-log.md">evidence-log.md</a> · <a href="data/media_evidence.json">media_evidence.json</a> · <a href="data/fact_check.json">fact_check.json</a> · <a href="data/link_check.json">link_check.json</a> · <a href="data/research_log.json">research_log.json</a></p>`;
+document.getElementById('rlog').innerHTML=`<table><tr><th>Search / check</th><th>Case</th><th>Result</th></tr>${D.research.queries.map(q=>`<tr><td>${esc(q[0])}</td><td>${esc(q[1])}</td><td>${esc(q[2])}</td></tr>`).join('')}</table><p><b>Considered, not included:</b> ${D.research.considered_not_included.map(c=>esc(c[0]+': '+c[1])).join(' · ')}</p>`;
+</script>
+</body>
+</html>

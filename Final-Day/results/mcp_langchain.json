@@ -1,0 +1,14 @@
+{
+ "tools": [
+  "check_part_stock",
+  "get_aircraft_status",
+  "reserve_part"
+ ],
+ "result": [
+  {
+   "type": "text",
+   "text": "{\n  \"tail_number\": \"N456CD\",\n  \"model\": \"B787-9\",\n  \"station\": \"FRA\",\n  \"open_defect\": \"brake wear at limit\",\n  \"part_needed\": \"BRK-1180\",\n  \"passengers\": 294\n}",
+   "id": "lc_586d2da9-142e-494f-be10-c1d20c625ad7"
+  }
+ ]
+}

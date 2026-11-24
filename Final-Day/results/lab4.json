@@ -1,0 +1,140 @@
+{
+ "tools": [
+  "get_aircraft_status",
+  "check_part_stock",
+  "estimate_delay_cost",
+  "search_policy"
+ ],
+ "policy": "Policy P2: parts are held for 48 hours, then released.",
+ "runs": [
+  {
+   "q": "How many HP-2201 are at FRA?",
+   "steps": [
+    {
+     "type": "human",
+     "text": "How many HP-2201 are at FRA?",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "HP-2201",
+        "station": "FRA"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "{\"part_number\": \"HP-2201\", \"station\": \"FRA\", \"quantity\": 2, \"lead_days\": 2}",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "{'quantity': 2, 'lead_days': 2}",
+     "tool_calls": []
+    }
+   ]
+  },
+  {
+   "q": "How long are parts held?",
+   "steps": [
+    {
+     "type": "human",
+     "text": "How long are parts held?",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "search_policy",
+       "args": {
+        "query": "holding time"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Policy P3: the duty manager owns the delay cost report.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "estimate_delay_cost",
+       "args": {}
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'estimate_delay_cost' with kwargs {} with error:\n minutes: Field required\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "estimate_delay_cost",
+       "args": {
+        "minutes": 60
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "{\"minutes\": 60, \"usd_per_minute\": 100, \"total_usd\": 6000}",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "get_aircraft_status",
+       "args": {}
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'get_aircraft_status' with kwargs {} with error:\n tail_number: Field required\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "get_aircraft_status",
+       "args": {
+        "tail_number": "N123AB"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Tool call limit exceeded. Do not make additional tool calls.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "Model call limits exceeded: run limit (5/5)",
+     "tool_calls": []
+    }
+   ]
+  }
+ ]
+}

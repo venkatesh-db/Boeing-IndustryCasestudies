@@ -1,0 +1,177 @@
+{
+ "tests": [
+  {
+   "label": "normal: desk asks parts",
+   "verdict": "delivered",
+   "reply": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 2,
+    "lead_days": 2
+   }
+  },
+  {
+   "label": "normal: desk asks cost",
+   "verdict": "delivered",
+   "reply": {
+    "minutes": 45,
+    "usd_per_minute": 100,
+    "total_usd": 4500
+   }
+  },
+  {
+   "label": "impostor: wrong secret",
+   "verdict": "rejected: not who it claims to be",
+   "reply": null
+  },
+  {
+   "label": "not allowed: parts calls cost",
+   "verdict": "rejected: parts_agent may not call cost_agent",
+   "reply": null
+  },
+  {
+   "label": "replay: same message again",
+   "verdict": "rejected: replayed message",
+   "reply": null
+  },
+  {
+   "label": "loop: 9 hops",
+   "verdict": "rejected: too many hops (loop?)",
+   "reply": null
+  },
+  {
+   "label": "extra field smuggled in",
+   "verdict": "rejected: bad message (1 problem)",
+   "reply": null
+  },
+  {
+   "label": "tampered body",
+   "verdict": "rejected: not who it claims to be",
+   "reply": null
+  },
+  {
+   "label": "flood: message 1",
+   "verdict": "delivered",
+   "reply": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 2,
+    "lead_days": 2
+   }
+  },
+  {
+   "label": "flood: message 2",
+   "verdict": "delivered",
+   "reply": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 2,
+    "lead_days": 2
+   }
+  },
+  {
+   "label": "flood: message 3",
+   "verdict": "delivered",
+   "reply": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 2,
+    "lead_days": 2
+   }
+  },
+  {
+   "label": "flood: message 4",
+   "verdict": "rejected: rate limit",
+   "reply": null
+  },
+  {
+   "label": "flood: message 5",
+   "verdict": "rejected: rate limit",
+   "reply": null
+  }
+ ],
+ "audit": [
+  {
+   "id": "82e7fe50",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "delivered"
+  },
+  {
+   "id": "ec1ac4e9",
+   "from": "desk_agent",
+   "to": "cost_agent",
+   "verdict": "delivered"
+  },
+  {
+   "id": "1cd17e7b",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: not who it claims to be"
+  },
+  {
+   "id": "8fee0cd3",
+   "from": "parts_agent",
+   "to": "cost_agent",
+   "verdict": "rejected: parts_agent may not call cost_agent"
+  },
+  {
+   "id": "82e7fe50",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: replayed message"
+  },
+  {
+   "id": "23877a75",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: too many hops (loop?)"
+  },
+  {
+   "id": "d93a889f",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: bad message (1 problem)"
+  },
+  {
+   "id": "3ccbaf07",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: not who it claims to be"
+  },
+  {
+   "id": "5313e0e6",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "delivered"
+  },
+  {
+   "id": "4a1baf88",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "delivered"
+  },
+  {
+   "id": "6c6ca596",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "delivered"
+  },
+  {
+   "id": "1af8cfe0",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: rate limit"
+  },
+  {
+   "id": "0a8dbf53",
+   "from": "desk_agent",
+   "to": "parts_agent",
+   "verdict": "rejected: rate limit"
+  }
+ ],
+ "limits": {
+  "hops": 3,
+  "per_minute": 5
+ }
+}

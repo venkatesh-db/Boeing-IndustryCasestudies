@@ -1,0 +1,194 @@
+{
+ "trim": [
+  {
+   "label": "full JSON schemas, 4 tools",
+   "tokens_in": 636,
+   "tokens_out": 29,
+   "ms": 4783.1,
+   "correct": true
+  },
+  {
+   "label": "short menu, 4 tools",
+   "tokens_in": 224,
+   "tokens_out": 29,
+   "ms": 2492.5,
+   "correct": true
+  },
+  {
+   "label": "short menu, only the relevant tool",
+   "tokens_in": 101,
+   "tokens_out": 29,
+   "ms": 1962.5,
+   "correct": true
+  }
+ ],
+ "cache": {
+  "first_ms": 2458.5,
+  "second_ms": 1.75,
+  "second_cached": true
+ },
+ "batch": {
+  "single": {
+   "calls": 5,
+   "tokens_in": 239,
+   "tokens_out": 40,
+   "s": 3.28,
+   "correct": 5
+  },
+  "together": {
+   "calls": 1,
+   "tokens_in": 98,
+   "tokens_out": 36,
+   "s": 2.31,
+   "correct": 5
+  }
+ },
+ "route": [
+  {
+   "q": "What does a 45 minute delay cost?",
+   "path": "code rule",
+   "tokens": 0,
+   "s": 0.0007,
+   "answer": "$4,500"
+  },
+  {
+   "q": "Cost of a 30 minute delay?",
+   "path": "code rule",
+   "tokens": 0,
+   "s": 0.0002,
+   "answer": "$3,000"
+  },
+  {
+   "q": "How many HP-2201 are at FRA?",
+   "path": "agent",
+   "tokens": 1472,
+   "s": 6.71,
+   "answer": "There are 2 HP-2201 at FRA."
+  },
+  {
+   "q": "Is N123AB airworthy?",
+   "path": "guard (no model)",
+   "tokens": 0,
+   "s": 0.0,
+   "answer": "I can't decide airworthiness. A certificated person must decide. I can check the defect and the parts."
+  }
+ ],
+ "versions": [
+  {
+   "version": "v1",
+   "passed": 10,
+   "total": 22,
+   "tokens_in": 23255,
+   "tokens_out": 1728,
+   "llm_calls": 57,
+   "dev": 6,
+   "held": 4
+  },
+  {
+   "version": "v2",
+   "passed": 17,
+   "total": 22,
+   "tokens_in": 22887,
+   "tokens_out": 1391,
+   "llm_calls": 49,
+   "dev": 10,
+   "held": 7
+  },
+  {
+   "version": "v3",
+   "passed": 19,
+   "total": 22,
+   "tokens_in": 21375,
+   "tokens_out": 1313,
+   "llm_calls": 46,
+   "dev": 10,
+   "held": 9
+  }
+ ],
+ "per_task": {
+  "tokens_in": 972,
+  "tokens_out": 60
+ },
+ "sheet": [
+  {
+   "vendor": "OpenAI",
+   "model": "gpt-6.2-sol",
+   "usd_per_1000_tasks": 2.544
+  },
+  {
+   "vendor": "OpenAI",
+   "model": "gpt-6.1-terra",
+   "usd_per_1000_tasks": 1.272
+  },
+  {
+   "vendor": "OpenAI",
+   "model": "gpt-6-luna",
+   "usd_per_1000_tasks": 0.1272
+  },
+  {
+   "vendor": "OpenAI",
+   "model": "gpt-4.1",
+   "usd_per_1000_tasks": 2.424
+  },
+  {
+   "vendor": "OpenAI",
+   "model": "gpt-4.1-mini",
+   "usd_per_1000_tasks": 0.4848
+  },
+  {
+   "vendor": "Anthropic",
+   "model": "Claude Opus 5.5",
+   "usd_per_1000_tasks": 5.088
+  },
+  {
+   "vendor": "Anthropic",
+   "model": "Claude Sonnet 5.5",
+   "usd_per_1000_tasks": 2.544
+  },
+  {
+   "vendor": "Anthropic",
+   "model": "Claude Haiku 5.5",
+   "usd_per_1000_tasks": 0.1272
+  },
+  {
+   "vendor": "Google",
+   "model": "Gemini 4 Argon",
+   "usd_per_1000_tasks": 2.544
+  },
+  {
+   "vendor": "Google",
+   "model": "Gemini 4 Neon",
+   "usd_per_1000_tasks": 3.816
+  },
+  {
+   "vendor": "Google",
+   "model": "Gemini 4 Hydrogen",
+   "usd_per_1000_tasks": 1.908
+  },
+  {
+   "vendor": "Microsoft Azure",
+   "model": "GPT-4.1 Global (eastus2)",
+   "usd_per_1000_tasks": 2.424
+  },
+  {
+   "vendor": "Microsoft Azure",
+   "model": "GPT-4.1 Data Zone (eastus2)",
+   "usd_per_1000_tasks": 2.6664
+  },
+  {
+   "vendor": "Microsoft Azure",
+   "model": "GPT-4.1 Regional (eastus2)",
+   "usd_per_1000_tasks": 2.6664
+  },
+  {
+   "vendor": "Microsoft Azure",
+   "model": "GPT-4.1 Global (germanywestcentral)",
+   "usd_per_1000_tasks": 2.424
+  },
+  {
+   "vendor": "Microsoft Azure",
+   "model": "GPT-4.1 Data Zone (germanywestcentral)",
+   "usd_per_1000_tasks": 2.6664
+  }
+ ]
+}

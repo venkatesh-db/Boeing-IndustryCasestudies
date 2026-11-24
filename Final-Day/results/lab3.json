@@ -1,0 +1,146 @@
+{
+ "mermaid": "---\nconfig:\n  flowchart:\n    curve: linear\n---\ngraph TD;\n\t__start__([<p>__start__</p>]):::first\n\tlook_up(look_up)\n\tcheck_stock(check_stock)\n\tno_action(no_action)\n\tescalate(escalate)\n\tapproval(approval)\n\t__end__([<p>__end__</p>]):::last\n\t__start__ --> look_up;\n\tcheck_stock -.-> approval;\n\tcheck_stock -.-> escalate;\n\tlook_up -.-> check_stock;\n\tlook_up -.-> no_action;\n\tapproval --> __end__;\n\tescalate --> __end__;\n\tno_action --> __end__;\n\tclassDef default fill:#f2f0ff,line-height:1.2\n\tclassDef first fill-opacity:0\n\tclassDef last fill:#bfb6fc\n",
+ "routes": [
+  {
+   "tail": "N789EF",
+   "path": [
+    "look_up",
+    "no_action"
+   ],
+   "decision": "no defect: nothing to do",
+   "paused_at": [],
+   "asking": []
+  },
+  {
+   "tail": "N123AB",
+   "path": [
+    "look_up",
+    "check_stock",
+    "escalate"
+   ],
+   "decision": "not in stock, lead time 2 days: call the planner",
+   "paused_at": [],
+   "asking": []
+  },
+  {
+   "tail": "N456CD",
+   "path": [
+    "look_up",
+    "check_stock"
+   ],
+   "decision": null,
+   "paused_at": [
+    "approval"
+   ],
+   "asking": [
+    {
+     "please_approve": {
+      "part_number": "BRK-1180",
+      "station": "FRA",
+      "quantity": 1
+     }
+    }
+   ]
+  }
+ ],
+ "after_restart": {
+  "still_paused_at": [
+   "approval"
+  ],
+  "remembered": {
+   "tail": "N456CD",
+   "status": {
+    "tail_number": "N456CD",
+    "model": "B787-9",
+    "station": "FRA",
+    "open_defect": "brake wear at limit",
+    "part_needed": "BRK-1180",
+    "passengers": 294
+   },
+   "stock": {
+    "part_number": "BRK-1180",
+    "station": "FRA",
+    "quantity": 3,
+    "lead_days": 1
+   },
+   "path": [
+    "look_up",
+    "check_stock"
+   ]
+  }
+ },
+ "resumed": {
+  "path": [
+   "look_up",
+   "check_stock",
+   "approval: yes"
+  ],
+  "decision": "reserved",
+  "order": {
+   "reserved": 1,
+   "part_number": "BRK-1180",
+   "station": "FRA",
+   "status": "reserved (demo)"
+  }
+ },
+ "history": [
+  {
+   "step": -1,
+   "next": [
+    "__start__"
+   ]
+  },
+  {
+   "step": 0,
+   "next": [
+    "look_up"
+   ]
+  },
+  {
+   "step": 1,
+   "next": [
+    "check_stock"
+   ]
+  },
+  {
+   "step": 2,
+   "next": [
+    "approval"
+   ]
+  },
+  {
+   "step": 3,
+   "next": []
+  }
+ ],
+ "team": {
+  "log": [
+   "supervisor: have nothing",
+   "parts_agent: 2 tools",
+   "supervisor: have ['parts']",
+   "cost_agent: 1 tool",
+   "supervisor: have ['cost', 'parts']",
+   "writer: 1 model call"
+  ],
+  "facts": {
+   "parts": {
+    "tail_number": "N123AB",
+    "model": "B737-800",
+    "station": "BLR",
+    "open_defect": "hydraulic pump low pressure",
+    "part_needed": "HP-2201",
+    "passengers": 168,
+    "part_number": "HP-2201",
+    "quantity": 0,
+    "lead_days": 2
+   },
+   "cost": {
+    "minutes": 45,
+    "usd_per_minute": 100,
+    "total_usd": 4500
+   }
+  },
+  "summary": "Here are two short sentences for the duty manager:\n\nThe aircraft N123AB, a B737-800, has an open defect with its hydraulic pump experiencing low pressure. A part, HP-2201, is needed to repair this issue and it will take 2 days to arrive.",
+  "checks": []
+ }
+}

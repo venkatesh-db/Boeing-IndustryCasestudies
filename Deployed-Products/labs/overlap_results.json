@@ -1,0 +1,154 @@
+{
+ "question": "Can I get cardiac surgery at Mercy Heart Institute covered?",
+ "member": "STANDARD plan, 2026",
+ "no_filter": {
+  "hits": [
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.0328
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Northgate Children's Hospital: out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.0318
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2025 (superseded)",
+    "text": "Mercy Heart Institute (cardiac surgery): in-network for the STANDARD plan until 31 December 2025, 30% coinsurance.",
+    "score": 0.0317
+   }
+  ],
+  "answer": "Based on [P1], as of 2026, cardiac surgery at Mercy Heart Institute is out-of-network and only covered in emergency situations."
+ },
+ "plan_filter": {
+  "hits": [
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.0328
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2025 (superseded)",
+    "text": "Mercy Heart Institute (cardiac surgery): in-network for the STANDARD plan until 31 December 2025, 30% coinsurance.",
+    "score": 0.032
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Northgate Children's Hospital: out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.032
+   }
+  ],
+  "answer": "According to [P1], cardiac surgery at Mercy Heart Institute is out-of-network and only covered in emergency situations."
+ },
+ "plan_and_year_filter": {
+  "hits": [
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.0328
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Northgate Children's Hospital: out-of-network for the STANDARD plan; not covered except emergencies.",
+    "score": 0.0161
+   },
+   {
+    "doc": "Harbor Health STANDARD plan 2026",
+    "text": "Lakeside General Hospital: in-network for the STANDARD plan, 30% coinsurance after the deductible.",
+    "score": 0.0159
+   }
+  ],
+  "answer": "According to [P1], cardiac surgery at Mercy Heart Institute is out-of-network and not covered except in emergency situations. Therefore, it would not be covered under your Harbor Health STANDARD plan 2026."
+ },
+ "more": [
+  {
+   "question": "Is Mercy Heart Institute in-network?",
+   "label": "no_filter",
+   "hits": [
+    {
+     "doc": "Harbor Health STANDARD plan 2025 (superseded)",
+     "text": "Mercy Heart Institute (cardiac surgery): in-network for the STANDARD plan until 31 December 2025, 30% coinsurance.",
+     "score": 0.032
+    },
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+     "score": 0.0315
+    },
+    {
+     "doc": "Harbor Health PLUS plan 2026",
+     "text": "Mercy Heart Institute (cardiac surgery): in-network for the PLUS plan, 20% coinsurance after the deductible.",
+     "score": 0.0311
+    }
+   ],
+   "answer": "Based on [P1], Mercy Heart Institute is in-network for the STANDARD plan until December 31, 2025. However, according to [P2], it's out-of-network for the STANDARD plan starting from 2026, except for emergencies."
+  },
+  {
+   "question": "Is Mercy Heart Institute in-network?",
+   "label": "plan_and_year_filter",
+   "hits": [
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+     "score": 0.0325
+    },
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Northgate Children's Hospital: out-of-network for the STANDARD plan; not covered except emergencies.",
+     "score": 0.0323
+    },
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Lakeside General Hospital: in-network for the STANDARD plan, 30% coinsurance after the deductible.",
+     "score": 0.032
+    }
+   ],
+   "answer": "According to [P1], Mercy Heart Institute is out-of-network for the Harbor Health STANDARD plan 2026."
+  },
+  {
+   "question": "Which hospitals are in-network for cardiac surgery?",
+   "label": "no_filter",
+   "hits": [
+    {
+     "doc": "Harbor Health STANDARD plan 2025 (superseded)",
+     "text": "Mercy Heart Institute (cardiac surgery): in-network for the STANDARD plan until 31 December 2025, 30% coinsurance.",
+     "score": 0.0323
+    },
+    {
+     "doc": "Harbor Health PLUS plan 2026",
+     "text": "Mercy Heart Institute (cardiac surgery): in-network for the PLUS plan, 20% coinsurance after the deductible.",
+     "score": 0.0311
+    },
+    {
+     "doc": "Harbor Health PLUS plan 2026",
+     "text": "Lakeside General Hospital: in-network for the PLUS plan, 10% coinsurance after the deductible.",
+     "score": 0.031
+    }
+   ],
+   "answer": "Based on [P1] and [P2], Mercy Heart Institute is in-network for both the STANDARD and PLUS plans."
+  },
+  {
+   "question": "Which hospitals are in-network for cardiac surgery?",
+   "label": "plan_and_year_filter",
+   "hits": [
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Mercy Heart Institute (cardiac surgery): out-of-network for the STANDARD plan; not covered except emergencies.",
+     "score": 0.0325
+    },
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Northgate Children's Hospital: out-of-network for the STANDARD plan; not covered except emergencies.",
+     "score": 0.0323
+    },
+    {
+     "doc": "Harbor Health STANDARD plan 2026",
+     "text": "Lakeside General Hospital: in-network for the STANDARD plan, 30% coinsurance after the deductible.",
+     "score": 0.032
+    }
+   ],
+   "answer": "Based on [P1], Mercy Heart Institute is out-of-network for the STANDARD plan. Therefore, it is not an in-network option for cardiac surgery."
+  }
+ ]
+}

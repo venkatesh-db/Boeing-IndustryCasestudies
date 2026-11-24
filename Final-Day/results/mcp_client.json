@@ -1,0 +1,47 @@
+{
+ "server": "parts-desk",
+ "protocol": "2025-11-25",
+ "tools": [
+  "check_part_stock",
+  "get_aircraft_status",
+  "reserve_part"
+ ],
+ "resources": [
+  "parts://stock"
+ ],
+ "prompts": [
+  "triage"
+ ],
+ "calls": [
+  {
+   "tool": "check_part_stock",
+   "args": {
+    "part_number": "HP-2201",
+    "station": "FRA"
+   },
+   "is_error": false,
+   "text": "{\n  \"part_number\": \"HP-2201\",\n  \"station\": \"FRA\",\n  \"quantity\": 2,\n  \"lead_days\": 2\n}"
+  },
+  {
+   "tool": "check_part_stock",
+   "args": {
+    "part_number": "HP-2201",
+    "station": "LHR"
+   },
+   "is_error": true,
+   "text": "Error executing tool check_part_stock: 1 validation error for StockArgs\nstation\n  Input should be 'BLR', 'FRA' or 'SEA' [type=literal_error, input_value='LHR', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/literal_error"
+  },
+  {
+   "tool": "reserve_part",
+   "args": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 1
+   },
+   "is_error": true,
+   "text": "Error executing tool reserve_part: reserve_part changes data: human approval required"
+  }
+ ],
+ "resource": "{\"HP-2201\": {\"BLR\": 0, \"FRA\": 2, \"SEA\": 4}, \"BRK-1180\": {\"BLR\": 1, \"FRA\": 3, \"SEA\": 0}, \"FB-7310\": {\"BLR\": 0, \"FRA\": 0, \"SEA\": 1}}",
+ "prompt": "Check N123AB: read its status, then the stock of the needed part at its station. Do not judge airworthiness."
+}

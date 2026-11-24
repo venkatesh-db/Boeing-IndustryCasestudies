@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GenAI Incident Matrix</title>
+<style>
+:root{--ink:#1d2433;--mut:#5f6675;--line:#e2ddd6;--bg:#f6f4f1}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:#1f5fbf}
+.hero{background:linear-gradient(120deg,#0b2545,#5b2a86 55%,#b42318);color:#fff;padding:32px 16px 50px;text-align:center}
+.hero .k{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.hero h1{margin:6px 0;font-size:36px}.hero p{max-width:880px;margin:0 auto;font-size:18px;opacity:.93}
+.home{display:inline-block;margin-top:12px;color:#fff;border:1.5px solid #ffffff88;border-radius:999px;padding:5px 14px;text-decoration:none;font-weight:700;font-size:14px}
+main{max-width:1200px;margin:-28px auto 0;padding:0 16px 30px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:14px;box-shadow:0 6px 20px #0b254512}
+.box h2{margin:0 0 6px;font-size:23px}.lead{color:var(--mut);margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:#f3f1ed;border-radius:14px;padding:10px;text-align:center}.stat b{display:block;font-size:30px}
+.stat span{font-size:13.5px;color:var(--mut)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.mx{border-collapse:separate;border-spacing:4px;min-width:900px;width:100%}
+.mx th{font-size:12.5px;color:var(--mut);font-weight:700;vertical-align:bottom;padding:4px;text-align:center}
+.mx th.p{text-align:left;font-size:14px;color:var(--ink);white-space:nowrap;position:sticky;left:0;background:#fff;z-index:1}
+.mx td{height:44px;border-radius:10px;background:#f3f1ed;text-align:center;cursor:default;transition:transform .15s}
+.mx td.hit{cursor:pointer;color:#fff;font-weight:800;font-size:13px}
+.mx td.hit:hover,.mx td.sel{transform:scale(1.08);box-shadow:0 0 0 3px #0b2545}
+.mx td.hit.c-high{background:#b42318}.mx td.hit.c-medium-high{background:#d9480f}.mx td.hit.c-medium{background:#b7791f}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:4px}
+.detail{display:none;border:2px solid #0b2545;border-radius:16px;padding:14px 16px;margin-top:12px;animation:pop .25s}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.detail h3{margin:2px 0 6px;font-size:20px}.tag{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:800;margin-right:6px;background:#eef2ff;color:#1f3a8a}
+.tag.high{background:#fde8e8;color:#9b1c1c}.tag.medium-high{background:#fff1e6;color:#9a3412}.tag.medium{background:#fdf6e3;color:#854d0e}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+.row2 div{background:#f8f7f4;border-radius:12px;padding:10px}.row2 b{display:block;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.src{font-size:14.5px;margin:3px 0}.src .ok{color:#0f7a3a;font-weight:700}.src .warn{color:#9a3412;font-weight:700}
+.note{font-size:14px;color:var(--mut);border-left:4px solid #b7791f;padding-left:10px}
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.area{border:2px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;transition:all .15s;background:#fff}
+.area:hover,.area.on{border-color:#5b2a86;transform:translateY(-3px)}
+.area h4{margin:0 0 4px;font-size:16.5px}.area .n{float:right;background:#5b2a86;color:#fff;border-radius:999px;padding:0 9px;font-size:13px;font-weight:800}
+.area p{margin:0;font-size:14px;color:var(--mut)}.area .lab{margin-top:6px;font-size:13px;color:#0f8a7a;font-weight:600}
+.tl{position:relative;margin-left:10px;border-left:3px solid var(--line);padding-left:16px}
+.ev{position:relative;margin-bottom:10px;opacity:0;transform:translateX(-10px);transition:all .4s}
+.ev.in{opacity:1;transform:none}
+.ev:before{content:"";position:absolute;left:-24px;top:6px;width:13px;height:13px;border-radius:50%;background:#b42318;border:3px solid #fff;box-shadow:0 0 0 2px #b42318}
+.ev .d{font-size:13px;color:var(--mut);font-weight:700}.ev b{cursor:pointer}
+.ev.hide{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:#0b2545;color:#fff;border-color:#0b2545}
+.moral{background:linear-gradient(120deg,#0b2545,#5b2a86);color:#fff;border-radius:18px;padding:18px;text-align:center;font-size:19px}
+.disc{font-size:13px;color:var(--mut);text-align:center}
+@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}.areas{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="hero"><div class="k">Deployed products · public evidence</div><h1>🌍 The world's best GenAI products fail too</h1><p>Leading GenAI products, mapped to the problem areas that hit them in production. Every square is a real, dated, sourced incident, with a verification log.</p><a class="home" href="index.html">🏠 Deployed products</a></div>
+<main>
+ <div class="box"><div class="stats" id="stats"></div></div>
+ <div class="box"><h2>🗺️ The matrix</h2><div class="lead">Click any coloured square to open the incident, its sources, and what we checked. A grey square means <b>no incident logged here</b>. It does not mean the product is safe from that risk.</div>
+  <div class="scroll"><table class="mx" id="mx"></table></div>
+  <div class="legend"><span><i style="background:#b42318"></i>high confidence</span><span><i style="background:#d9480f"></i>medium-high (mainly one party's account)</span><span><i style="background:#b7791f"></i>medium (current status not verified)</span></div>
+  <div class="detail" id="detail"></div></div>
+ <div class="box"><h2>🧭 The 9 key areas to understand</h2><div class="lead">Click an area to filter the timeline below. Each one shows where our own labs touched the same problem.</div><div class="areas" id="areas"></div></div>
+ <div class="box"><h2>⏳ Timeline</h2><div class="chips" id="chips"></div><div class="tl" id="tl"></div></div>
+ <div class="moral">Every product on this list is built by a world-class team, and every one shipped at least one of these failures.<br><b>The goal is not zero incidents. It is layered guardrails, honest evals, fast detection and a public fix.</b></div>
+ <div class="box" style="margin-top:14px"><h2>🧾 Verification log</h2><div id="vlog" class="lead"></div></div>
+ <div class="disc">Public incidents as reported by the cited sources. Lawsuits are allegations unless a ruling is noted. Product names identify the products only. This page is not affiliated with or endorsed by any of these companies.</div>
+</main>
+<script>
+const D=/*__DATA__*/null;
+const A=Object.fromEntries(D.areas.map(a=>[a.id,a]));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byCell=(p,a)=>D.incidents.filter(i=>i.product===p&&i.area===a);
+const prim=D.incidents.filter(i=>i.sources.some(s=>s[2]==='primary')).length;
+const ok=Object.values(D.link_status).filter(s=>s===200).length,total=Object.keys(D.link_status).length;
+document.getElementById('stats').innerHTML=[[D.incidents.length,'sourced incidents'],[D.products.length,'products'],[D.areas.length,'problem areas'],[ok+'/'+total,'source links live (HTTP 200)']].map(([b,s])=>`<div class="stat"><b data-n="${b}">0</b><span>${s}</span></div>`).join('');
+document.querySelectorAll('.stat b').forEach(el=>{const t=el.dataset.n;if(isNaN(t)){el.textContent=t;return}let n=0;const step=()=>{n=Math.min(+t,n+1);el.textContent=n;if(n<+t)setTimeout(step,40)};step()});
+let h='<tr><th class="p">Product</th>'+D.areas.map(a=>`<th>${a.icon}<br>${esc(a.name)}</th>`).join('')+'</tr>';
+D.products.forEach(p=>{h+=`<tr><th class="p">${esc(p)}</th>`+D.areas.map(a=>{const hs=byCell(p,a.id);if(!hs.length)return'<td></td>';const c=hs.some(x=>x.confidence==='high')?'high':hs[0].confidence;return`<td class="hit c-${c}" data-ids="${hs.map(x=>x.id).join(',')}" title="${esc(hs.map(x=>x.title).join(' | '))}">${hs.length>1?hs.length+'×':'●'}</td>`}).join('')+'</tr>'});
+const mx=document.getElementById('mx');mx.innerHTML=h;
+function show(ids){const det=document.getElementById('detail');det.style.display='block';det.innerHTML=ids.map(id=>{const i=D.incidents.find(x=>x.id===id),a=A[i.area];return`<div style="margin-bottom:12px"><span class="tag">${i.id}</span><span class="tag">${a.icon} ${esc(a.name)}</span><span class="tag ${i.confidence}">confidence: ${i.confidence}</span><h3>${esc(i.product)}: ${esc(i.title)}</h3><div style="color:var(--mut);font-weight:700">${i.date}</div><div class="row2"><div><b>What happened</b>${esc(i.what)}</div><div><b>Impact</b>${esc(i.impact)}</div></div>${i.sources.map(s=>{const st=D.link_status[s[1]];return`<div class="src">📎 <a href="${esc(s[1])}" target="_blank" rel="noopener">${esc(s[0])}</a> · ${s[2]} · ${st===200?'<span class="ok">link live ✓</span>':`<span class="warn">HTTP ${st}: site blocks automated checks</span>`}</div>`}).join('')}<div class="note" style="margin-top:6px"><b>Discrepancies / notes:</b> ${esc(i.notes)}</div><div class="note" style="border-color:#0f8a7a;margin-top:6px"><b>Lesson:</b> ${esc(a.lesson)}</div></div>`}).join('');det.scrollIntoView({behavior:'smooth',block:'nearest'})}
+mx.addEventListener('click',e=>{const td=e.target.closest('td.hit');if(!td)return;mx.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));td.classList.add('sel');show(td.dataset.ids.split(','))});
+let filt='all';
+document.getElementById('areas').innerHTML=D.areas.map(a=>`<div class="area" data-a="${a.id}"><span class="n">${D.incidents.filter(i=>i.area===a.id).length}</span><h4>${a.icon} ${esc(a.name)}</h4><p>${esc(a.lesson)}</p><div class="lab">🧪 Our labs: ${esc(a.our_lab)}</div></div>`).join('');
+document.getElementById('chips').innerHTML=[['all','All']].concat(D.areas.map(a=>[a.id,a.icon+' '+a.name])).map(([k,v])=>`<button data-a="${k}" class="${k==='all'?'on':''}">${esc(v)}</button>`).join('');
+const tl=document.getElementById('tl');
+tl.innerHTML=[...D.incidents].sort((x,y)=>x.date.localeCompare(y.date)).map(i=>`<div class="ev" data-a="${i.area}" data-id="${i.id}"><div class="d">${i.date} · ${A[i.area].icon} ${esc(A[i.area].name)}</div><b>${esc(i.product)}</b>: ${esc(i.title)}</div>`).join('');
+function setFilter(a){filt=a;document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on',b.dataset.a===a));document.querySelectorAll('.area').forEach(b=>b.classList.toggle('on',b.dataset.a===a));tl.querySelectorAll('.ev').forEach(ev=>ev.classList.toggle('hide',a!=='all'&&ev.dataset.a!==a))}
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setFilter(b.dataset.a)});
+document.getElementById('areas').addEventListener('click',e=>{const b=e.target.closest('.area');if(b){setFilter(filt===b.dataset.a?'all':b.dataset.a);tl.scrollIntoView({behavior:'smooth',block:'start'})}});
+tl.addEventListener('click',e=>{const ev=e.target.closest('.ev');if(!ev)return;show([ev.dataset.id]);document.querySelector(`td[data-ids*="${ev.dataset.id}"]`)?.classList.add('sel')});
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1}):null;
+tl.querySelectorAll('.ev').forEach((ev,k)=>{ev.style.transitionDelay=(k%6)*60+'ms';io?io.observe(ev):ev.classList.add('in')});
+document.getElementById('vlog').innerHTML=`<p><b>Verified on:</b> ${D.verified_on}. ${esc(D.method)}</p><p><b>Link check:</b> ${total} source URLs requested at ${D.checked_at}. ${ok} returned HTTP 200. Any other code means the site blocks automated requests; that page was still found by web search. HTTP 200 proves the page exists. The claim itself was checked against search-result summaries of those sources.</p><p><b>Primary sources</b> (court, regulator, or the company's own post) back ${prim} of ${D.incidents.length} incidents. The rest rely on major news or security-research coverage.</p><p><b>Full log:</b> <a href="industry-evidence/evidence-log.md">evidence-log.md</a> · raw data <a href="industry-evidence/evidence.json">evidence.json</a> · link results <a href="industry-evidence/link_check.json">link_check.json</a> · rebuild with <code>python3 industry-evidence/build.py</code></p>`;
+</script>
+</body>
+</html>

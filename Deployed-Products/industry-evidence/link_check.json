@@ -1,0 +1,225 @@
+{
+ "checked_at": "2026-11-23T18:38:51",
+ "results": [
+  {
+   "id": "EV-01",
+   "url": "https://storage.courtlistener.com/recap/gov.uscourts.nysd.575368/gov.uscourts.nysd.575368.54.0_4.pdf",
+   "status": 200
+  },
+  {
+   "id": "EV-01",
+   "url": "https://www.cnbc.com/2023/05/30/chatgpt-cited-bogus-cases-for-a-new-york-federal-court-filing.html",
+   "status": 200
+  },
+  {
+   "id": "EV-02",
+   "url": "https://openai.com/index/march-20-chatgpt-outage",
+   "status": 200
+  },
+  {
+   "id": "EV-02",
+   "url": "https://securityaffairs.com/144057/data-breach/openai-chatgpt-redis-bug.html",
+   "status": 200
+  },
+  {
+   "id": "EV-03",
+   "url": "https://openai.com/index/sycophancy-in-gpt-4o/",
+   "status": 200
+  },
+  {
+   "id": "EV-03",
+   "url": "https://openai.com/index/expanding-on-sycophancy/",
+   "status": 200
+  },
+  {
+   "id": "EV-04",
+   "url": "https://www.npr.org/2023/12/27/1221821750/new-york-times-sues-chatgpt-openai-microsoft-for-copyright-infringement",
+   "status": 200
+  },
+  {
+   "id": "EV-04",
+   "url": "https://www.cnbc.com/2023/12/27/new-york-times-sues-microsoft-chatgpt-maker-openai-over-copyright-infringement.html",
+   "status": 200
+  },
+  {
+   "id": "EV-05",
+   "url": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/print/10085432",
+   "status": 200
+  },
+  {
+   "id": "EV-05",
+   "url": "https://www.euronews.com/2024/12/20/italys-privacy-watchdog-fines-openai-15-million-after-probe-into-chatgpt-data-collection",
+   "status": 200
+  },
+  {
+   "id": "EV-06",
+   "url": "https://www.npr.org/2023/02/09/1155650909/google-chatbot--error-bard-shares",
+   "status": 200
+  },
+  {
+   "id": "EV-06",
+   "url": "https://www.aljazeera.com/economy/2023/2/8/google-shares-tank-8-as-ai-chatbot-bard-flubs-answer-in-ad",
+   "status": 200
+  },
+  {
+   "id": "EV-07",
+   "url": "https://blog.google/products/search/ai-overViews-update-may-2024",
+   "status": 200
+  },
+  {
+   "id": "EV-07",
+   "url": "https://www.theregister.com/2024/05/31/google_ai_search_update/",
+   "status": 200
+  },
+  {
+   "id": "EV-08",
+   "url": "https://blog.google/products/gemini/gemini-image-generation-issue/",
+   "status": 200
+  },
+  {
+   "id": "EV-08",
+   "url": "https://www.cnbc.com/2024/02/22/google-pauses-gemini-ai-image-generator-after-inaccuracies.html",
+   "status": 200
+  },
+  {
+   "id": "EV-09",
+   "url": "https://simonwillison.net/2023/Feb/9/sidney/",
+   "status": 200
+  },
+  {
+   "id": "EV-09",
+   "url": "https://incidentdatabase.ai/reports/2666",
+   "status": 200
+  },
+  {
+   "id": "EV-10",
+   "url": "https://thehackernews.com/2025/06/zero-click-ai-vulnerability-exposes.html",
+   "status": 200
+  },
+  {
+   "id": "EV-10",
+   "url": "https://www.securityweek.com/echoleak-ai-attack-enabled-theft-of-sensitive-data-via-microsoft-365-copilot/",
+   "status": 200
+  },
+  {
+   "id": "EV-11",
+   "url": "https://embracethered.com/blog/posts/2025/github-copilot-remote-code-execution-via-prompt-injection",
+   "status": 200
+  },
+  {
+   "id": "EV-11",
+   "url": "https://www.wiz.io/vulnerability-database/cve/cve-2025-53773",
+   "status": 200
+  },
+  {
+   "id": "EV-12",
+   "url": "https://www.theregister.com/2024/01/12/github_copilot_copyright_case_narrowed/",
+   "status": 200
+  },
+  {
+   "id": "EV-12",
+   "url": "https://githubcopilotlitigation.com/pdf/07074/1-0-github_complaint.pdf",
+   "status": 200
+  },
+  {
+   "id": "EV-13",
+   "url": "https://techcrunch.com/2025/05/15/anthropics-lawyer-was-forced-to-apologize-after-claude-hallucinated-a-legal-citation",
+   "status": 200
+  },
+  {
+   "id": "EV-13",
+   "url": "https://www.theregister.com/2025/05/15/anthopics_law_firm_blames_claude_hallucinations/",
+   "status": 200
+  },
+  {
+   "id": "EV-14",
+   "url": "https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues",
+   "status": 200
+  },
+  {
+   "id": "EV-14",
+   "url": "https://www.infoq.com/news/2025/10/anthropic-infrastructure-bugs",
+   "status": 200
+  },
+  {
+   "id": "EV-15",
+   "url": "https://www.technologyreview.com/2022/11/18/1063487/meta-large-language-model-ai-only-survived-three-days-gpt-3-science/",
+   "status": 200
+  },
+  {
+   "id": "EV-15",
+   "url": "https://oecd.ai/en/incidents/2022-11-22-6a50",
+   "status": 200
+  },
+  {
+   "id": "EV-16",
+   "url": "https://www.malwarebytes.com/blog/news/2025/06/your-meta-ai-chats-might-be-public-and-it's-not-a-bug",
+   "status": 200
+  },
+  {
+   "id": "EV-16",
+   "url": "https://www.techradar.com/computing/artificial-intelligence/i-dont-like-the-idea-of-my-conversations-with-meta-ai-being-public-heres-how-you-can-opt-out",
+   "status": 200
+  },
+  {
+   "id": "EV-17",
+   "url": "https://techcrunch.com/2025/07/12/xai-and-grok-apologize-for-horrific-behavior",
+   "status": 200
+  },
+  {
+   "id": "EV-17",
+   "url": "https://www.npr.org/2025/07/09/nx-s1-5462609/grok-elon-musk-",
+   "status": 200
+  },
+  {
+   "id": "EV-18",
+   "url": "https://techcrunch.com/2025/08/20/thousands-of-grok-chats-are-now-searchable-on-google",
+   "status": 200
+  },
+  {
+   "id": "EV-18",
+   "url": "https://fortune.com/2025/08/22/xai-grok-chats-public-on-google-search-elon-musk/",
+   "status": 200
+  },
+  {
+   "id": "EV-19",
+   "url": "https://brave.com/blog/comet-prompt-injection/",
+   "status": 200
+  },
+  {
+   "id": "EV-19",
+   "url": "https://www.theregister.com/2025/08/20/perplexity_comet_browser_prompt_injection/",
+   "status": 200
+  },
+  {
+   "id": "EV-20",
+   "url": "https://aws.amazon.com/security/security-bulletins/AWS-2025-015/",
+   "status": 200
+  },
+  {
+   "id": "EV-20",
+   "url": "https://www.theregister.com/2025/07/24/amazon_q_ai_prompt/",
+   "status": 200
+  },
+  {
+   "id": "EV-21",
+   "url": "https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/",
+   "status": 200
+  },
+  {
+   "id": "EV-21",
+   "url": "https://www.theregister.com/2025/07/21/replit_saastr_vibe_coding_incident",
+   "status": 200
+  },
+  {
+   "id": "EV-22",
+   "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/",
+   "status": 403
+  },
+  {
+   "id": "EV-22",
+   "url": "https://www.cbc.ca/amp/1.7116416",
+   "status": 200
+  }
+ ]
+}

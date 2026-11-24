@@ -1,0 +1,1152 @@
+[
+ {
+  "overlap": 100,
+  "id": "M01",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "CNET ran a trial of an \"internally designed AI engine\" to write finance explainers.",
+  "anchors": [
+   "internally designed ai engine"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 71,
+  "id": "M01",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "Readers were not clearly told: the AI authorship came to light through outside reporting, after which CNET acknowledged it.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M01",
+  "stage": "post",
+  "ref": 2,
+  "fact": "The Register showed CNET's compound-interest explainer got its own example wrong (a $10,000 deposit earning 3% interest).",
+  "anchors": [
+   "10,000"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M01",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Some corrections noted CNET \"replaced phrases that were not entirely original\".",
+  "anchors": [
+   "replaced phrases that were not entirely original"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M01",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "41 of the 77 AI-written articles were corrected.",
+  "anchors": [
+   "41",
+   "77"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 89,
+  "id": "M01",
+  "stage": "outcome",
+  "ref": 4,
+  "fact": "CNET paused publishing articles produced by the AI model. Owner Red Ventures had also used it on Bankrate and CreditCards.com.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 90,
+  "id": "M02",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Arena Group had bought Men's Journal in December 2022. The AI article ran under a generic \"Men's Fitness Editors\" byline.",
+  "anchors": [
+   "men's fitness editors"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M02",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The article \"What All Men Should Know About Low Testosterone\" was reviewed by Bradley Anawalt (UW Medical Center), who found 18 specific errors.",
+  "anchors": [
+   "what all men should know about low testosterone",
+   "18"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 89,
+  "id": "M02",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "The article was substantially rewritten after Futurism contacted Arena. Arena said \"these early experiments are a work in progress\".",
+  "anchors": [
+   "these early experiments are a work in progress"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 86,
+  "id": "M03",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "BuzzFeed described the guides as an \"experiment\" with its AI writing tools, using staff answers to an internal questionnaire on underrated travel picks.",
+  "anchors": [
+   "experiment"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 88,
+  "id": "M03",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Futurism found 40+ travel guides written with ChatGPT or a similar chatbot.",
+  "anchors": [
+   "40"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 78,
+  "id": "M03",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Almost every guide used the phrase \"hidden gem\". \"Gem\" appeared about 25 times across a handful of stories.",
+  "anchors": [
+   "hidden gem",
+   "25"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 83,
+  "id": "M03",
+  "stage": "post",
+  "ref": 2,
+  "fact": "Nieman Lab described the guides as comically bland and similar to one another.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 62,
+  "id": "M03",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "BuzzFeed defended them as an experiment. Whether the experiment continued after 2023 is not documented in the sources found.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M04",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "G/O Media called it a \"modest test\" of AI content.",
+  "anchors": [
+   "modest test"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 71,
+  "id": "M04",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "The io9 deputy editor said no one at io9 took part in editing or publishing it, so newsroom review was bypassed.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M04",
+  "stage": "post",
+  "ref": 1,
+  "fact": "\"A Chronological List of Star Wars Movies & TV Shows\" was not in chronological order (e.g. The Clone Wars listed after The Rise of Skywalker).",
+  "anchors": [
+   "a chronological list of star wars movies & tv shows"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 50,
+  "id": "M04",
+  "stage": "post",
+  "ref": 2,
+  "fact": "The deputy editor flagged 18 concerns, corrections and comments.",
+  "anchors": [
+   "18"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 83,
+  "id": "M04",
+  "stage": "post",
+  "ref": 3,
+  "fact": "The error-filled article still ranked on Google's first page for \"Star Wars movies\".",
+  "anchors": [
+   "star wars movies"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 50,
+  "id": "M04",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "The GMG Union called the move unethical and unacceptable.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 56,
+  "id": "M04",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Management planned to keep publishing AI content (including on Jalopnik and The A.V. Club), per internal memos reported by Vox.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 75,
+  "id": "M05",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Byline was \"Microsoft Travel\". Editorial review process: not publicly disclosed.",
+  "anchors": [
+   "microsoft travel"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 88,
+  "id": "M05",
+  "stage": "post",
+  "ref": 1,
+  "fact": "\"Headed to Ottawa? Here's what you shouldn't miss!\" listed the Ottawa Food Bank as the No. 3 attraction and told visitors to go \"on an empty stomach\".",
+  "anchors": [
+   "headed to ottawa? here's what you shouldn't miss!",
+   "on an empty stomach"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M05",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The food bank said encouraging people to 'visit us on an empty stomach' was \"incredibly insensitive and insulting\".",
+  "anchors": [
+   "incredibly insensitive and insulting"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M05",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Microsoft removed the article. A spokesperson said the content \"was generated through a combination of algorithmic techniques\" and that Microsoft pairs technology with content editors.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Gannett used a third-party vendor, LedeAI, to generate recaps across local papers.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Whether newsrooms reviewed recaps before publication: Gannett did not answer the question.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The Columbus Dispatch ran a recap describing a game as \"a close encounter of the athletic kind\".",
+  "anchors": [
+   "a close encounter of the athletic kind"
+  ],
+  "missing": [],
+  "status": "verified-alt"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Similar stories ran in the Louisville Courier Journal, AZ Central, Florida Today and the Milwaukee Journal Sentinel.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 56,
+  "id": "M06",
+  "stage": "post",
+  "ref": 1,
+  "fact": "LedeAI's CEO regretted errors, unwanted repetition and awkward phrasing in articles from August 19.",
+  "anchors": [
+   "19"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Gannett paused LedeAI in all local markets using it and said it would keep evaluating vendors.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M06",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "USA TODAY network updated its AI-generated sports articles to correct errors.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M07",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "MSN syndicated content from partner sites. How this piece was produced: MSN declined to answer.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M07",
+  "stage": "post",
+  "ref": 1,
+  "fact": "An obituary of former NBA player Brandon Hunter ran under the headline \"Brandon Hunter useless at 42\".",
+  "anchors": [
+   "brandon hunter useless at 42",
+   "42"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 83,
+  "id": "M07",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The text was garbled (e.g. \"handed away on the age of 42\"), and it appeared to reword a TMZ Sports story.",
+  "anchors": [
+   "handed away on the age of 42",
+   "42"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 80,
+  "id": "M07",
+  "stage": "outcome",
+  "ref": 3,
+  "fact": "The obituary was taken down. Microsoft did not confirm it was AI-generated.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 88,
+  "id": "M08",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "MSN automatically added AI-generated polls to licensed publisher articles. The publisher (The Guardian) had no role in the poll.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 70,
+  "id": "M08",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Next to a Guardian story on the death of Lilie James, 21, MSN ran a poll asking whether it was murder, accident or suicide.",
+  "anchors": [
+   "21"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 50,
+  "id": "M08",
+  "stage": "post",
+  "ref": 2,
+  "fact": "Readers blamed the Guardian and its reporter.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 92,
+  "id": "M08",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Guardian Media Group CEO Anna Bateson wrote to Microsoft president Brad Smith citing \"significant reputational damage\".",
+  "anchors": [
+   "significant reputational damage"
+  ],
+  "missing": [],
+  "status": "verified-alt"
+ },
+ {
+  "overlap": 100,
+  "id": "M08",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "A Microsoft spokesperson said it had \"deactivated its poll feature\" and was \"investigating the cause of the inappropriate content\".",
+  "anchors": [
+   "deactivated its poll feature",
+   "investigating the cause of the inappropriate content"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 86,
+  "id": "M09",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "Content came from a third-party supplier, according to Arena Group.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M09",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Futurism found bylines such as \"Drew Ortiz\" and \"Sora Tanaka\" with AI-generated headshots and invented bios.",
+  "anchors": [
+   "drew ortiz",
+   "sora tanaka"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 75,
+  "id": "M09",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The profiles vanished from the site after Futurism asked about them.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 80,
+  "id": "M09",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "Arena Group denied publishing AI-generated content and blamed the third-party vendor.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M09",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "The Sports Illustrated Union said it was \"horrified\" and demanded transparency.",
+  "anchors": [
+   "horrified"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 80,
+  "id": "M10",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "X shipped it with fine print: \"Grok is an early feature and can make mistakes.\"",
+  "anchors": [
+   "grok is an early feature and can make mistakes."
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 67,
+  "id": "M10",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Fans joked Klay Thompson was \"throwing bricks\" after a 0-for-10 game. Grok turned this into a story about him vandalising homes in Sacramento with bricks.",
+  "anchors": [
+   "throwing bricks",
+   "10"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 56,
+  "id": "M10",
+  "stage": "post",
+  "ref": 2,
+  "fact": "It invented details (broken windows, a police investigation) and placed the story at No. 5 on trending.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 57,
+  "id": "M10",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "No correction or statement found in the sources. The disclaimer was X's only stated safeguard.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M11",
+  "stage": "post",
+  "ref": 2,
+  "fact": "AI Overviews suggested glue on pizza (from an old Reddit joke) and eating rocks (from The Onion).",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 88,
+  "id": "M11",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Google said it struggled with nonsensical queries and satirical content, and that many viral screenshots were fake.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 86,
+  "id": "M11",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Google restricted AI Overviews for nonsensical and satirical queries, and kept the feature.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M11",
+  "stage": "outcome",
+  "ref": 3,
+  "fact": "Sept 2025: Penske Media (Rolling Stone, Billboard, Variety) sued Google, citing \"significant declines in clicks\" and affiliate revenue down more than a third from its peak. Google called the claims \"meritless\".",
+  "anchors": [
+   "significant declines in clicks",
+   "meritless"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 82,
+  "id": "M12",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "Hoodline began filling its sites with AI-generated articles the year before. In April 2024 it announced an \"AI\" label next to writer names.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M12",
+  "stage": "post",
+  "ref": 3,
+  "fact": "Articles ran under invented bylines (e.g. \"Nina Singh-Hudson\") with AI-generated headshots and bios.",
+  "anchors": [
+   "nina singh-hudson"
+  ],
+  "missing": [],
+  "status": "verified-alt"
+ },
+ {
+  "overlap": 90,
+  "id": "M12",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Nieman Lab found stories leaned heavily on police press releases, and the AI personas had no real beats.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 89,
+  "id": "M12",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "The CEO said the personas, beats and cities were assigned at random, and planned to turn them into AI news anchors for short videos.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 62,
+  "id": "M13",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Shipped as part of Apple Intelligence. Beta labelling and italic styling were only added after the complaints.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 60,
+  "id": "M13",
+  "stage": "post",
+  "ref": 2,
+  "fact": "A summary of a BBC alert falsely said Luigi Mangione had shot himself. BBC News filed a formal complaint in December 2024.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M13",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "iOS 18.3 temporarily disabled summaries for news and entertainment apps (Jan 2025).",
+  "anchors": [
+   "18.3"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 75,
+  "id": "M13",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "Apple added italics for summaries, a beta warning, and a per-app off switch. The BBC welcomed the pause.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 78,
+  "id": "M14",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "Launched in January 2025: three bullet-point AI summaries at the top of Bloomberg News stories on the Terminal.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M14",
+  "stage": "post",
+  "ref": 1,
+  "fact": "By late March 2025, Bloomberg had corrected at least three dozen AI summaries (per The New York Times).",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 50,
+  "id": "M14",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Errors included when Trump's broader auto tariffs would apply, and the year Canadian tariffs were imposed.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M14",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Bloomberg said 99% of AI summaries meet its editorial standards.",
+  "anchors": [
+   "99%"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 67,
+  "id": "M14",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "Bloomberg kept the feature running.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M15",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "G/O Media called it \"purely experimental\" and said editorial staff review each story before publication.",
+  "anchors": [
+   "purely experimental"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M15",
+  "stage": "post",
+  "ref": 2,
+  "fact": "It repeatedly cited \"Devdiscourse\", itself apparently an automated news site.",
+  "anchors": [
+   "devdiscourse"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M15",
+  "stage": "post",
+  "ref": 3,
+  "fact": "It gave a wrong headline on the Boeing Starliner astronauts (\"took their first spacewalk\").",
+  "anchors": [
+   "took their first spacewalk"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 78,
+  "id": "M15",
+  "stage": "post",
+  "ref": 1,
+  "fact": "TechCrunch flagged a self-contradicting headline: \"Jobless claims rise slightly as continuing claims set a record\".",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M15",
+  "stage": "outcome",
+  "ref": 4,
+  "fact": "Futurism later reported that Quartz fired its writers after the move to AI content.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 92,
+  "id": "M16",
+  "stage": "post",
+  "ref": 1,
+  "fact": "On a column about Anaheim's 1920s KKK council members, Insights generated a note that framed the Klan as something other than an explicitly hate-driven movement. The New York Times' Ryan Mac flagged it.",
+  "anchors": [
+   "1920"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 60,
+  "id": "M16",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "The note was removed from that article about a day after launch, and the tool was later taken offline.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M16",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "A later report said the paper had \"moved on\" from the AI bias meter.",
+  "anchors": [
+   "moved on"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 88,
+  "id": "M17",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "The insert was licensed content from King Features. The Inquirer said its newsroom was not involved in producing it.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M17",
+  "stage": "post",
+  "ref": 2,
+  "fact": "10 of the 15 books in the summer reading list do not exist, e.g. \"The Last Algorithm\", attributed to Andy Weir.",
+  "anchors": [
+   "the last algorithm",
+   "10",
+   "15"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M17",
+  "stage": "post",
+  "ref": 1,
+  "fact": "The freelance writer said he used AI to compile the list.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 67,
+  "id": "M17",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "King Features denounced the AI use and cut ties with the freelancer.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 80,
+  "id": "M17",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Chicago Public Media acknowledged the list was created with an AI tool.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 70,
+  "id": "M18",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "A planned 2-week mobile pilot for about 10% of opted-in readers. Neowin reported it used Cohere's open-weight Aya model.",
+  "anchors": [
+   "10%"
+  ],
+  "missing": [],
+  "status": "verified-alt"
+ },
+ {
+  "overlap": 82,
+  "id": "M18",
+  "stage": "post",
+  "ref": 2,
+  "fact": "Editors objected that it would give an unaccountable voice top billing with no editorial control, and would do \"immediate and irreversible harm\" to readers and to trust.",
+  "anchors": [
+   "immediate and irreversible harm"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M18",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "The Foundation paused the trial on day two. It said it was still interested in AI summaries for uses such as accessibility.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M19",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Ventures Media first claimed the articles were \"proofread and edited by the editorial team\". That statement was later removed.",
+  "anchors": [
+   "proofread and edited by the editorial team"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 80,
+  "id": "M19",
+  "stage": "pre",
+  "ref": 3,
+  "fact": "The publisher told VRT it was a test by the tech team: articles fully generated by AI, not reviewed by editors, published under aliases and kept separate from the newsroom.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 93,
+  "id": "M19",
+  "stage": "post",
+  "ref": 1,
+  "fact": "More than half of the articles on Elle's Flemish website in the previous three months were partly or fully AI-generated, under the names Marta Peeters and Sophie Vermeulen.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M19",
+  "stage": "post",
+  "ref": 1,
+  "fact": "Sophie Vermeulen's profile photo came from This Person Does Not Exist, a site that generates fake faces with AI.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M19",
+  "stage": "post",
+  "ref": 1,
+  "fact": "In June, 44 of 46 online articles on Psychologies were credited to a fake author.",
+  "anchors": [
+   "44",
+   "46"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 90,
+  "id": "M19",
+  "stage": "post",
+  "ref": 2,
+  "fact": "That persona, \"Femke\", presented herself as a psychologist. The chair of the Psychologists' Commission called it misleading.",
+  "anchors": [
+   "femke"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 80,
+  "id": "M19",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "The articles now carry the notice \"This content was generated with the help of AI\".",
+  "anchors": [
+   "this content was generated with the help of ai"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 67,
+  "id": "M20",
+  "stage": "pre",
+  "ref": 1,
+  "fact": "Not a product they built. The AI content arrived through freelance submissions under the byline \"Margaux Blanchard\".",
+  "anchors": [
+   "margaux blanchard"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 89,
+  "id": "M20",
+  "stage": "post",
+  "ref": 1,
+  "fact": "At least six publications ran the byline. Wired caught it when the writer couldn't supply payment details.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M20",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Wired and Business Insider removed the features.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M20",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Publications took down or amended the affected articles, and many journalists added extra steps to verify experts before quoting them.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 89,
+  "id": "M20",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "Business Insider later removed 38 essays under other bylines and deleted 19 author pages (per The Washington Post).",
+  "anchors": [
+   "38",
+   "19"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 92,
+  "id": "M21",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "The union contract required 60 days' notice and good-faith bargaining before AI tools with material job impact. The Guild argued Politico skipped this.",
+  "anchors": [
+   "60"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 89,
+  "id": "M21",
+  "stage": "pre",
+  "ref": 2,
+  "fact": "Management argued Report Builder sat \"outside the newsroom\" because product and engineering built it.",
+  "anchors": [
+   "outside the newsroom"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "M21",
+  "stage": "post",
+  "ref": 2,
+  "fact": "The arbitrator found Report Builder produced \"erroneous and even absurd\" outputs and was never coded to follow Politico's stylebook.",
+  "anchors": [
+   "erroneous and even absurd"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 67,
+  "id": "M21",
+  "stage": "outcome",
+  "ref": 2,
+  "fact": "The arbitrator ruled for the PEN Guild (late 2025).",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "M21",
+  "stage": "outcome",
+  "ref": 1,
+  "fact": "Politico later agreed to shut down both AI tools.",
+  "anchors": [],
+  "missing": [],
+  "status": "no-anchor"
+ },
+ {
+  "overlap": 100,
+  "id": "S1",
+  "stage": "facts",
+  "ref": 3,
+  "fact": "Across 18 countries and 14 languages, 45% of AI answers had at least one significant issue.",
+  "anchors": [
+   "18",
+   "14",
+   "45%"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 100,
+  "id": "S1",
+  "stage": "facts",
+  "ref": 3,
+  "fact": "31% of responses showed serious sourcing problems: missing, misleading or incorrect attribution.",
+  "anchors": [
+   "31%"
+  ],
+  "missing": [],
+  "status": "verified"
+ },
+ {
+  "overlap": 62,
+  "id": "S1",
+  "stage": "facts",
+  "ref": 1,
+  "fact": "Gemini had significant issues in 76% of responses (EBU release; the page blocks automated checks).",
+  "anchors": [
+   "76%"
+  ],
+  "missing": [],
+  "status": "verified"
+ }
+]

@@ -1,0 +1,278 @@
+{
+ "v1: keyword, 3 lines": {
+  "dev": "0/1",
+  "held_out": "4/8",
+  "rows": [
+   {
+    "split": "dev",
+    "q": "How much is the fee for paying by card abroad?",
+    "pass": false,
+    "answer": "I couldn't find this in the bank's policies, so I won't guess. I can connect you to an agent.",
+    "ms": 2611.7
+   },
+   {
+    "split": "held_out",
+    "q": "What do you charge if I use my card overseas?",
+    "pass": false,
+    "answer": "According to our policy [P3], we don't charge a fee for using your card abroad. However, please note that some international transactions may be subject to a foreign transaction fee, which is typically 2-3% of the transaction amount.",
+    "ms": 2587.7
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a fee when I pay in another country?",
+    "pass": false,
+    "answer": "According to our policy [P2], international transactions are subject to the same fees as domestic transactions. There's no additional fee for paying abroad, but please note that your account balance and exchange rates may affect the final amount.",
+    "ms": 2370.0
+   },
+   {
+    "split": "held_out",
+    "q": "I'm travelling in Europe, will card payments cost extra?",
+    "pass": true,
+    "answer": "According to our policy [P2], foreign card payments are subject to a fee of 2.5% of the payment amount. This means you'll be charged an additional percentage on top of your transaction.",
+    "ms": 2098.3
+   },
+   {
+    "split": "held_out",
+    "q": "My card is gone, how do I stop people using it?",
+    "pass": false,
+    "answer": "I'm so sorry to hear that your card has gone missing! According to our policy [P3], you're not liable for any transactions made after reporting your card lost or stolen. To protect yourself and prevent unauthorized use, please report the loss or theft of your card as soon as possible.",
+    "ms": 2989.3
+   },
+   {
+    "split": "held_out",
+    "q": "How many days do I have to challenge a payment?",
+    "pass": true,
+    "answer": "According to our policy [P1], you can dispute a card payment within 120 days of the payment date. This is the timeframe allowed for disputing transactions.",
+    "ms": 1934.9
+   },
+   {
+    "split": "held_out",
+    "q": "Do you charge for a new card if mine breaks?",
+    "pass": false,
+    "answer": "According to our policy [P1], we don't charge for a new card when yours is lost or broken. We'll send a replacement within 5 working days after cancelling your old card.",
+    "ms": 2278.5
+   },
+   {
+    "split": "held_out",
+    "q": "What if I type my PIN wrong three times?",
+    "pass": true,
+    "answer": "According to our policy [P1], your card will be blocked automatically after 3 incorrect PIN attempts. You can unblock it at any of our bank's ATMs.",
+    "ms": 1871.4
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a monthly charge on my account?",
+    "pass": true,
+    "answer": "According to our policy [P1], if your account balance is above $1,000, you won't be charged a monthly fee. If the balance is below $1,000, the monthly fee is $4.00.",
+    "ms": 2500.8
+   }
+  ]
+ },
+ "v1 + synonym hack (abroad \u2192 foreign)": {
+  "dev": "1/1",
+  "held_out": "4/8",
+  "rows": [
+   {
+    "split": "dev",
+    "q": "How much is the fee for paying by card abroad?",
+    "pass": true,
+    "answer": "According to our policy [P2], there's a foreign transaction fee of 2.5% of the payment amount when making a payment with your card abroad. This fee applies to all international transactions.",
+    "ms": 2102.7
+   },
+   {
+    "split": "held_out",
+    "q": "What do you charge if I use my card overseas?",
+    "pass": false,
+    "answer": "According to our policy [P3], we don't charge a fee for using your card abroad. However, please note that some international transactions may be subject to a foreign transaction fee, which is typically 2-3% of the transaction amount.",
+    "ms": 2581.8
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a fee when I pay in another country?",
+    "pass": false,
+    "answer": "According to our policy [P2], international transactions are subject to the same fees as domestic transactions. There's no additional fee for paying abroad, but please note that your account balance and exchange rates may affect the final amount.",
+    "ms": 2450.4
+   },
+   {
+    "split": "held_out",
+    "q": "I'm travelling in Europe, will card payments cost extra?",
+    "pass": true,
+    "answer": "According to our policy [P2], foreign card payments are subject to a fee of 2.5% of the payment amount. This means you'll be charged an additional percentage on top of your transaction.",
+    "ms": 2166.8
+   },
+   {
+    "split": "held_out",
+    "q": "My card is gone, how do I stop people using it?",
+    "pass": false,
+    "answer": "I'm so sorry to hear that your card has gone missing! According to our policy [P3], you're not liable for any transactions made after reporting your card lost or stolen. To protect yourself and prevent unauthorized use, please report the loss or theft of your card as soon as possible.",
+    "ms": 3191.1
+   },
+   {
+    "split": "held_out",
+    "q": "How many days do I have to challenge a payment?",
+    "pass": true,
+    "answer": "According to our policy [P1], you can dispute a card payment within 120 days of the payment date. This is the timeframe allowed for disputing transactions.",
+    "ms": 1956.4
+   },
+   {
+    "split": "held_out",
+    "q": "Do you charge for a new card if mine breaks?",
+    "pass": false,
+    "answer": "According to our policy [P1], we don't charge for a new card when yours is lost or broken. We'll send a replacement within 5 working days after cancelling your old card.",
+    "ms": 2288.8
+   },
+   {
+    "split": "held_out",
+    "q": "What if I type my PIN wrong three times?",
+    "pass": true,
+    "answer": "According to our policy [P1], your card will be blocked automatically after 3 incorrect PIN attempts. You can unblock it at any of our bank's ATMs.",
+    "ms": 1821.1
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a monthly charge on my account?",
+    "pass": true,
+    "answer": "According to our policy [P1], if your account balance is above $1,000, you won't be charged a monthly fee. If the balance is below $1,000, the monthly fee is $4.00.",
+    "ms": 2449.0
+   }
+  ]
+ },
+ "hybrid, 3 lines": {
+  "dev": "0/1",
+  "held_out": "5/8",
+  "rows": [
+   {
+    "split": "dev",
+    "q": "How much is the fee for paying by card abroad?",
+    "pass": false,
+    "answer": "According to our policy [P1], there's a flat rate of 3.00 per withdrawal plus 1.5% of the amount for ATM withdrawals abroad.",
+    "ms": 4774.0
+   },
+   {
+    "split": "held_out",
+    "q": "What do you charge if I use my card overseas?",
+    "pass": false,
+    "answer": "According to our policy [P2], we don't have a specific fee for using your card overseas. However, please note that your bank may convert the transaction to your local currency, and the conversion rate may vary depending on the exchange rates at the time of the transaction.",
+    "ms": 3438.2
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a fee when I pay in another country?",
+    "pass": false,
+    "answer": "According to our policy [P1], there is no monthly account fee if your balance is above 1,000. However, we don't have specific information on international transaction fees. If you'd like more details, please let me know and I can look into it for you!",
+    "ms": 3564.8
+   },
+   {
+    "split": "held_out",
+    "q": "I'm travelling in Europe, will card payments cost extra?",
+    "pass": true,
+    "answer": "According to our policy [P1], foreign card payments do incur a fee. The fee is 2.5% of the payment amount. So, please keep that in mind when making transactions abroad!",
+    "ms": 2874.5
+   },
+   {
+    "split": "held_out",
+    "q": "My card is gone, how do I stop people using it?",
+    "pass": true,
+    "answer": "I'm so sorry to hear that your card has been lost or stolen! According to our policy [P2], you can freeze your card immediately in the mobile app under Cards > Freeze card. This will prevent any further transactions from being made on the card.",
+    "ms": 3366.0
+   },
+   {
+    "split": "held_out",
+    "q": "How many days do I have to challenge a payment?",
+    "pass": true,
+    "answer": "According to our policy [P1], you can dispute a card payment within 120 days of the payment date. This is the timeframe allowed for disputing transactions.",
+    "ms": 2651.6
+   },
+   {
+    "split": "held_out",
+    "q": "Do you charge for a new card if mine breaks?",
+    "pass": false,
+    "answer": "According to our policy [P2], there is no fee for a replacement card. If your card breaks, we'll provide a new one at no additional cost.",
+    "ms": 2647.3
+   },
+   {
+    "split": "held_out",
+    "q": "What if I type my PIN wrong three times?",
+    "pass": true,
+    "answer": "According to our policy [P1], your card will be blocked automatically after 3 incorrect PIN attempts. You can unblock it at any of our ATMs.",
+    "ms": 2655.7
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a monthly charge on my account?",
+    "pass": true,
+    "answer": "According to our policy [P2], if your account balance is above $1,000, you won't be charged a monthly fee. If your balance is below $1,000, the monthly fee would be $4.00.",
+    "ms": 3232.2
+   }
+  ]
+ },
+ "v2: hybrid, 4 lines": {
+  "dev": "1/1",
+  "held_out": "5/8",
+  "rows": [
+   {
+    "split": "dev",
+    "q": "How much is the fee for paying by card abroad?",
+    "pass": true,
+    "answer": "According to our policy [P4], there's a foreign card payment fee of 2.5% of the payment amount.",
+    "ms": 2519.9
+   },
+   {
+    "split": "held_out",
+    "q": "What do you charge if I use my card overseas?",
+    "pass": false,
+    "answer": "According to our policy [P2], we don't have a specific fee for using your card overseas. However, please note that some international transactions might be subject to a foreign transaction fee, which is typically 3% of the transaction amount.",
+    "ms": 3452.2
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a fee when I pay in another country?",
+    "pass": false,
+    "answer": "According to [P1], our monthly account fee is waived if your balance is above 1,000. However, international transactions may incur additional fees. Please check with us for specific details on foreign transaction fees.",
+    "ms": 3191.7
+   },
+   {
+    "split": "held_out",
+    "q": "I'm travelling in Europe, will card payments cost extra?",
+    "pass": true,
+    "answer": "According to our policy [P1], foreign card payments do incur a fee of 2.5% of the payment amount. This applies when making transactions outside your home country.",
+    "ms": 2798.2
+   },
+   {
+    "split": "held_out",
+    "q": "My card is gone, how do I stop people using it?",
+    "pass": true,
+    "answer": "I'm so sorry to hear that your card has gone missing!\n\nAccording to our policy [P2], you can freeze your card immediately in the mobile app under Cards > Freeze card. This will prevent anyone from using your card until you're able to get a new one.\n\nLet me know if there's anything else I can help with!",
+    "ms": 4167.0
+   },
+   {
+    "split": "held_out",
+    "q": "How many days do I have to challenge a payment?",
+    "pass": true,
+    "answer": "According to our policy [P1], you can dispute a card payment within 120 days of the payment date.",
+    "ms": 2415.6
+   },
+   {
+    "split": "held_out",
+    "q": "Do you charge for a new card if mine breaks?",
+    "pass": false,
+    "answer": "According to [P4], we don't hold customers responsible for transactions made on a card that's been reported lost or stolen. If your card has broken, you can report it and we'll issue a replacement without charging you for the new one.",
+    "ms": 3472.8
+   },
+   {
+    "split": "held_out",
+    "q": "What if I type my PIN wrong three times?",
+    "pass": true,
+    "answer": "According to our policy [P1], your card will be blocked automatically after 3 incorrect PIN attempts. You can unblock it at any of our ATMs.",
+    "ms": 2841.9
+   },
+   {
+    "split": "held_out",
+    "q": "Is there a monthly charge on my account?",
+    "pass": true,
+    "answer": "According to our policy [P2], if your account balance is above $1,000, you won't be charged a monthly fee. If your balance is below $1,000, the monthly fee would be $4.00.",
+    "ms": 3407.2
+   }
+  ]
+ }
+}

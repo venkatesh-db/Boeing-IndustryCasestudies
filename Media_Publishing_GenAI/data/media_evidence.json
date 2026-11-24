@@ -1,0 +1,1329 @@
+{
+ "verified_on": "2026-11-23",
+ "window": "Products deployed or incidents reported between January 2023 and December 2025 (within the last ~3 years)",
+ "rule": "Every fact below carries a source number [S#] pointing to that product's source list. If no source we found describes a stage (e.g. pre-deployment testing), the field says 'Not publicly disclosed' instead of guessing. Dates are given to the day only when a source states the day; otherwise to the month.",
+ "challenges": {
+  "accuracy": [
+   "🎯",
+   "Factual errors",
+   "Wrong facts, numbers, dates or chronology published as true."
+  ],
+  "fabrication": [
+   "👻",
+   "Fabricated people, books or events",
+   "The AI invented things that do not exist, or invented an event."
+  ],
+  "disclosure": [
+   "🏷️",
+   "Hidden AI / fake bylines",
+   "Readers were not told content was AI-made, or fake human authors were shown."
+  ],
+  "sensitivity": [
+   "💔",
+   "Tone and context failures",
+   "Insensitive or harmful framing next to real tragedy or history."
+  ],
+  "thirdparty": [
+   "🔗",
+   "Third-party / syndicated content",
+   "The failure came in through a vendor, syndicator, aggregator or freelancer."
+  ],
+  "sources": [
+   "🧪",
+   "Bad source material",
+   "The AI trusted satire, jokes, other AI sites or unverified posts."
+  ],
+  "governance": [
+   "🏛️",
+   "Editorial governance and labour",
+   "The tool bypassed editorial standards, newsroom review or union agreements."
+  ],
+  "economics": [
+   "💸",
+   "Traffic and revenue impact",
+   "AI changed how readers reach publishers, hitting clicks and revenue."
+  ]
+ },
+ "outcome_types": {
+  "paused": "Paused or suspended",
+  "removed": "Content removed or retracted",
+  "corrected": "Corrections issued",
+  "shutdown": "Tool or feature shut down",
+  "continued": "Continued with changes",
+  "legal": "Legal, union or regulatory action",
+  "contested": "Company disputes the account",
+  "accountability": "Vendor or contributor relationship ended"
+ },
+ "products": [
+  {
+   "id": "M01",
+   "company": "CNET (Red Ventures)",
+   "product": "Internal AI engine for finance explainers",
+   "kind": "Digital publisher",
+   "date": "2023-01-12",
+   "challenges": [
+    "accuracy",
+    "disclosure"
+   ],
+   "outcomes": [
+    "corrected",
+    "paused"
+   ],
+   "pre": [
+    [
+     "CNET ran a trial of an \"internally designed AI engine\" to write finance explainers.",
+     1
+    ],
+    [
+     "Readers were not clearly told: the AI authorship came to light through outside reporting, after which CNET acknowledged it.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "The Register showed CNET's compound-interest explainer got its own example wrong (a $10,000 deposit earning 3% interest).",
+     2
+    ],
+    [
+     "Some corrections noted CNET \"replaced phrases that were not entirely original\".",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "41 of the 77 AI-written articles were corrected.",
+     1
+    ],
+    [
+     "CNET paused publishing articles produced by the AI model. Owner Red Ventures had also used it on Bankrate and CreditCards.com.",
+     4
+    ]
+   ],
+   "sources": [
+    [
+     "Engadget: CNET corrected 41 of its 77 AI-written articles",
+     "https://www.engadget.com/cnet-corrected-41-of-its-77-ai-written-articles-201519489.html?src=rss",
+     "secondary"
+    ],
+    [
+     "The Register, 19 Jan 2023",
+     "https://www.theregister.com/2023/01/19/cnet_reviewing_ai_authored_stories/",
+     "secondary"
+    ],
+    [
+     "Gizmodo, Jan 2023",
+     "https://gizmodo.com/cnet-ai-chatgpt-news-robot-1849996151",
+     "secondary"
+    ],
+    [
+     "DeepLearning.AI The Batch: CNET pauses AI articles",
+     "https://www.deeplearning.ai/the-batch/cnet-pauses-its-practice-of-writing-news-articles-with-ai/",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Total article count is reported as 75, 77 or 78. 41/77 is the most-cited figure."
+  },
+  {
+   "id": "M02",
+   "company": "Men's Journal (Arena Group)",
+   "product": "AI-generated health articles",
+   "kind": "Magazine",
+   "date": "2023-02",
+   "challenges": [
+    "accuracy",
+    "disclosure"
+   ],
+   "outcomes": [
+    "corrected",
+    "contested"
+   ],
+   "pre": [
+    [
+     "Arena Group had bought Men's Journal in December 2022. The AI article ran under a generic \"Men's Fitness Editors\" byline.",
+     1
+    ],
+    [
+     "Pre-launch medical review: not publicly disclosed.",
+     0
+    ]
+   ],
+   "post": [
+    [
+     "The article \"What All Men Should Know About Low Testosterone\" was reviewed by Bradley Anawalt (UW Medical Center), who found 18 specific errors.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "The article was substantially rewritten after Futurism contacted Arena. Arena said \"these early experiments are a work in progress\".",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "Futurism: Men's Journal errors in AI health article",
+     "https://futurism.com/neoscope/magazine-mens-journal-errors-ai-health-article",
+     "secondary"
+    ],
+    [
+     "The Daily Beast: Men's Journal corrects errors",
+     "https://www.thedailybeast.com/mens-journal-corrects-errors-in-ai-generated-health-story/",
+     "secondary"
+    ],
+    [
+     "Nieman Lab reading note",
+     "https://www.niemanlab.org/reading/mens-journal-publishes-serious-errors-in-first-ai-generated-health-article/",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Men's Journal acknowledged some, but not all, of the 18 errors."
+  },
+  {
+   "id": "M03",
+   "company": "BuzzFeed",
+   "product": "\"Buzzy the Robot\" AI-assisted travel guides",
+   "kind": "Digital publisher",
+   "date": "2023-03-30",
+   "challenges": [
+    "accuracy",
+    "governance"
+   ],
+   "outcomes": [
+    "continued"
+   ],
+   "pre": [
+    [
+     "BuzzFeed described the guides as an \"experiment\" with its AI writing tools, using staff answers to an internal questionnaire on underrated travel picks.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "Futurism found 40+ travel guides written with ChatGPT or a similar chatbot.",
+     1
+    ],
+    [
+     "Almost every guide used the phrase \"hidden gem\". \"Gem\" appeared about 25 times across a handful of stories.",
+     1
+    ],
+    [
+     "Nieman Lab described the guides as comically bland and similar to one another.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "BuzzFeed defended them as an experiment. Whether the experiment continued after 2023 is not documented in the sources found.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Futurism: BuzzFeed publishing articles by AI",
+     "https://futurism.com/buzzfeed-publishing-articles-by-ai",
+     "secondary"
+    ],
+    [
+     "Nieman Lab, Mar 2023",
+     "https://www.niemanlab.org/2023/03/are-buzzfeeds-ai-generated-travel-articles-bad-in-a-scary-new-way-or-a-familiar-old-way/",
+     "secondary"
+    ],
+    [
+     "SiliconANGLE, 30 Mar 2023",
+     "https://siliconangle.com/2023/03/30/buzzfeeds-new-ai-generated-travel-articles-dystopian-bad-dream/",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "How much human editing each guide got is not established by the sources."
+  },
+  {
+   "id": "M04",
+   "company": "G/O Media (Gizmodo / io9)",
+   "product": "\"Gizmodo Bot\" AI articles",
+   "kind": "Digital publisher",
+   "date": "2023-07",
+   "challenges": [
+    "accuracy",
+    "governance"
+   ],
+   "outcomes": [
+    "corrected",
+    "continued",
+    "legal"
+   ],
+   "pre": [
+    [
+     "G/O Media called it a \"modest test\" of AI content.",
+     1
+    ],
+    [
+     "The io9 deputy editor said no one at io9 took part in editing or publishing it, so newsroom review was bypassed.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "\"A Chronological List of Star Wars Movies & TV Shows\" was not in chronological order (e.g. The Clone Wars listed after The Rise of Skywalker).",
+     1
+    ],
+    [
+     "The deputy editor flagged 18 concerns, corrections and comments.",
+     2
+    ],
+    [
+     "The error-filled article still ranked on Google's first page for \"Star Wars movies\".",
+     3
+    ]
+   ],
+   "outcome": [
+    [
+     "The GMG Union called the move unethical and unacceptable.",
+     2
+    ],
+    [
+     "Management planned to keep publishing AI content (including on Jalopnik and The A.V. Club), per internal memos reported by Vox.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Futurism: io9 staff horrified",
+     "https://futurism.com/the-byte/io9-horrified-ai-generated-article",
+     "secondary"
+    ],
+    [
+     "TheWrap: Gizmodo editor slams AI article",
+     "https://www.thewrap.com/ai-gizmodo-io9-star-wars-article-retraction",
+     "secondary"
+    ],
+    [
+     "Futurism: AI Star Wars article ranking on Google",
+     "https://futurism.com/gizmodo-ai-star-wars-article-google",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Which AI tool was used is unconfirmed (single indirect source), so it is not stated here."
+  },
+  {
+   "id": "M05",
+   "company": "Microsoft (MSN / Microsoft Travel)",
+   "product": "Algorithmic travel articles",
+   "kind": "Aggregator / portal",
+   "date": "2023-08",
+   "challenges": [
+    "sensitivity",
+    "accuracy"
+   ],
+   "outcomes": [
+    "removed",
+    "contested"
+   ],
+   "pre": [
+    [
+     "Byline was \"Microsoft Travel\". Editorial review process: not publicly disclosed.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "\"Headed to Ottawa? Here's what you shouldn't miss!\" listed the Ottawa Food Bank as the No. 3 attraction and told visitors to go \"on an empty stomach\".",
+     1
+    ],
+    [
+     "The food bank said encouraging people to 'visit us on an empty stomach' was \"incredibly insensitive and insulting\".",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Microsoft removed the article. A spokesperson said the content \"was generated through a combination of algorithmic techniques\" and that Microsoft pairs technology with content editors.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "CTV News Ottawa",
+     "https://ottawa.ctvnews.ca/microsoft-removes-article-recommending-15-things-to-do-in-ottawa-including-visit-the-ottawa-food-bank-1.6524918",
+     "secondary"
+    ],
+    [
+     "Daily Hive",
+     "https://dailyhive.com/canada/microsoft-ai-article-food-bank-ottawa",
+     "secondary"
+    ]
+   ],
+   "confidence": "medium-high",
+   "discrepancies": "Some outlets called it AI-written. Microsoft described it as algorithmic techniques plus editors, so the exact cause is disputed."
+  },
+  {
+   "id": "M06",
+   "company": "Gannett (USA TODAY network)",
+   "product": "LedeAI high-school sports recaps",
+   "kind": "Newspaper group",
+   "date": "2023-08-19",
+   "challenges": [
+    "accuracy",
+    "thirdparty",
+    "governance"
+   ],
+   "outcomes": [
+    "paused",
+    "corrected"
+   ],
+   "pre": [
+    [
+     "Gannett used a third-party vendor, LedeAI, to generate recaps across local papers.",
+     1
+    ],
+    [
+     "Whether newsrooms reviewed recaps before publication: Gannett did not answer the question.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "The Columbus Dispatch ran a recap describing a game as \"a close encounter of the athletic kind\".",
+     1
+    ],
+    [
+     "Similar stories ran in the Louisville Courier Journal, AZ Central, Florida Today and the Milwaukee Journal Sentinel.",
+     1
+    ],
+    [
+     "LedeAI's CEO regretted errors, unwanted repetition and awkward phrasing in articles from August 19.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Gannett paused LedeAI in all local markets using it and said it would keep evaluating vendors.",
+     1
+    ],
+    [
+     "USA TODAY network updated its AI-generated sports articles to correct errors.",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "KSL / AP: Gannett to pause AI experiment",
+     "https://www.ksl.com/article/50720151/gannett-to-pause-ai-experiment-after-botched-high-school-sports-articles",
+     "secondary"
+    ],
+    [
+     "Yahoo: USA Today updates every AI-generated sports article",
+     "https://news.yahoo.com/usa-today-updates-every-ai-134945528.html",
+     "secondary"
+    ],
+    [
+     "Axios Columbus, 28 Aug 2023",
+     "https://www.axios.com/local/columbus/2023/08/28/dispatch-gannett-ai-newsroom-tool",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "None material."
+  },
+  {
+   "id": "M07",
+   "company": "Microsoft (MSN)",
+   "product": "Aggregated / rewritten obituary",
+   "kind": "Aggregator / portal",
+   "date": "2023-09-14",
+   "challenges": [
+    "sensitivity",
+    "thirdparty",
+    "accuracy"
+   ],
+   "outcomes": [
+    "removed",
+    "contested"
+   ],
+   "pre": [
+    [
+     "MSN syndicated content from partner sites. How this piece was produced: MSN declined to answer.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "An obituary of former NBA player Brandon Hunter ran under the headline \"Brandon Hunter useless at 42\".",
+     1
+    ],
+    [
+     "The text was garbled (e.g. \"handed away on the age of 42\"), and it appeared to reword a TMZ Sports story.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "The obituary was taken down. Microsoft did not confirm it was AI-generated.",
+     3
+    ]
+   ],
+   "sources": [
+    [
+     "Futurism, 14 Sep 2023",
+     "https://futurism.com/msn-ai-brandon-hunter-useless",
+     "secondary"
+    ],
+    [
+     "Scientific American",
+     "https://www.scientificamerican.com/article/dont-blame-ai-plagiarism-is-turning-digital-news-into-hot-garbage/",
+     "secondary"
+    ],
+    [
+     "Search Engine Land",
+     "https://searchengineland.com/microsoft-brandon-hunter-useless-ai-obituary-432008",
+     "secondary"
+    ]
+   ],
+   "confidence": "medium-high",
+   "discrepancies": "The piece came from a small partner site (reported as Race Track or TalkBasket.net). Microsoft never confirmed AI involvement."
+  },
+  {
+   "id": "M08",
+   "company": "Microsoft (MSN) + The Guardian",
+   "product": "AI-generated reader polls on news articles",
+   "kind": "Aggregator / portal",
+   "date": "2023-10-30",
+   "challenges": [
+    "sensitivity",
+    "thirdparty"
+   ],
+   "outcomes": [
+    "shutdown",
+    "removed"
+   ],
+   "pre": [
+    [
+     "MSN automatically added AI-generated polls to licensed publisher articles. The publisher (The Guardian) had no role in the poll.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "Next to a Guardian story on the death of Lilie James, 21, MSN ran a poll asking whether it was murder, accident or suicide.",
+     1
+    ],
+    [
+     "Readers blamed the Guardian and its reporter.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "Guardian Media Group CEO Anna Bateson wrote to Microsoft president Brad Smith citing \"significant reputational damage\".",
+     1
+    ],
+    [
+     "A Microsoft spokesperson said it had \"deactivated its poll feature\" and was \"investigating the cause of the inappropriate content\".",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "Axios, 31 Oct 2023",
+     "https://www.axios.com/2023/10/31/guardian-microsoft-generative-ai-poll-death",
+     "secondary"
+    ],
+    [
+     "Futurism: Microsoft AI poll",
+     "https://futurism.com/microsoft-ai-poll-guardian",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Axios dates the poll's removal to Monday 30 Oct; one caption says 31 Oct."
+  },
+  {
+   "id": "M09",
+   "company": "Sports Illustrated (Arena Group)",
+   "product": "Product reviews under AI-generated author profiles",
+   "kind": "Magazine",
+   "date": "2023-11-27",
+   "challenges": [
+    "fabrication",
+    "disclosure",
+    "thirdparty"
+   ],
+   "outcomes": [
+    "removed",
+    "contested"
+   ],
+   "pre": [
+    [
+     "Content came from a third-party supplier, according to Arena Group.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "Futurism found bylines such as \"Drew Ortiz\" and \"Sora Tanaka\" with AI-generated headshots and invented bios.",
+     1
+    ],
+    [
+     "The profiles vanished from the site after Futurism asked about them.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Arena Group denied publishing AI-generated content and blamed the third-party vendor.",
+     2
+    ],
+    [
+     "The Sports Illustrated Union said it was \"horrified\" and demanded transparency.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Futurism, 27 Nov 2023",
+     "https://futurism.com/sports-illustrated-ai-generated-writers",
+     "secondary"
+    ],
+    [
+     "KTVU: Arena Group denies, blames third party",
+     "https://www.ktvu.com/sports/sports-illustrated-parent-company-denies-publishing-ai-generated-articles-blames-third-party",
+     "secondary"
+    ]
+   ],
+   "confidence": "medium-high",
+   "discrepancies": "Futurism relied partly on anonymous sources, and Arena disputes that the content was AI-generated. The fake profiles themselves were documented."
+  },
+  {
+   "id": "M10",
+   "company": "X (Grok)",
+   "product": "AI-written trending news summaries (Explore)",
+   "kind": "Social platform",
+   "date": "2024-04",
+   "challenges": [
+    "fabrication",
+    "sources",
+    "accuracy"
+   ],
+   "outcomes": [
+    "contested"
+   ],
+   "pre": [
+    [
+     "X shipped it with fine print: \"Grok is an early feature and can make mistakes.\"",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "Fans joked Klay Thompson was \"throwing bricks\" after a 0-for-10 game. Grok turned this into a story about him vandalising homes in Sacramento with bricks.",
+     1
+    ],
+    [
+     "It invented details (broken windows, a police investigation) and placed the story at No. 5 on trending.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "No correction or statement found in the sources. The disclaimer was X's only stated safeguard.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Engadget",
+     "https://www.engadget.com/xs-ai-bot-is-so-dumb-it-cant-tell-the-difference-between-a-bad-game-and-vandalism-172707401.html?src=rss",
+     "secondary"
+    ],
+    [
+     "Futurism",
+     "https://futurism.com/the-byte/elon-musk-ai-accuses-nba-player-criminal-vandalism",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "How long it stayed trending differs (\"briefly at #5\" vs \"for days\")."
+  },
+  {
+   "id": "M11",
+   "company": "Google",
+   "product": "AI Overviews in Search (impact on publishers)",
+   "kind": "Search / aggregator",
+   "date": "2024-05",
+   "challenges": [
+    "sources",
+    "accuracy",
+    "economics"
+   ],
+   "outcomes": [
+    "continued",
+    "legal"
+   ],
+   "pre": [
+    [
+     "Pre-launch testing details: not publicly disclosed.",
+     0
+    ]
+   ],
+   "post": [
+    [
+     "AI Overviews suggested glue on pizza (from an old Reddit joke) and eating rocks (from The Onion).",
+     2
+    ],
+    [
+     "Google said it struggled with nonsensical queries and satirical content, and that many viral screenshots were fake.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Google restricted AI Overviews for nonsensical and satirical queries, and kept the feature.",
+     1
+    ],
+    [
+     "Sept 2025: Penske Media (Rolling Stone, Billboard, Variety) sued Google, citing \"significant declines in clicks\" and affiliate revenue down more than a third from its peak. Google called the claims \"meritless\".",
+     3
+    ]
+   ],
+   "sources": [
+    [
+     "Google: AI Overviews, about last week",
+     "https://blog.google/products/search/ai-overViews-update-may-2024",
+     "primary"
+    ],
+    [
+     "The Register, 31 May 2024",
+     "https://www.theregister.com/2024/05/31/google_ai_search_update/",
+     "secondary"
+    ],
+    [
+     "TechCrunch: Penske Media sues Google",
+     "https://techcrunch.com/2025/09/14/rolling-stone-owner-penske-media-sues-google-over-ai-summaries",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Penske's traffic and revenue figures are allegations in a lawsuit, not court findings."
+  },
+  {
+   "id": "M12",
+   "company": "Hoodline",
+   "product": "AI-generated local news under AI persona bylines",
+   "kind": "Local news network",
+   "date": "2024-05-30",
+   "challenges": [
+    "disclosure",
+    "fabrication",
+    "sources"
+   ],
+   "outcomes": [
+    "continued"
+   ],
+   "pre": [
+    [
+     "Hoodline began filling its sites with AI-generated articles the year before. In April 2024 it announced an \"AI\" label next to writer names.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "Articles ran under invented bylines (e.g. \"Nina Singh-Hudson\") with AI-generated headshots and bios.",
+     3
+    ],
+    [
+     "Nieman Lab found stories leaned heavily on police press releases, and the AI personas had no real beats.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "The CEO said the personas, beats and cities were assigned at random, and planned to turn them into AI news anchors for short videos.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Nieman Lab, Jun 2024",
+     "https://www.niemanlab.org/2024/06/whats-in-a-byline-for-hoodlines-ai-generated-local-news-everything-and-nothing/",
+     "secondary"
+    ],
+    [
+     "CNN via ABC17: fake bylines",
+     "https://abc17news.com/money/cnn-business-consumer/2024/05/30/a-national-network-of-local-news-sites-is-publishing-ai-written-articles-under-fake-bylines-experts-are-raising-alarm/",
+     "secondary"
+    ],
+    [
+     "Techdirt",
+     "https://www.techdirt.com/?p=442349",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Critics say the AI label is easy to miss. Hoodline's side comes only from its CEO's interviews."
+  },
+  {
+   "id": "M13",
+   "company": "Apple",
+   "product": "Apple Intelligence notification summaries (news apps)",
+   "kind": "Platform / device",
+   "date": "2024-12",
+   "challenges": [
+    "accuracy",
+    "fabrication",
+    "thirdparty"
+   ],
+   "outcomes": [
+    "paused",
+    "continued"
+   ],
+   "pre": [
+    [
+     "Shipped as part of Apple Intelligence. Beta labelling and italic styling were only added after the complaints.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "A summary of a BBC alert falsely said Luigi Mangione had shot himself. BBC News filed a formal complaint in December 2024.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "iOS 18.3 temporarily disabled summaries for news and entertainment apps (Jan 2025).",
+     1
+    ],
+    [
+     "Apple added italics for summaries, a beta warning, and a per-app off switch. The BBC welcomed the pause.",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "MacRumors: iOS 18.3 removes news summaries",
+     "https://www.macrumors.com/2025/01/16/ios-18-3-news-notifications-removed/",
+     "secondary"
+    ],
+    [
+     "TechCrunch, 16 Jan 2025",
+     "https://techcrunch.com/2025/01/16/apple-pauses-ai-notification-summaries-for-news-after-generating-false-alerts",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Whether news summaries later returned is not covered in the sources found."
+  },
+  {
+   "id": "M14",
+   "company": "Bloomberg",
+   "product": "AI-Powered News Summaries (Terminal)",
+   "kind": "Financial news / wire",
+   "date": "2025-01-15",
+   "challenges": [
+    "accuracy"
+   ],
+   "outcomes": [
+    "corrected",
+    "continued"
+   ],
+   "pre": [
+    [
+     "Launched in January 2025: three bullet-point AI summaries at the top of Bloomberg News stories on the Terminal.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "By late March 2025, Bloomberg had corrected at least three dozen AI summaries (per The New York Times).",
+     1
+    ],
+    [
+     "Errors included when Trump's broader auto tariffs would apply, and the year Canadian tariffs were imposed.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Bloomberg said 99% of AI summaries meet its editorial standards.",
+     1
+    ],
+    [
+     "Bloomberg kept the feature running.",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "Washington Times, 29 Mar 2025 (reporting NYT)",
+     "https://m.washingtontimes.com/news/2025/mar/29/bloombergs-use-ai-summaries-articles-leads-numerous-corrections/",
+     "secondary"
+    ],
+    [
+     "Talking Biz News",
+     "https://talkingbiznews.com/media-news/bloomberg-has-a-rocky-start-with-ai-summaries/",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "Some aggregators say 30 corrections, others 36. \"At least three dozen\" is the more common figure. A November 2025 expansion appeared in search results, but its source page (bloomberg.com/company) blocks automated access, so it is left out."
+  },
+  {
+   "id": "M15",
+   "company": "Quartz (G/O Media)",
+   "product": "\"Quartz Intelligence Newsroom\"",
+   "kind": "Digital publisher",
+   "date": "2025-01-27",
+   "challenges": [
+    "accuracy",
+    "sources",
+    "disclosure"
+   ],
+   "outcomes": [
+    "continued",
+    "contested"
+   ],
+   "pre": [
+    [
+     "G/O Media called it \"purely experimental\" and said editorial staff review each story before publication.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "It repeatedly cited \"Devdiscourse\", itself apparently an automated news site.",
+     2
+    ],
+    [
+     "It gave a wrong headline on the Boeing Starliner astronauts (\"took their first spacewalk\").",
+     3
+    ],
+    [
+     "TechCrunch flagged a self-contradicting headline: \"Jobless claims rise slightly as continuing claims set a record\".",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Futurism later reported that Quartz fired its writers after the move to AI content.",
+     4
+    ]
+   ],
+   "sources": [
+    [
+     "TechCrunch, 27 Jan 2025",
+     "https://techcrunch.com/2025/01/27/quartz-has-been-quietly-publishing-ai-generated-news-articles",
+     "secondary"
+    ],
+    [
+     "Futurism: Quartz AI articles errors",
+     "https://futurism.com/quartz-ai-generated-articles-slop-errors",
+     "secondary"
+    ],
+    [
+     "Futurism: Quartz AI article on Boeing astronauts",
+     "https://futurism.com/quartz-ai-generated-article-boeing-astronauts",
+     "secondary"
+    ],
+    [
+     "Futurism: Quartz fires writers",
+     "https://futurism.com/quartz-fires-writers-ai-slop",
+     "secondary"
+    ]
+   ],
+   "confidence": "medium-high",
+   "discrepancies": "Earliest coverage says the articles weren't disclosed as AI; G/O says staff review them. The date of the firing report was not captured."
+  },
+  {
+   "id": "M16",
+   "company": "Los Angeles Times",
+   "product": "\"Insights\" AI viewpoint and bias notes on opinion pieces",
+   "kind": "Newspaper",
+   "date": "2025-03",
+   "challenges": [
+    "sensitivity",
+    "governance"
+   ],
+   "outcomes": [
+    "removed",
+    "shutdown"
+   ],
+   "pre": [
+    [
+     "Pre-launch evaluation: not publicly disclosed in the sources found.",
+     0
+    ]
+   ],
+   "post": [
+    [
+     "On a column about Anaheim's 1920s KKK council members, Insights generated a note that framed the Klan as something other than an explicitly hate-driven movement. The New York Times' Ryan Mac flagged it.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "The note was removed from that article about a day after launch, and the tool was later taken offline.",
+     1
+    ],
+    [
+     "A later report said the paper had \"moved on\" from the AI bias meter.",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "TheWrap: LA Times pulls AI tool",
+     "https://thewrap.com/la-times-pulls-ai-tool-for-kkk-gaffe",
+     "secondary"
+    ],
+    [
+     "Yahoo: LA Times has moved on from AI bias meter",
+     "https://www.yahoo.com/news/la-times-moved-ai-driven-004548906.html",
+     "secondary"
+    ],
+    [
+     "Column author Gustavo Arellano's response",
+     "https://www.yahoo.com/news/commentary-did-ai-really-defend-110031273.html",
+     "secondary"
+    ]
+   ],
+   "confidence": "medium-high",
+   "discrepancies": "The column's author argued the AI was clumsy but did not defend the KKK. No official LA Times statement was found. Launch day not stated in the sources (early March 2025; the column ran 25 Feb)."
+  },
+  {
+   "id": "M17",
+   "company": "Chicago Sun-Times & Philadelphia Inquirer (via King Features / Hearst)",
+   "product": "Syndicated \"Heat Index\" summer insert",
+   "kind": "Newspaper",
+   "date": "2025-05-18",
+   "challenges": [
+    "fabrication",
+    "thirdparty",
+    "governance"
+   ],
+   "outcomes": [
+    "accountability"
+   ],
+   "pre": [
+    [
+     "The insert was licensed content from King Features. The Inquirer said its newsroom was not involved in producing it.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "10 of the 15 books in the summer reading list do not exist, e.g. \"The Last Algorithm\", attributed to Andy Weir.",
+     2
+    ],
+    [
+     "The freelance writer said he used AI to compile the list.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "King Features denounced the AI use and cut ties with the freelancer.",
+     1
+    ],
+    [
+     "Chicago Public Media acknowledged the list was created with an AI tool.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "NPR, 20 May 2025",
+     "https://www.npr.org/2025/05/20/nx-s1-5405022/fake-book-list-ai-chicago-sun-times",
+     "secondary"
+    ],
+    [
+     "CBS Chicago",
+     "https://www.cbsnews.com/amp/chicago/news/summer-reading-ai-generated-titles-chicago-sun-times",
+     "secondary"
+    ],
+    [
+     "NBC News",
+     "https://www.nbcnews.com/tech/tech-news/chicago-sun-admits-summer-book-guide-included-fake-ai-generated-titles-rcna208325",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "None material (10 of 15 ≈ \"two-thirds\")."
+  },
+  {
+   "id": "M18",
+   "company": "Wikimedia Foundation (Wikipedia)",
+   "product": "\"Simple Article Summaries\" AI pilot",
+   "kind": "Encyclopedia",
+   "date": "2025-06-02",
+   "challenges": [
+    "governance",
+    "accuracy"
+   ],
+   "outcomes": [
+    "paused"
+   ],
+   "pre": [
+    [
+     "A planned 2-week mobile pilot for about 10% of opted-in readers. Neowin reported it used Cohere's open-weight Aya model.",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "Editors objected that it would give an unaccountable voice top billing with no editorial control, and would do \"immediate and irreversible harm\" to readers and to trust.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "The Foundation paused the trial on day two. It said it was still interested in AI summaries for uses such as accessibility.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "TechCrunch, 11 Jun 2025",
+     "https://techcrunch.com/2025/06/11/wikipedia-pauses-ai-generated-summaries-pilot-after-editors-protest",
+     "secondary"
+    ],
+    [
+     "404 Media",
+     "https://www.404media.co/wikipedia-pauses-ai-generated-summaries-after-editor-backlash/",
+     "secondary"
+    ],
+    [
+     "PC Gamer",
+     "https://www.pcgamer.com/software/ai/wikipedia-pauses-ai-summary-experiment-after-editors-say-it-would-do-immediate-and-irreversible-harm-to-our-readers-and-to-our-reputation-as-a-decently-trustworthy-and-serious-source",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "The model attribution (Aya) comes from a single outlet."
+  },
+  {
+   "id": "M19",
+   "company": "Ventures Media (Elle Belgium, Psychologies, Marie Claire…)",
+   "product": "AI articles under invented journalist profiles",
+   "kind": "Magazine",
+   "date": "2025-06",
+   "challenges": [
+    "fabrication",
+    "disclosure"
+   ],
+   "outcomes": [
+    "continued"
+   ],
+   "pre": [
+    [
+     "Ventures Media first claimed the articles were \"proofread and edited by the editorial team\". That statement was later removed.",
+     1
+    ],
+    [
+     "The publisher told VRT it was a test by the tech team: articles fully generated by AI, not reviewed by editors, published under aliases and kept separate from the newsroom.",
+     3
+    ]
+   ],
+   "post": [
+    [
+     "More than half of the articles on Elle's Flemish website in the previous three months were partly or fully AI-generated, under the names Marta Peeters and Sophie Vermeulen.",
+     1
+    ],
+    [
+     "Sophie Vermeulen's profile photo came from This Person Does Not Exist, a site that generates fake faces with AI.",
+     1
+    ],
+    [
+     "In June, 44 of 46 online articles on Psychologies were credited to a fake author.",
+     1
+    ],
+    [
+     "That persona, \"Femke\", presented herself as a psychologist. The chair of the Psychologists' Commission called it misleading.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "The articles now carry the notice \"This content was generated with the help of AI\".",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "Brussels Times",
+     "https://www.brusselstimes.com/belgium/1650005/felmish-broadcasters-discovers-massive-ai-use-in-popular-magazines/",
+     "secondary"
+    ],
+    [
+     "EBU Spotlight fact-check dispatch (VRT Elle investigation)",
+     "https://spotlight.ebu.ch/p/fact-check-dispatch-racist-tropes",
+     "secondary"
+    ],
+    [
+     "NOS (Dutch)",
+     "https://nos.nl/l/2572829",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "The '403 articles' count and a planned complaint appeared in search summaries but could not be found on the live pages, so they are left out."
+  },
+  {
+   "id": "M20",
+   "company": "Wired & Business Insider (and others)",
+   "product": "Freelance articles that were AI-generated fiction (inbound content)",
+   "kind": "Magazine / digital publisher",
+   "date": "2025-08-21",
+   "challenges": [
+    "fabrication",
+    "thirdparty",
+    "disclosure"
+   ],
+   "outcomes": [
+    "removed",
+    "accountability"
+   ],
+   "pre": [
+    [
+     "Not a product they built. The AI content arrived through freelance submissions under the byline \"Margaux Blanchard\".",
+     1
+    ]
+   ],
+   "post": [
+    [
+     "At least six publications ran the byline. Wired caught it when the writer couldn't supply payment details.",
+     1
+    ]
+   ],
+   "outcome": [
+    [
+     "Wired and Business Insider removed the features.",
+     1
+    ],
+    [
+     "Publications took down or amended the affected articles, and many journalists added extra steps to verify experts before quoting them.",
+     1
+    ],
+    [
+     "Business Insider later removed 38 essays under other bylines and deleted 19 author pages (per The Washington Post).",
+     2
+    ]
+   ],
+   "sources": [
+    [
+     "Press Gazette",
+     "https://pressgazette.co.uk/publishers/digital-journalism/wired-and-business-insider-remove-ai-written-freelance-articles/",
+     "secondary"
+    ],
+    [
+     "The Daily Beast: Business Insider deletes dozens of articles",
+     "https://www.thedailybeast.com/business-insider-deletes-dozens-of-articles-after-ai-scam-probe",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "The 38/19 figures are second-hand from Washington Post reporting."
+  },
+  {
+   "id": "M21",
+   "company": "Politico (Axel Springer)",
+   "product": "\"Report Builder\" and live AI summaries (LETO)",
+   "kind": "News publisher",
+   "date": "2025-07-11",
+   "challenges": [
+    "accuracy",
+    "governance"
+   ],
+   "outcomes": [
+    "legal",
+    "shutdown"
+   ],
+   "pre": [
+    [
+     "The union contract required 60 days' notice and good-faith bargaining before AI tools with material job impact. The Guild argued Politico skipped this.",
+     2
+    ],
+    [
+     "Management argued Report Builder sat \"outside the newsroom\" because product and engineering built it.",
+     2
+    ]
+   ],
+   "post": [
+    [
+     "The arbitrator found Report Builder produced \"erroneous and even absurd\" outputs and was never coded to follow Politico's stylebook.",
+     2
+    ]
+   ],
+   "outcome": [
+    [
+     "The arbitrator ruled for the PEN Guild (late 2025).",
+     2
+    ],
+    [
+     "Politico later agreed to shut down both AI tools.",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "NewsGuild: Politico agrees to shut down both AI tools",
+     "https://newsguild.org/victory-politico-agrees-to-shut-down-both-ai-tools-at-center-of-landmark-arbitration",
+     "primary"
+    ],
+    [
+     "Nieman Lab, Dec 2025: arbitrator finds safeguards violated",
+     "https://www.niemanlab.org/2025/12/politico-management-violated-key-ai-adoption-safeguards-arbitrator-finds/",
+     "secondary"
+    ],
+    [
+     "Press Gazette: News not slop",
+     "https://pressgazette.co.uk/news/news-not-slop-politico-ai/",
+     "secondary"
+    ]
+   ],
+   "confidence": "high",
+   "discrepancies": "The union is reported as 225+ or about 250 members. The primary source is the union itself."
+  }
+ ],
+ "studies": [
+  {
+   "id": "S1",
+   "title": "BBC and EBU: News integrity in AI assistants",
+   "date": "2025-10-21",
+   "facts": [
+    [
+     "Across 18 countries and 14 languages, 45% of AI answers had at least one significant issue.",
+     3
+    ],
+    [
+     "31% of responses showed serious sourcing problems: missing, misleading or incorrect attribution.",
+     3
+    ],
+    [
+     "Gemini had significant issues in 76% of responses (EBU release; the page blocks automated checks).",
+     1
+    ]
+   ],
+   "sources": [
+    [
+     "EBU press release",
+     "https://www.ebu.ch/news/2025/10/ai-s-systemic-distortion-of-news-is-consistent-across-languages-and-territories-international-study-by-public-service-broadcaste",
+     "primary"
+    ],
+    [
+     "EBU report: News integrity in AI assistants",
+     "https://www.ebu.ch/research/open/report/news-integrity-in-ai-assistants",
+     "primary"
+    ],
+    [
+     "NPR, 21 Oct 2025",
+     "https://www.npr.org/sections/npr-extra/2025/10/21/g-s1-94424/global-study-on-news-integrity-in-ai-assistants-shows-need-for-safeguards-and-improved-accuracy",
+     "secondary"
+    ]
+   ],
+   "why": "It shows publishers' content gets distorted even when the publisher is not the one using AI. (A BBC-only comparison of 51% vs 37% appeared in search summaries but could not be matched on the fetched pages, so it is left out.)"
+  }
+ ]
+}

@@ -1,0 +1,221 @@
+[
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "method": "initialize",
+   "params": {
+    "protocolVersion": "2025-11-25",
+    "capabilities": {},
+    "clientInfo": {
+     "name": "by-hand",
+     "version": "0.1"
+    }
+   }
+  }
+ },
+ {
+  "from": "server",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "result": {
+    "protocolVersion": "2025-11-25",
+    "capabilities": {
+     "experimental": {},
+     "prompts": {
+      "listChanged": false
+     },
+     "resources": {
+      "subscribe": false,
+      "listChanged": false
+     },
+     "tools": {
+      "listChanged": false
+     }
+    },
+    "serverInfo": {
+     "name": "parts-desk",
+     "version": "1.30.0"
+    }
+   }
+  }
+ },
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "method": "notifications/initialized"
+  }
+ },
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 2,
+   "method": "tools/list"
+  }
+ },
+ {
+  "from": "server",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 2,
+   "result": {
+    "tools": [
+     {
+      "name": "check_part_stock",
+      "description": "Quantity on the shelf and lead days for one part at one station (BLR, FRA or SEA).",
+      "inputSchema": {
+       "properties": {
+        "part_number": {
+         "title": "Part Number",
+         "type": "string"
+        },
+        "station": {
+         "title": "Station",
+         "type": "string"
+        }
+       },
+       "required": [
+        "part_number",
+        "station"
+       ],
+       "title": "check_part_stockArguments",
+       "type": "object"
+      }
+     },
+     {
+      "name": "get_aircraft_status",
+      "description": "Model, station, open defect and needed part for one aircraft.",
+      "inputSchema": {
+       "properties": {
+        "tail_number": {
+         "title": "Tail Number",
+         "type": "string"
+        }
+       },
+       "required": [
+        "tail_number"
+       ],
+       "title": "get_aircraft_statusArguments",
+       "type": "object"
+      }
+     },
+     {
+      "name": "reserve_part",
+      "description": "Reserve a part. Always refused here: writes need a human approval outside MCP.",
+      "inputSchema": {
+       "properties": {
+        "part_number": {
+         "title": "Part Number",
+         "type": "string"
+        },
+        "station": {
+         "title": "Station",
+         "type": "string"
+        },
+        "quantity": {
+         "title": "Quantity",
+         "type": "integer"
+        }
+       },
+       "required": [
+        "part_number",
+        "station",
+        "quantity"
+       ],
+       "title": "reserve_partArguments",
+       "type": "object"
+      }
+     }
+    ]
+   }
+  }
+ },
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 3,
+   "method": "tools/call",
+   "params": {
+    "name": "check_part_stock",
+    "arguments": {
+     "part_number": "HP-2201",
+     "station": "FRA"
+    }
+   }
+  }
+ },
+ {
+  "from": "server",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 3,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "{\n  \"part_number\": \"HP-2201\",\n  \"station\": \"FRA\",\n  \"quantity\": 2,\n  \"lead_days\": 2\n}"
+     }
+    ],
+    "isError": false
+   }
+  }
+ },
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 4,
+   "method": "tools/call",
+   "params": {
+    "name": "reserve_part",
+    "arguments": {
+     "part_number": "HP-2201",
+     "station": "FRA",
+     "quantity": 1
+    }
+   }
+  }
+ },
+ {
+  "from": "server",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 4,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "Error executing tool reserve_part: reserve_part changes data: human approval required"
+     }
+    ],
+    "isError": true
+   }
+  }
+ },
+ {
+  "from": "client",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 5,
+   "method": "tools/fly",
+   "params": {}
+  }
+ },
+ {
+  "from": "server",
+  "message": {
+   "jsonrpc": "2.0",
+   "id": 5,
+   "error": {
+    "code": -32602,
+    "message": "Invalid request parameters",
+    "data": ""
+   }
+  }
+ }
+]

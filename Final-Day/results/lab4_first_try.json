@@ -1,0 +1,120 @@
+{
+ "tools": [
+  "get_aircraft_status",
+  "check_part_stock",
+  "estimate_delay_cost",
+  "search_policy"
+ ],
+ "policy": "Policy P2: parts are held for 48 hours, then released.",
+ "runs": [
+  {
+   "q": "How many HP-2201 are at FRA?",
+   "error": "LookupError: unknown aircraft N201HP"
+  },
+  {
+   "q": "How long are parts held?",
+   "steps": [
+    {
+     "type": "human",
+     "text": "How long are parts held?",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "",
+        "station": ""
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'check_part_stock' with kwargs {'part_number': '', 'station': ''} with error:\n part_number: String should match pattern '^[A-Z]{2,3}-\\d{4}$'\nstation: Input should be 'BLR', 'FRA' or 'SEA'\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "",
+        "station": ""
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'check_part_stock' with kwargs {'part_number': '', 'station': ''} with error:\n part_number: String should match pattern '^[A-Z]{2,3}-\\d{4}$'\nstation: Input should be 'BLR', 'FRA' or 'SEA'\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "XX1234",
+        "station": "BLR"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'check_part_stock' with kwargs {'part_number': 'XX1234', 'station': 'BLR'} with error:\n part_number: String should match pattern '^[A-Z]{2,3}-\\d{4}$'\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "AA1234",
+        "station": "BLR"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Error invoking tool 'check_part_stock' with kwargs {'part_number': 'AA1234', 'station': 'BLR'} with error:\n part_number: String should match pattern '^[A-Z]{2,3}-\\d{4}$'\n Please fix the error and try again.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "",
+     "tool_calls": [
+      {
+       "name": "check_part_stock",
+       "args": {
+        "part_number": "ABC-1234",
+        "station": "BLR"
+       }
+      }
+     ]
+    },
+    {
+     "type": "tool",
+     "text": "Tool call limit exceeded. Do not make additional tool calls.",
+     "tool_calls": []
+    },
+    {
+     "type": "ai",
+     "text": "Model call limits exceeded: run limit (5/5)",
+     "tool_calls": []
+    }
+   ]
+  }
+ ]
+}

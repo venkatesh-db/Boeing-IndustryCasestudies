@@ -1,0 +1,155 @@
+{
+ "schema": {
+  "type": "function",
+  "function": {
+   "name": "check_part_stock",
+   "description": "Quantity on the shelf and lead days for one part at one station.",
+   "parameters": {
+    "additionalProperties": false,
+    "properties": {
+     "part_number": {
+      "description": "Part number such as HP-2201",
+      "pattern": "^[A-Z]{2,3}-\\d{4}$",
+      "title": "Part Number",
+      "type": "string"
+     },
+     "station": {
+      "description": "Station code",
+      "enum": [
+       "BLR",
+       "FRA",
+       "SEA"
+      ],
+      "title": "Station",
+      "type": "string"
+     }
+    },
+    "required": [
+     "part_number",
+     "station"
+    ],
+    "title": "StockArgs",
+    "type": "object"
+   }
+  }
+ },
+ "native": {
+  "supported": false,
+  "error": "Error code: 400 - registry.ollama.ai/library/llama3:latest does not support tools"
+ },
+ "fallback": [
+  {
+   "q": "How many HP-2201 are at FRA?",
+   "raw": "{\"tool\": \"check_part_stock\", \"arguments\": {\"part_number\": \"HP-2201\", \"station\": \"FRA\"}}",
+   "ms": 3193.1,
+   "result": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 2,
+    "lead_days": 2
+   }
+  },
+  {
+   "q": "Cost of a 30 minute delay?",
+   "raw": "{\"tool\": \"estimate_delay_cost\", \"arguments\": {\"minutes\": 30}}",
+   "ms": 1210.8,
+   "result": {
+    "minutes": 30,
+    "usd_per_minute": 100,
+    "total_usd": 3000
+   }
+  },
+  {
+   "q": "What is wrong with N456CD?",
+   "raw": "{\"tool\": \"get_aircraft_status\", \"arguments\": {\"tail_number\": \"N456CD\"}}",
+   "ms": 1365.6,
+   "result": {
+    "tail_number": "N456CD",
+    "model": "B787-9",
+    "station": "FRA",
+    "open_defect": "brake wear at limit",
+    "part_needed": "BRK-1180",
+    "passengers": 294
+   }
+  }
+ ],
+ "validation": [
+  {
+   "tool": "check_part_stock",
+   "arguments": {
+    "part_number": "pump",
+    "station": "FRA"
+   },
+   "why": "wrong format",
+   "verdict": "part_number: String should match pattern '^[A-Z]{2,3}-\\d{4}$'"
+  },
+  {
+   "tool": "check_part_stock",
+   "arguments": {
+    "part_number": "HP-2201",
+    "station": "LHR"
+   },
+   "why": "station not allowed",
+   "verdict": "station: Input should be 'BLR', 'FRA' or 'SEA'"
+  },
+  {
+   "tool": "check_part_stock",
+   "arguments": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "urgent": true
+   },
+   "why": "invented argument",
+   "verdict": "urgent: Extra inputs are not permitted"
+  },
+  {
+   "tool": "estimate_delay_cost",
+   "arguments": {
+    "minutes": -5
+   },
+   "why": "out of range",
+   "verdict": "minutes: Input should be greater than or equal to 1"
+  },
+  {
+   "tool": "get_aircraft_status",
+   "arguments": {},
+   "why": "missing argument",
+   "verdict": "tail_number: Field required"
+  },
+  {
+   "tool": "delete_stock",
+   "arguments": {
+    "part_number": "HP-2201"
+   },
+   "why": "tool does not exist",
+   "verdict": "'delete_stock' is not on the tool allowlist"
+  },
+  {
+   "tool": "reserve_part",
+   "arguments": {
+    "part_number": "HP-2201",
+    "station": "FRA",
+    "quantity": 1
+   },
+   "why": "write without approval",
+   "verdict": "reserve_part changes data: human approval required"
+  }
+ ],
+ "structured": {
+  "note": "N123AB came in with low hydraulic pressure, pump HP-2201 suspected. Not urgent for tonight but fix before Friday.",
+  "attempts": [
+   {
+    "raw": "{\n\"tail_number\": \"N123AB\",\n\"severity\": \"low\",\n\"part_numbers\": [\"HP-2201\"],\n\"next_action\": \"fix before Friday\"\n}",
+    "ok": true,
+    "object": {
+     "tail_number": "N123AB",
+     "severity": "low",
+     "part_numbers": [
+      "HP-2201"
+     ],
+     "next_action": "fix before Friday"
+    }
+   }
+  ]
+ }
+}

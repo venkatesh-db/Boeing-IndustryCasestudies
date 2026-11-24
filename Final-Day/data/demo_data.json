@@ -1,0 +1,7 @@
+{"note":"Fictional training data. Not real aircraft, parts, stations or costs.",
+ "aircraft":{"N123AB":{"model":"B737-800","station":"BLR","open_defect":"hydraulic pump low pressure","part_needed":"HP-2201","passengers":168},
+             "N456CD":{"model":"B787-9","station":"FRA","open_defect":"brake wear at limit","part_needed":"BRK-1180","passengers":294},
+             "N789EF":{"model":"B777-300ER","station":"SEA","open_defect":"none","part_needed":null,"passengers":350}},
+ "stock":{"HP-2201":{"BLR":0,"FRA":2,"SEA":4},"BRK-1180":{"BLR":1,"FRA":3,"SEA":0},"FB-7310":{"BLR":0,"FRA":0,"SEA":1}},
+ "lead_days":{"HP-2201":2,"BRK-1180":1,"FB-7310":5},
+ "delay_cost_per_minute_usd":100}
